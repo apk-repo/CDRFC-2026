@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feed health — Cill Dara RFC</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat .n{font-family:'Oswald',sans-serif;font-size:24px;font-weight:600}
+.stat .k{font-size:10px;color:var(--muted);margin-top:2px}
+.issue{padding:13px 14px;display:flex;flex-direction:column;gap:8px}
+.issue h3{margin:0;font-size:14px;font-weight:700}
+.line{display:flex;gap:9px;align-items:flex-start;font-size:12px}
+.line .v{flex:1;min-width:0}
+.why{border-top:1px solid var(--sep);padding-top:9px;font-size:11px;color:var(--muted);line-height:1.45}
+.tag-kept{background:var(--green-wash);color:var(--green)}
+.tag-hidden{background:var(--accent-tag);color:var(--accent-dark)}
+.tag-flag{background:#F6EADA;color:var(--amber)}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="crest">CD</div>
+    <div>
+      <h1>Feed health</h1>
+      <div class="sub" id="stamp">—</div>
+    </div>
+    <a class="finesbtn" href="index.html">← Site</a>
+  </div>
+</header>
+
+<main id="main"><p class="empty">Loading…</p></main>
+
+<script>
+(function () {
+  function el(t, c, x) { var n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n; }
+
+  function render(D) {
+    var root = el("div", "view");
+    document.getElementById("stamp").textContent =
+      "Last read " + new Date(D.updated).toLocaleString("en-IE", { dateStyle: "medium", timeStyle: "short" });
+
+    var stats = el("div", "stats");
+    [["rowsIn", "rows read", ""], ["kept", "kept", ""], ["merged", "merged", "var(--accent)"],
+     ["attention", "needs a look", "var(--amber)"]].forEach(function (s) {
+      var c = el("div", "stat");
+      var n = el("div", "n", String(D.counts[s[0]]));
+      if (s[2]) n.style.color = s[2];
+      c.appendChild(n); c.appendChild(el("div", "k", s[1]));
+      stats.appendChild(c);
+    });
+    root.appendChild(stats);
+
+    function compName(id) {
+      var c = D.competitions.filter(function (x) { return x.id === id; })[0];
+      return c ? c.name : id;
+    }
+
+    var dupes = D.issues.filter(function (i) { return i.kind === "duplicate"; });
+    if (dupes.length) {
+      root.appendChild(el("div", "label", "DUPLICATES MERGED"));
+      dupes.forEach(function (i) {
+        var card = el("div", "card");
+        var box = el("div", "issue");
+        box.appendChild(el("h3", null, i.pair));
+        box.appendChild(el("div", "comp-meta", compName(i.comp)));
+        [["KEPT", "tag-kept", i.kept], ["HIDDEN", "tag-hidden", i.hidden]].forEach(function (r) {
+          if (!r[2]) return;
+          var line = el("div", "line");
+          line.appendChild(el("span", "tag " + r[1], r[0]));
+          line.appendChild(el("div", "v", r[2]));
+          box.appendChild(line);
+        });
+        box.appendChild(el("div", "why", i.why));
+        card.appendChild(box);
+        root.appendChild(card);
+      });
+    }
+
+    var flags = D.issues.filter(function (i) { return i.kind === "attention"; });
+    if (flags.length) {
+      root.appendChild(el("div", "label", "NEEDS A LOOK"));
+      flags.forEach(function (i) {
+        var card = el("div", "card");
+        var box = el("div", "issue");
+        box.appendChild(el("h3", null, i.pair));
+        box.appendChild(el("div", "comp-meta", compName(i.comp)));
+        var line = el("div", "line");
+        line.appendChild(el("span", "tag tag-flag", "FLAG"));
+        line.appendChild(el("div", "v", i.kept));
+        box.appendChild(line);
+        box.appendChild(el("div", "why", i.why));
+        card.appendChild(box);
+        root.appendChild(card);
+      });
+    }
+
+    root.appendChild(el("div", "label", "SOURCES"));
+    var src = el("div", "card");
+    D.competitions.forEach(function (c, n) {
+      var a = el("a", "stand-row" + (n ? " sep" : ""));
+      a.href = c.source || "#";
+      if (c.source) { a.target = "_blank"; a.rel = "noopener"; }
+      var b = el("div", "stand-body");
+      b.appendChild(el("div", "stand-title", c.name));
+      b.appendChild(el("div", "stand-meta", c.source || "no source page yet · " + (c.status || "")));
+      a.appendChild(b);
+      a.appendChild(el("div", "chev", "↗"));
+      src.appendChild(a);
+    });
+    root.appendChild(src);
+
+    root.appendChild(el("div", "stamp",
+      "Rule: one row per pairing per round. A result wins, then a real date and venue, then a placeholder. Nothing is deleted at source."));
+
+    var main = document.getElementById("main");
+    main.innerHTML = ""; main.appendChild(root);
+  }
+
+  if (window.__DATA__) render(window.__DATA__);
+  else fetch("data.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(render)
+    .catch(function (e) { document.getElementById("main").innerHTML = '<p class="empty">' + e.message + '</p>'; });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "club": { "name": "Cill Dara RFC", "short": "Cill Dara", "clubId": 3461 },
+  "links": { "fines": "https://apk-repo.github.io/fines" },
+  "teams": [
+    { "id": "1st", "label": "Cill Dara 1st XV", "sourceSuffix": "1" },
+    { "id": "2nd", "label": "Cill Dara 2nd XV", "sourceSuffix": "2" }
+  ],
+  "competitions": [
+    { "id": "lge2a", "name": "Leinster League Division 2A", "short": "League 2A",
+      "team": "1st", "type": "league", "promotion": 2, "relegation": 1,
+      "url": "https://leinsterrugby.sportlomo.com/league/217301/" },
+    { "id": "j22a", "name": "Seconds League J2 Division 2A", "short": "Seconds J2 2A",
+      "team": "2nd", "type": "league", "promotion": 2, "relegation": 1,
+      "url": "https://leinsterrugby.sportlomo.com/league/217302/" },
+    { "id": "lalor", "name": "Lalor Cup", "short": "Lalor Cup",
+      "team": "1st", "type": "cup", "status": "live",
+      "url": "https://leinsterrugby.sportlomo.com/league-diagram/219467/" },
+    { "id": "towns", "name": "Provincial Towns Cup", "short": "Towns Cup",
+      "team": "1st", "type": "cup", "status": "not-drawn", "url": null }
+  ]
+}
