@@ -1,1 +1,44 @@
+name: Update fixtures
+
+on:
+  schedule:
+    # 07:10 and 19:10 UTC daily, plus every 2 hours through Saturday and Sunday afternoons
+    - cron: "10 7,19 * * *"
+    - cron: "5 13,15,17,19 * * 6,0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-fixtures
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r scraper/requirements.txt
+
+      - name: Scrape
+        run: python scraper/scrape.py
+
+      - name: Commit if anything changed
+        run: |
+          if [ -z "$(git status --porcelain docs)" ]; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name  "fixtures-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Fixtures update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
 
