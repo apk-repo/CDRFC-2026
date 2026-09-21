@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="stylesheet" href="style.css">
 <style>
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
@@ -29,10 +30,10 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="crest">CD</div>
-    <div>
+    <img class="crest" src="crest-96.png" width="48" height="48" alt="Cill Dara RFC crest">
+    <div class="club">
       <h1>Feed health</h1>
-      <div class="sub" id="stamp">—</div>
+      <div class="tagline" id="stamp">—</div>
     </div>
     <a class="finesbtn" href="index.html">← Site</a>
   </div>
@@ -121,6 +122,12 @@
 
     root.appendChild(el("div", "stamp",
       "Rule: one row per pairing per round. A result wins, then a real date and venue, then a placeholder. Nothing is deleted at source."));
+
+    var credit = el("div", "credit");
+    credit.appendChild(el("span", "credit-rule"));
+    credit.appendChild(el("span", "credit-text", "Created by Aaron Kane"));
+    credit.appendChild(el("span", "credit-rule"));
+    root.appendChild(credit);
 
     var main = document.getElementById("main");
     main.innerHTML = ""; main.appendChild(root);

@@ -29,13 +29,19 @@ UA = "cill-dara-fixtures/1.0 (+https://github.com/apk-repo)"
 DATE_RE = re.compile(r"^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{2})/(\d{2})/(\d{4})$")
 TIME_RE = re.compile(r"^(\d{1,2}:\d{2})$")
 SCORE_RE = re.compile(r"^(\d+)\s*(?:\((\d+)\))?\s*[Vv]\s*(\d+)\s*(?:\((\d+)\))?$")
-REF_RE = re.compile(r"^Referee\s*:?\s*(.*)$", re.I)
-COMMENT_RE = re.compile(r"^Comment\s*:?\s*(.*)$", re.I)
+SCORE_PART_RE = re.compile(r"^\d+\s*(?:\(\d+\))?$")
+# Sportlomo writes the referee cell as a label line then a ': value' line.
+# Either form is accepted: 'Referee: X' once joined, or a bare ': X'.
+REF_RE = re.compile(r"^(?:referee\s*)?:\s*(.*)$", re.I)
+VALUE_RE = re.compile(r"^:\s*(.*)$")
+INT_RE = re.compile(r"^[+\-\u2212]?\d+$")
+OFF_RE = re.compile(r"\b(off|postponed|cancell?ed|abandoned|walkover|conceded)\b", re.I)
+LABELS = {"referee", "comment"}
 TEAM_SUFFIX_RE = re.compile(r"^(.*?)\s+(\d+)$")
 
 NOISE = {
     "team sheet", "time", "team1", "team2", "scores", "venue", "comment", "referee",
-    "na", "v", "", "powered by sportlomo", "scroll to top", "all competitions",
+    "", "powered by sportlomo", "scroll to top", "all competitions",
     "upcoming fixtures", "recent results", "home", "league", "league diagram",
     "you are here", "search", "sort by date", "sort by competition",
 }
@@ -65,175 +71,256 @@ def fetch(url, session):
 
 
 def lines_of(html):
-    """The page as an ordered list of non-empty text lines."""
+    """
+    The page as an ordered list of text lines, with Sportlomo's split cells stitched back:
+
+        'Referee' + ': Luke Judge'      -> 'Referee: Luke Judge'
+        '25 (3)'  + 'V' + '10 (2)'      -> '25 (3) V 10 (2)'
+
+    Noise is dropped only AFTER stitching, because 'Referee' and 'V' are noise on their
+    own but load-bearing next to their values.
+    """
     soup = BeautifulSoup(html, "lxml")
     for tag in soup(["script", "style", "nav", "footer"]):
         tag.decompose()
-    out = []
-    for line in soup.get_text("\n").split("\n"):
-        s = " ".join(line.split())
-        if s and s.lower() not in NOISE:
-            out.append(s)
-    return out
+    raw = [" ".join(l.split()) for l in soup.get_text("\n").split("\n")]
+    raw = [x for x in raw if x]
+
+    joined = []
+    for x in raw:
+        m = VALUE_RE.match(x)
+        if m and joined and joined[-1].lower() in LABELS:
+            joined[-1] = "%s: %s" % (joined[-1], m.group(1).strip())
+        else:
+            joined.append(x)
+
+    out, i = [], 0
+    while i < len(joined):
+        a = joined[i]
+        if (i + 2 < len(joined) and SCORE_PART_RE.match(a)
+                and joined[i + 1].lower() == "v" and SCORE_PART_RE.match(joined[i + 2])):
+            out.append("%s V %s" % (a, joined[i + 2]))
+            i += 3
+            continue
+        out.append(a)
+        i += 1
+
+    return [x for x in out if x.lower() not in NOISE and x.lower() != "v"]
 
 
 # ---------------------------------------------------------------- standings
 
+HEAD_ALIASES = {
+    "pos": {"pos", "position", "#", "no", "rank"},
+    "team": {"team", "teams", "club", "name"},
+    "pld": {"pld", "p", "played", "gp", "mp"},
+    "w": {"w", "won"},
+    "d": {"d", "drawn"},
+    "l": {"l", "lost"},
+    "pf": {"pf", "for", "pts for", "points for"},
+    "pa": {"pa", "against", "pts against", "points against"},
+    "diff": {"diff", "pd", "+/-", "difference"},
+    "bp": {"bp", "tbp", "try bp", "bp t", "bpt"},
+    "bpl": {"bp l", "bpl", "lbp", "losing bp", "bp (l)", "l bp"},
+    "pts": {"pts", "points", "total"},
+}
+
+
+def _int(x):
+    x = (x or "").strip().replace("\u2212", "-")
+    return int(x) if INT_RE.match(x) else None
+
+
 def parse_standings(html):
-    """Find the table whose header mentions Pos and Team, return a list of dicts."""
+    """
+    Read the league table if the page has one. Tolerant of an extra crest or form
+    column: it finds the team and points columns by header, then slides along the
+    body row until the team cell has letters and the points cell is a number.
+    Returns [] if nothing sensible is found; the caller falls back to computing it.
+    """
     soup = BeautifulSoup(html, "lxml")
     for table in soup.find_all("table"):
         rows = table.find_all("tr")
-        if len(rows) < 2:
+        colmap, head_at, head_len = None, None, 0
+        for i, tr in enumerate(rows[:3]):
+            cells = [" ".join(c.get_text().split()).lower() for c in tr.find_all(["th", "td"])]
+            cm = {}
+            for j, c in enumerate(cells):
+                for key, aliases in HEAD_ALIASES.items():
+                    if c in aliases and key not in cm:
+                        cm[key] = j
+            if "team" in cm and "pts" in cm:
+                colmap, head_at, head_len = cm, i, len(cells)
+                break
+        if colmap is None:
             continue
-        head = [" ".join(c.get_text().split()).lower() for c in rows[0].find_all(["th", "td"])]
-        if "team" not in head:
-            continue
+
         out = []
-        for tr in rows[1:]:
+        for n, tr in enumerate(rows[head_at + 1:], 1):
             cells = [" ".join(c.get_text().split()) for c in tr.find_all(["th", "td"])]
-            if len(cells) != len(head) or not cells[0].strip().isdigit():
+            extra = len(cells) - head_len
+            if not cells or extra < 0:
                 continue
-            rec = dict(zip(head, cells))
+            shift = None
+            for o in range(extra + 1):
+                t, p = colmap["team"] + o, colmap["pts"] + o
+                if p < len(cells) and re.search("[A-Za-z]", cells[t]) and _int(cells[p]) is not None:
+                    shift = o
+                    break
+            if shift is None:
+                continue
 
-            def num(*keys):
-                for k in keys:
-                    if k in rec and rec[k] not in ("", "-"):
-                        try:
-                            return int(rec[k].replace("\u2212", "-"))
-                        except ValueError:
-                            pass
-                return 0
+            def g(key):
+                j = colmap.get(key)
+                return None if j is None or j + shift >= len(cells) else _int(cells[j + shift])
 
+            pf, pa = g("pf") or 0, g("pa") or 0
             out.append({
-                "pos": num("pos", "#"),
-                "team": team_name(rec.get("team", "")),
-                "pld": num("pld", "p"),
-                "w": num("w"), "d": num("d"), "l": num("l"),
-                "pf": num("pf"), "pa": num("pa"),
-                "diff": num("diff"),
-                "bp": num("bp") if "bp" in rec else None,
-                "bpl": num("bp l", "bpl"),
-                "pts": num("pts"),
+                "pos": g("pos") or n,
+                "team": team_name(cells[colmap["team"] + shift]),
+                "pld": g("pld") or 0, "w": g("w") or 0, "d": g("d") or 0, "l": g("l") or 0,
+                "pf": pf, "pa": pa,
+                "diff": g("diff") if g("diff") is not None else pf - pa,
+                "bp": g("bp") if "bp" in colmap else None,
+                "bpl": g("bpl") or 0,
+                "pts": g("pts") or 0,
             })
-        if out:
+        if len(out) >= 4:
             return out
     return []
 
 
+def compute_standings(fixtures, comp):
+    """
+    Build the table from results. Leinster League scoring: 4 win, 2 draw, 1 for losing
+    by 7 or fewer, 1 for scoring 4+ tries where the competition awards it. Checked
+    against the published Division 2A and J2 2A tables after round 1: exact match.
+    """
+    try_bonus = comp.get("tryBonus", True)
+    rows = {}
+    for f in fixtures:
+        for t in (f["home"], f["away"]):
+            rows.setdefault(t, {"team": t, "pld": 0, "w": 0, "d": 0, "l": 0,
+                                "pf": 0, "pa": 0, "bp": 0, "bpl": 0, "pts": 0})
+    for f in fixtures:
+        if f["status"] != "played" or f["homeScore"] is None:
+            continue
+        for me, s, o, tries in ((f["home"], f["homeScore"], f["awayScore"], f["homeTries"]),
+                                (f["away"], f["awayScore"], f["homeScore"], f["awayTries"])):
+            r = rows[me]
+            r["pld"] += 1
+            r["pf"] += s
+            r["pa"] += o
+            if s > o:
+                r["w"] += 1
+                r["pts"] += 4
+            elif s == o:
+                r["d"] += 1
+                r["pts"] += 2
+            else:
+                r["l"] += 1
+                if o - s <= 7:
+                    r["bpl"] += 1
+                    r["pts"] += 1
+            if try_bonus and tries is not None and tries >= 4:
+                r["bp"] += 1
+                r["pts"] += 1
+    ordered = sorted(rows.values(),
+                     key=lambda r: (-r["pts"], -(r["pf"] - r["pa"]), -r["pf"], r["team"]))
+    for i, r in enumerate(ordered, 1):
+        r["pos"] = i
+        r["diff"] = r["pf"] - r["pa"]
+        if not try_bonus:
+            r["bp"] = None
+    return ordered
+
+
 # ---------------------------------------------------------------- fixtures
 
-def parse_fixtures(lines, comp, known_teams):
+def parse_fixtures(lines, comp):
     """
-    Walk the line stream. A date line sets the current date; a time line opens a
-    fixture block that runs to the next time or date line.
+    Every Sportlomo fixture row is the same fixed sequence of cells:
+
+        time, team1, [score], team2, venue, [comment], referee
+
+    Empty cells vanish from the text, which is why the score and comment are optional.
+    The referee cell is always present (': NA' when unappointed), so it is the reliable
+    end-of-row marker. A date line sets the date for the rows beneath it.
     """
-    blocks, current_date, block = [], None, None
+    fixtures, date, buf = [], None, []
 
-    def close():
-        if block and block["lines"]:
-            blocks.append(block)
-
-    for raw in lines:
-        m = DATE_RE.match(raw)
-        if m:
-            close()
-            block = None
-            current_date = "%s-%s-%s" % (m.group(4), m.group(3), m.group(2))
-            continue
-        if TIME_RE.match(raw) or raw.upper() == "TBC":
-            close()
-            block = {"date": current_date,
-                     "time": None if raw.upper() == "TBC" else raw,
-                     "lines": []}
-            continue
-        if block is not None:
-            block["lines"].append(raw)
-    close()
-
-    fixtures = []
-    for i, b in enumerate(blocks):
-        f = block_to_fixture(b, comp, known_teams, i)
+    def flush(ref):
+        f = row_to_fixture(buf, ref, date, comp, len(fixtures))
         if f:
             fixtures.append(f)
+
+    for x in lines:
+        m = DATE_RE.match(x)
+        if m:
+            buf = []
+            date = "%s-%s-%s" % (m.group(4), m.group(3), m.group(2))
+            continue
+        r = REF_RE.match(x)
+        if r:
+            flush(r.group(1))
+            buf = []
+            continue
+        # a row that somehow lost its referee cell: close it when the next time appears
+        if TIME_RE.match(x) and buf and TIME_RE.match(buf[0]) and len(buf) >= 3:
+            flush(None)
+            buf = []
+        buf.append(x)
     return fixtures
 
 
-def looks_like_team(s, known_teams):
-    if s in known_teams:
-        return True
-    if REF_RE.match(s) or COMMENT_RE.match(s) or SCORE_RE.match(s):
-        return False
-    if s.lower() in NOISE or len(s) > 40:
-        return False
-    # 'Cill Dara 1', 'Cill Dara 1st XV', 'Tallaght/Guinness'
-    return bool(re.match(r"^[A-Z][A-Za-z'&./\- ]+( \d+| \d(st|nd|rd|th) XV)?$", s))
-
-
-def block_to_fixture(b, comp, known_teams, idx):
-    home = away = venue = referee = comment = None
-    hs = as_ = ht = at = None
-    rnd = None
-    seen_score = False
-    leftovers = []
-
-    for s in b["lines"]:
-        m = SCORE_RE.match(s)
-        if m:
-            hs, ht = int(m.group(1)), int(m.group(2)) if m.group(2) else None
-            as_, at = int(m.group(3)), int(m.group(4)) if m.group(4) else None
-            seen_score = True
-            continue
-        m = REF_RE.match(s)
-        if m:
-            val = m.group(1).strip()
-            if val and val.upper() != "NA" and referee is None:
-                referee = val
-            continue
-        m = COMMENT_RE.match(s)
-        if m:
-            val = m.group(1).strip()
-            if val and val.upper() != "NA":
-                comment = val
-            continue
-        leftovers.append(s)
-
-    teams = [s for s in leftovers if looks_like_team(s, known_teams)]
-    rest = [s for s in leftovers if s not in teams]
-
-    if len(teams) >= 2:
-        home, away = team_name(teams[0]), team_name(teams[1])
-    else:
+def row_to_fixture(cells, ref, date, comp, idx):
+    toks = list(cells)
+    time = None
+    if toks and (TIME_RE.match(toks[0]) or toks[0].upper() == "TBC"):
+        t = toks.pop(0)
+        time = None if t.upper() == "TBC" else t
+    if len(toks) < 2:
         return None
 
-    for s in rest:
-        if ROUND_WORDS.search(s) and rnd is None:
-            rnd = s
-        elif venue is None:
-            venue = s
-    if venue is None:
-        extra = [s for s in leftovers if s not in (teams[0], teams[1]) and s != rnd]
-        venue = extra[0] if extra else "TBC"
+    home = toks.pop(0)
+    hs = as_ = ht = at = None
+    if toks and SCORE_RE.match(toks[0]):
+        m = SCORE_RE.match(toks.pop(0))
+        hs, as_ = int(m.group(1)), int(m.group(3))
+        ht = int(m.group(2)) if m.group(2) else None
+        at = int(m.group(4)) if m.group(4) else None
+    if not toks:
+        return None
+    away = toks.pop(0)
+    venue = toks.pop(0) if toks else "TBC"
 
-    status = "scheduled"
-    if comment and "off" in comment.lower():
-        status = "called-off"
-    elif seen_score:
-        status = "played"
+    status = "played" if hs is not None else "scheduled"
+    rnd = note = None
+    for e in toks:
+        if OFF_RE.search(e) and hs is None:
+            status = "called-off"
+            note = e
+        elif ROUND_WORDS.search(e) and rnd is None:
+            rnd = e
+        else:
+            note = e
+
+    ref = (ref or "").strip()
+    referee = None if ref.upper() in ("", "NA", "N/A", "TBC") else ref
 
     return {
-        "id": "%s-%02d" % (comp["id"], idx),
-        "date": b["date"],
-        "time": b["time"],
+        "id": "%s-%s-%02d" % (comp["id"], date or "tbc", idx),
+        "date": date,
+        "time": time,
         "comp": comp["id"],
-        "team": None,          # filled in later
-        "home": home, "away": away,
-        "venue": venue, "referee": referee,
+        "team": None,
+        "home": team_name(home), "away": team_name(away),
+        "venue": venue or "TBC", "referee": referee,
         "homeScore": hs, "awayScore": as_,
         "homeTries": ht, "awayTries": at,
-        "round": rnd or comment if (rnd or (comment and "off" not in (comment or "").lower())) else rnd,
+        "round": rnd,
+        "note": note,
         "status": status,
-        "_comment": comment,
     }
 
 
@@ -370,10 +457,63 @@ def build_ics(name, fixtures, club_short):
 
 # ---------------------------------------------------------------- main
 
+def check_standings(parsed, computed):
+    """Differences between the league's own table and one built from results."""
+    by_team = {r["team"]: r for r in computed}
+    diffs = []
+    for r in parsed:
+        c = by_team.get(r["team"])
+        if c is None:
+            diffs.append("%s is in the table but in no fixture" % r["team"])
+        elif (r["pts"], r["pld"]) != (c["pts"], c["pld"]):
+            diffs.append("%s: table says %d pts from %d, results give %d from %d"
+                         % (r["team"], r["pts"], r["pld"], c["pts"], c["pld"]))
+    return diffs
+
+
+def flag_missing_results(fixtures, today):
+    out = []
+    for f in fixtures:
+        if f["status"] != "scheduled" or not f["date"] or not f["team"]:
+            continue
+        when = datetime.strptime(f["date"], "%Y-%m-%d").date()
+        if (today - when).days >= 2:
+            out.append({
+                "kind": "attention", "comp": f["comp"],
+                "pair": "%s v %s" % (f["home"], f["away"]),
+                "kept": when.strftime("%a %-d %b") + " \u00b7 no result",
+                "hidden": None,
+                "why": "Kick-off was %d days ago and there is still no score or call-off in the feed."
+                       % (today - when).days,
+            })
+    return out
+
+
+def sanity(data, today):
+    """Reasons to refuse to publish. Any one of these means the parser has drifted."""
+    problems = []
+    fx = data["fixtures"]
+    if not fx:
+        problems.append("no fixtures parsed")
+    for c in data["competitions"]:
+        if c["type"] == "league" and c.get("source") and len(c["standings"]) < 4:
+            problems.append("%s has %d standings rows" % (c["id"], len(c["standings"])))
+    bad_venues = [f for f in fx if SCORE_PART_RE.match(f["venue"] or "") or (f["venue"] or "").startswith(":")]
+    if bad_venues:
+        problems.append("%d fixtures have a score or referee where the venue should be" % len(bad_venues))
+    past = [f for f in fx if f["date"] and datetime.strptime(f["date"], "%Y-%m-%d").date() < today - timedelta(days=1)]
+    if len(past) >= 3 and not any(f["status"] in ("played", "called-off") for f in past):
+        problems.append("%d fixtures are in the past but none has a result" % len(past))
+    rows_in = data["counts"]["rowsIn"]
+    if rows_in and data["counts"]["merged"] / float(rows_in) > 0.4:
+        problems.append("merged %d of %d rows" % (data["counts"]["merged"], rows_in))
+    return problems
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--debug", metavar="COMP_ID", help="dump the line stream for one competition")
-    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--debug", metavar="COMP_ID", help="dump the stitched line stream for one competition")
+    ap.add_argument("--dry-run", action="store_true", help="parse and report, write nothing")
     args = ap.parse_args()
 
     cfg = json.load(open(SOURCES))
@@ -383,13 +523,14 @@ def main():
     club_prefix = cfg["club"]["short"]
     suffix_to_team = {t["sourceSuffix"]: t["id"] for t in cfg["teams"]}
 
-    all_fixtures, comps_out, known_teams = [], [], set()
+    all_fixtures, comps_out, notes = [], [], []
 
     for comp in cfg["competitions"]:
-        record = {k: comp[k] for k in
-                  ("id", "name", "short", "team", "type") if k in comp}
-        record["promotion"] = comp.get("promotion", 0)
-        record["relegation"] = comp.get("relegation", 0)
+        record = {k: comp[k] for k in ("id", "name", "short", "team", "type") if k in comp}
+        record["zones"] = comp.get("zones", {})
+        if comp.get("note"):
+            record["note"] = comp["note"]
+        record["tryBonus"] = comp.get("tryBonus", True)
         record["status"] = comp.get("status", "live")
         record["source"] = comp.get("url")
         record["standings"] = []
@@ -402,36 +543,52 @@ def main():
         lines = lines_of(html)
 
         if args.debug == comp["id"]:
-            for i, s in enumerate(lines):
-                print("%3d  %s" % (i, s))
+            for i, x in enumerate(lines):
+                print("%3d  %s" % (i, x))
             return 0
 
-        record["standings"] = parse_standings(html)
-        known_teams |= {r["team"] for r in record["standings"]}
-        known_teams |= {r["team"].replace(" 1st XV", " 1").replace(" 2nd XV", " 2")
-                        for r in record["standings"]}
-
-        fixtures = parse_fixtures(lines, comp, known_teams)
+        fixtures = parse_fixtures(lines, comp)
         for f in fixtures:
             for side in (f["home"], f["away"]):
                 if side.startswith(club_prefix):
                     m = re.search(r"(\d)(st|nd|rd|th) XV$", side)
-                    if m:
-                        f["team"] = suffix_to_team.get(m.group(1), comp.get("team"))
-            if f["team"] is None and (f["home"].startswith(club_prefix)
-                                      or f["away"].startswith(club_prefix)):
-                f["team"] = comp.get("team")
+                    f["team"] = suffix_to_team.get(m.group(1), comp.get("team")) if m else comp.get("team")
+
+        if comp["type"] == "league":
+            parsed = parse_standings(html)
+            computed = compute_standings(fixtures, comp)
+            if parsed and not comp.get("tryBonus", True):
+                for r in parsed:
+                    r["bp"] = None
+            if parsed:
+                record["standings"] = parsed
+                record["standingsSource"] = "table"
+                for d in check_standings(parsed, computed):
+                    notes.append({"kind": "attention", "comp": comp["id"], "pair": comp["name"],
+                                  "kept": d, "hidden": None,
+                                  "why": "The published table and the results disagree. Usually a points "
+                                         "deduction or an awarded game; worth a look either way."})
+            else:
+                record["standings"] = computed
+                record["standingsSource"] = "computed"
+                notes.append({"kind": "attention", "comp": comp["id"], "pair": comp["name"],
+                              "kept": "Table built from results",
+                              "hidden": None,
+                              "why": "Could not read the league's own table, so it was calculated from "
+                                     "the results instead. Correct unless there is a deduction or walkover."})
+
         all_fixtures += fixtures
         comps_out.append(record)
-        print("%-8s %2d standings rows, %2d fixture rows"
-              % (comp["id"], len(record["standings"]), len(fixtures)), file=sys.stderr)
+        print("%-7s %2d fixtures, %d played, standings %s (%d rows)"
+              % (comp["id"], len(fixtures), sum(f["status"] == "played" for f in fixtures),
+                 record.get("standingsSource", "-"), len(record["standings"])), file=sys.stderr)
 
     rows_in = len(all_fixtures)
     kept, issues, merged = dedupe(all_fixtures, cfg["competitions"])
     issues += flag_stale_calloffs(kept, today)
+    issues += flag_missing_results(kept, today)
+    issues += notes
     kept.sort(key=lambda f: (f["date"] or "9999-99-99", f["time"] or "99:99"))
-    for f in kept:
-        f.pop("_comment", None)
 
     data = {
         "updated": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
@@ -449,12 +606,12 @@ def main():
         },
     }
 
-    if not kept:
-        print("ERROR: no fixtures parsed \u2014 refusing to overwrite good data", file=sys.stderr)
-        return 1
-    if rows_in and merged / float(rows_in) > 0.4:
-        print("ERROR: merged %d of %d rows \u2014 the parser is probably broken"
-              % (merged, rows_in), file=sys.stderr)
+    problems = sanity(data, today)
+    if problems:
+        print("REFUSING TO PUBLISH \u2014 the parser looks broken, keeping the last good data:",
+              file=sys.stderr)
+        for p in problems:
+            print("  - " + p, file=sys.stderr)
         return 1
 
     if args.dry_run:
@@ -465,7 +622,7 @@ def main():
     json.dump(data, open(os.path.join(OUT_DIR, "data.json"), "w"), indent=1)
 
     ours = [f for f in kept if f["team"]]
-    feeds = [("cill-dara-all.ics", "Cill Dara RFC", ours)]
+    feeds = [("cill-dara-all.ics", cfg["club"]["name"], ours)]
     for t in cfg["teams"]:
         feeds.append(("cill-dara-%s.ics" % t["id"], t["label"],
                       [f for f in ours if f["team"] == t["id"]]))
