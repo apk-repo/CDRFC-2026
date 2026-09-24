@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-24T07:21:55Z",
+ "updated": "2026-09-24T19:19:40Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -549,7 +549,7 @@
    "home": "New Ross 2nd XV",
    "away": "Longford 2nd XV",
    "venue": "FBD Park",
-   "referee": null,
+   "referee": "Andy Fraser",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -567,7 +567,7 @@
    "home": "Portlaoise 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "Togher",
-   "referee": "Mark Flynn",
+   "referee": "Joseph Lyons (Pending)",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
