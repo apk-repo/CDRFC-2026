@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-25T07:21:57Z",
+ "updated": "2026-09-25T19:18:59Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -567,7 +567,7 @@
    "home": "Portlaoise 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "Togher",
-   "referee": "anthony hubbock (Pending)",
+   "referee": "anthony hubbock",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -639,7 +639,7 @@
    "home": "New Ross 2nd XV",
    "away": "Newbridge 2nd XV",
    "venue": "FBD Park",
-   "referee": null,
+   "referee": "Niall Callery",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -675,7 +675,7 @@
    "home": "Roscrea 2nd XV",
    "away": "Clondalkin 2nd XV",
    "venue": "Streamstown",
-   "referee": null,
+   "referee": "Patrick Marshall",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
