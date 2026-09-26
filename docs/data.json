@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-26T13:19:34Z",
+ "updated": "2026-09-26T15:20:02Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -181,6 +181,20 @@
     },
     {
      "pos": 2,
+     "team": "Clondalkin 2nd XV",
+     "pld": 2,
+     "w": 1,
+     "d": 0,
+     "l": 1,
+     "pf": 74,
+     "pa": 66,
+     "diff": 8,
+     "bp": null,
+     "bpl": 0,
+     "pts": 4
+    },
+    {
+     "pos": 3,
      "team": "Cill Dara 2nd XV",
      "pld": 1,
      "w": 1,
@@ -194,7 +208,7 @@
      "pts": 4
     },
     {
-     "pos": 3,
+     "pos": 4,
      "team": "Portlaoise 2nd XV",
      "pld": 1,
      "w": 1,
@@ -208,7 +222,7 @@
      "pts": 4
     },
     {
-     "pos": 4,
+     "pos": 5,
      "team": "Newbridge 2nd XV",
      "pld": 1,
      "w": 1,
@@ -220,20 +234,6 @@
      "bp": null,
      "bpl": 0,
      "pts": 4
-    },
-    {
-     "pos": 5,
-     "team": "Clondalkin 2nd XV",
-     "pld": 1,
-     "w": 0,
-     "d": 0,
-     "l": 1,
-     "pf": 24,
-     "pa": 47,
-     "diff": -23,
-     "bp": null,
-     "bpl": 0,
-     "pts": 0
     },
     {
      "pos": 6,
@@ -251,7 +251,7 @@
     },
     {
      "pos": 7,
-     "team": "North Kildare 2nd XV",
+     "team": "Roscrea 2nd XV",
      "pld": 1,
      "w": 0,
      "d": 0,
@@ -265,14 +265,14 @@
     },
     {
      "pos": 8,
-     "team": "Roscrea 2nd XV",
-     "pld": 1,
+     "team": "North Kildare 2nd XV",
+     "pld": 2,
      "w": 0,
      "d": 0,
-     "l": 1,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
+     "l": 2,
+     "pf": 19,
+     "pa": 50,
+     "diff": -31,
      "bp": null,
      "bpl": 0,
      "pts": -4
@@ -478,13 +478,13 @@
    "away": "North Kildare 2nd XV",
    "venue": "Baldonnel Farm",
    "referee": "Maris Newsome",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 50,
+   "awayScore": 19,
+   "homeTries": 11,
+   "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "lge2a-2026-09-26-04",
@@ -2404,7 +2404,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "North Kildare 2nd XV: table says -4 pts from 1, results give 0 from 0",
+   "kept": "Roscrea 2nd XV: table says -4 pts from 1, results give 0 from 0",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2412,7 +2412,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Roscrea 2nd XV: table says -4 pts from 1, results give 0 from 0",
+   "kept": "North Kildare 2nd XV: table says -4 pts from 2, results give 0 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   }
