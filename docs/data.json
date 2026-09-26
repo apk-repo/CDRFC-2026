@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-26T15:20:02Z",
+ "updated": "2026-09-26T17:18:45Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -657,7 +657,7 @@
    "home": "North Kildare 2nd XV",
    "away": "Longford 2nd XV",
    "venue": "The Maws Kilcock",
-   "referee": "Mark Flynn (Pending)",
+   "referee": "Mark Flynn",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
