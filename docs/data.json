@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-26T07:19:55Z",
+ "updated": "2026-09-26T13:19:34Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -621,7 +621,7 @@
    "home": "Cill Dara 2nd XV",
    "away": "Portlaoise 2nd XV",
    "venue": "Silken Thomas Park",
-   "referee": "Cian Murphy (Pending)",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
