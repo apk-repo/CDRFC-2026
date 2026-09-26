@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-26T17:18:45Z",
+ "updated": "2026-09-26T19:18:28Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -41,19 +41,33 @@
     {
      "pos": 1,
      "team": "Cill Dara 1st XV",
-     "pld": 1,
-     "w": 1,
+     "pld": 2,
+     "w": 2,
      "d": 0,
      "l": 0,
-     "pf": 59,
-     "pa": 7,
-     "diff": 52,
-     "bp": 1,
+     "pf": 103,
+     "pa": 26,
+     "diff": 77,
+     "bp": 2,
      "bpl": 0,
-     "pts": 5
+     "pts": 10
     },
     {
      "pos": 2,
+     "team": "North Kildare 1st XV",
+     "pld": 2,
+     "w": 2,
+     "d": 0,
+     "l": 0,
+     "pf": 53,
+     "pa": 37,
+     "diff": 16,
+     "bp": 1,
+     "bpl": 0,
+     "pts": 9
+    },
+    {
+     "pos": 3,
      "team": "Longford 1st XV",
      "pld": 1,
      "w": 1,
@@ -67,32 +81,18 @@
      "pts": 5
     },
     {
-     "pos": 3,
+     "pos": 4,
      "team": "Newbridge 1st XV",
-     "pld": 1,
+     "pld": 2,
      "w": 1,
      "d": 0,
-     "l": 0,
-     "pf": 32,
-     "pa": 22,
-     "diff": 10,
+     "l": 1,
+     "pf": 51,
+     "pa": 66,
+     "diff": -15,
      "bp": 1,
      "bpl": 0,
      "pts": 5
-    },
-    {
-     "pos": 4,
-     "team": "North Kildare 1st XV",
-     "pld": 1,
-     "w": 1,
-     "d": 0,
-     "l": 0,
-     "pf": 26,
-     "pa": 17,
-     "diff": 9,
-     "bp": 0,
-     "bpl": 0,
-     "pts": 4
     },
     {
      "pos": 5,
@@ -110,6 +110,20 @@
     },
     {
      "pos": 6,
+     "team": "Clondalkin 1st XV",
+     "pld": 2,
+     "w": 0,
+     "d": 0,
+     "l": 2,
+     "pf": 30,
+     "pa": 54,
+     "diff": -24,
+     "bp": 1,
+     "bpl": 1,
+     "pts": 1
+    },
+    {
+     "pos": 7,
      "team": "Portlaoise 1st XV",
      "pld": 1,
      "w": 0,
@@ -118,20 +132,6 @@
      "pf": 17,
      "pa": 26,
      "diff": -9,
-     "bp": 0,
-     "bpl": 0,
-     "pts": 0
-    },
-    {
-     "pos": 7,
-     "team": "Clondalkin 1st XV",
-     "pld": 1,
-     "w": 0,
-     "d": 0,
-     "l": 1,
-     "pf": 10,
-     "pa": 27,
-     "diff": -17,
      "bp": 0,
      "bpl": 0,
      "pts": 0
@@ -496,13 +496,13 @@
    "away": "North Kildare 1st XV",
    "venue": "Baldonnel Farm",
    "referee": "Ken Phillips",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 20,
+   "awayScore": 27,
+   "homeTries": 2,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "j22a-2026-09-26-05",
@@ -532,13 +532,13 @@
    "away": "Cill Dara 1st XV",
    "venue": "Rosetown",
    "referee": "Luke Judge",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 19,
+   "awayScore": 44,
+   "homeTries": 3,
+   "awayTries": 5,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "j22a-2026-09-27-06",
