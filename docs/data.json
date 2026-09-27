@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-27T15:20:01Z",
+ "updated": "2026-09-27T17:19:00Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -69,19 +69,33 @@
     {
      "pos": 3,
      "team": "Longford 1st XV",
-     "pld": 1,
+     "pld": 2,
      "w": 1,
      "d": 0,
-     "l": 0,
-     "pf": 27,
-     "pa": 10,
-     "diff": 17,
+     "l": 1,
+     "pf": 49,
+     "pa": 39,
+     "diff": 10,
+     "bp": 3,
+     "bpl": 1,
+     "pts": 7
+    },
+    {
+     "pos": 4,
+     "team": "Portlaoise 1st XV",
+     "pld": 2,
+     "w": 1,
+     "d": 0,
+     "l": 1,
+     "pf": 44,
+     "pa": 46,
+     "diff": -2,
      "bp": 1,
      "bpl": 0,
      "pts": 5
     },
     {
-     "pos": 4,
+     "pos": 5,
      "team": "Newbridge 1st XV",
      "pld": 2,
      "w": 1,
@@ -95,21 +109,35 @@
      "pts": 5
     },
     {
-     "pos": 5,
-     "team": "Roscrea 1st XV",
-     "pld": 1,
-     "w": 0,
+     "pos": 6,
+     "team": "New Ross 1st XV",
+     "pld": 2,
+     "w": 1,
      "d": 0,
      "l": 1,
-     "pf": 22,
-     "pa": 32,
-     "diff": -10,
+     "pf": 36,
+     "pa": 81,
+     "diff": -45,
      "bp": 1,
      "bpl": 0,
-     "pts": 1
+     "pts": 5
     },
     {
-     "pos": 6,
+     "pos": 7,
+     "team": "Roscrea 1st XV",
+     "pld": 2,
+     "w": 0,
+     "d": 0,
+     "l": 2,
+     "pf": 42,
+     "pa": 59,
+     "diff": -17,
+     "bp": 2,
+     "bpl": 1,
+     "pts": 2
+    },
+    {
+     "pos": 8,
      "team": "Clondalkin 1st XV",
      "pld": 2,
      "w": 0,
@@ -121,34 +149,6 @@
      "bp": 1,
      "bpl": 1,
      "pts": 1
-    },
-    {
-     "pos": 7,
-     "team": "Portlaoise 1st XV",
-     "pld": 1,
-     "w": 0,
-     "d": 0,
-     "l": 1,
-     "pf": 17,
-     "pa": 26,
-     "diff": -9,
-     "bp": 0,
-     "bpl": 0,
-     "pts": 0
-    },
-    {
-     "pos": 8,
-     "team": "New Ross 1st XV",
-     "pld": 1,
-     "w": 0,
-     "d": 0,
-     "l": 1,
-     "pf": 7,
-     "pa": 59,
-     "diff": -52,
-     "bp": 0,
-     "bpl": 0,
-     "pts": 0
     }
    ],
    "standingsSource": "table"
@@ -182,16 +182,16 @@
     {
      "pos": 2,
      "team": "Longford 2nd XV",
-     "pld": 1,
+     "pld": 2,
      "w": 1,
      "d": 0,
-     "l": 0,
-     "pf": 47,
-     "pa": 24,
-     "diff": 23,
+     "l": 1,
+     "pf": 76,
+     "pa": 57,
+     "diff": 19,
      "bp": null,
-     "bpl": 0,
-     "pts": 4
+     "bpl": 1,
+     "pts": 5
     },
     {
      "pos": 3,
@@ -238,16 +238,16 @@
     {
      "pos": 6,
      "team": "New Ross 2nd XV",
-     "pld": 1,
-     "w": 0,
+     "pld": 2,
+     "w": 1,
      "d": 0,
      "l": 1,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
+     "pf": 33,
+     "pa": 29,
+     "diff": 4,
      "bp": null,
      "bpl": 0,
-     "pts": -4
+     "pts": 0
     },
     {
      "pos": 7,
@@ -550,13 +550,13 @@
    "away": "Longford 2nd XV",
    "venue": "FBD Park",
    "referee": "Andy Fraser",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 33,
+   "awayScore": 29,
+   "homeTries": 5,
+   "awayTries": 5,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "j22a-2026-09-27-07",
@@ -586,13 +586,13 @@
    "away": "Longford 1st XV",
    "venue": "FBD Park",
    "referee": "Eamon Timmins",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 29,
+   "awayScore": 22,
+   "homeTries": 4,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "lge2a-2026-09-27-07",
@@ -604,13 +604,13 @@
    "away": "Roscrea 1st XV",
    "venue": "Togher",
    "referee": "Conor Hanley",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 27,
+   "awayScore": 20,
+   "homeTries": 4,
+   "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "j22a-2026-10-11-08",
@@ -2396,7 +2396,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "New Ross 2nd XV: table says -4 pts from 1, results give 0 from 0",
+   "kept": "New Ross 2nd XV: table says 0 pts from 2, results give 4 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
