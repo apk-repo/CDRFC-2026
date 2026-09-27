@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-26T19:18:28Z",
+ "updated": "2026-09-27T07:20:41Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -167,6 +167,20 @@
    "standings": [
     {
      "pos": 1,
+     "team": "Newbridge 2nd XV",
+     "pld": 2,
+     "w": 2,
+     "d": 0,
+     "l": 0,
+     "pf": 25,
+     "pa": 12,
+     "diff": 13,
+     "bp": null,
+     "bpl": 0,
+     "pts": 8
+    },
+    {
+     "pos": 2,
      "team": "Longford 2nd XV",
      "pld": 1,
      "w": 1,
@@ -180,7 +194,7 @@
      "pts": 4
     },
     {
-     "pos": 2,
+     "pos": 3,
      "team": "Clondalkin 2nd XV",
      "pld": 2,
      "w": 1,
@@ -189,20 +203,6 @@
      "pf": 74,
      "pa": 66,
      "diff": 8,
-     "bp": null,
-     "bpl": 0,
-     "pts": 4
-    },
-    {
-     "pos": 3,
-     "team": "Cill Dara 2nd XV",
-     "pld": 1,
-     "w": 1,
-     "d": 0,
-     "l": 0,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
      "bp": null,
      "bpl": 0,
      "pts": 4
@@ -223,14 +223,14 @@
     },
     {
      "pos": 5,
-     "team": "Newbridge 2nd XV",
-     "pld": 1,
+     "team": "Cill Dara 2nd XV",
+     "pld": 2,
      "w": 1,
      "d": 0,
-     "l": 0,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
+     "l": 1,
+     "pf": 12,
+     "pa": 25,
+     "diff": -13,
      "bp": null,
      "bpl": 0,
      "pts": 4
@@ -514,13 +514,13 @@
    "away": "Cill Dara 2nd XV",
    "venue": "Rosetown",
    "referee": "Jack Halpin",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 25,
+   "awayScore": 12,
+   "homeTries": 3,
+   "awayTries": 2,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "lge2a-2026-09-26-05",
@@ -567,14 +567,14 @@
    "home": "Portlaoise 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "Togher",
-   "referee": "anthony hubbock",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
    "awayTries": null,
    "round": null,
-   "note": null,
-   "status": "scheduled"
+   "note": "Game Off",
+   "status": "called-off"
   },
   {
    "id": "lge2a-2026-09-27-06",
@@ -2372,7 +2372,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Cill Dara 2nd XV: table says 4 pts from 1, results give 0 from 0",
+   "kept": "Newbridge 2nd XV: table says 8 pts from 2, results give 4 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2388,7 +2388,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Newbridge 2nd XV: table says 4 pts from 1, results give 0 from 0",
+   "kept": "Cill Dara 2nd XV: table says 4 pts from 2, results give 0 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
