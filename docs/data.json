@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-28T07:23:54Z",
+ "updated": "2026-09-28T19:20:54Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -45,9 +45,9 @@
      "w": 2,
      "d": 0,
      "l": 0,
-     "pf": 103,
-     "pa": 26,
-     "diff": 77,
+     "pf": 101,
+     "pa": 28,
+     "diff": 73,
      "bp": 2,
      "bpl": 0,
      "pts": 10
@@ -101,9 +101,9 @@
      "w": 1,
      "d": 0,
      "l": 1,
-     "pf": 51,
-     "pa": 66,
-     "diff": -15,
+     "pf": 53,
+     "pa": 64,
+     "diff": -11,
      "bp": 1,
      "bpl": 0,
      "pts": 5
@@ -181,6 +181,20 @@
     },
     {
      "pos": 2,
+     "team": "Portlaoise 2nd XV",
+     "pld": 2,
+     "w": 2,
+     "d": 0,
+     "l": 0,
+     "pf": 0,
+     "pa": 0,
+     "diff": 0,
+     "bp": null,
+     "bpl": 0,
+     "pts": 8
+    },
+    {
+     "pos": 3,
      "team": "Longford 2nd XV",
      "pld": 2,
      "w": 1,
@@ -194,7 +208,7 @@
      "pts": 5
     },
     {
-     "pos": 3,
+     "pos": 4,
      "team": "Clondalkin 2nd XV",
      "pld": 2,
      "w": 1,
@@ -203,20 +217,6 @@
      "pf": 74,
      "pa": 66,
      "diff": 8,
-     "bp": null,
-     "bpl": 0,
-     "pts": 4
-    },
-    {
-     "pos": 4,
-     "team": "Portlaoise 2nd XV",
-     "pld": 1,
-     "w": 1,
-     "d": 0,
-     "l": 0,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
      "bp": null,
      "bpl": 0,
      "pts": 4
@@ -251,20 +251,6 @@
     },
     {
      "pos": 7,
-     "team": "Roscrea 2nd XV",
-     "pld": 1,
-     "w": 0,
-     "d": 0,
-     "l": 1,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
-     "bp": null,
-     "bpl": 0,
-     "pts": -4
-    },
-    {
-     "pos": 8,
      "team": "North Kildare 2nd XV",
      "pld": 2,
      "w": 0,
@@ -276,6 +262,20 @@
      "bp": null,
      "bpl": 0,
      "pts": -4
+    },
+    {
+     "pos": 8,
+     "team": "Roscrea 2nd XV",
+     "pld": 2,
+     "w": 0,
+     "d": 0,
+     "l": 2,
+     "pf": 0,
+     "pa": 0,
+     "diff": 0,
+     "bp": null,
+     "bpl": 0,
+     "pts": -8
     }
    ],
    "standingsSource": "table"
@@ -532,8 +532,8 @@
    "away": "Cill Dara 1st XV",
    "venue": "Rosetown",
    "referee": "Luke Judge",
-   "homeScore": 19,
-   "awayScore": 44,
+   "homeScore": 21,
+   "awayScore": 42,
    "homeTries": 3,
    "awayTries": 5,
    "round": null,
@@ -573,7 +573,7 @@
    "homeTries": null,
    "awayTries": null,
    "round": null,
-   "note": "Game Off",
+   "note": "Conceded by Roscrea 2",
    "status": "called-off"
   },
   {
@@ -2380,7 +2380,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Portlaoise 2nd XV: table says 4 pts from 1, results give 0 from 0",
+   "kept": "Portlaoise 2nd XV: table says 8 pts from 2, results give 0 from 0",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2404,7 +2404,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Roscrea 2nd XV: table says -4 pts from 1, results give 0 from 0",
+   "kept": "North Kildare 2nd XV: table says -4 pts from 2, results give 0 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2412,7 +2412,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "North Kildare 2nd XV: table says -4 pts from 2, results give 0 from 1",
+   "kept": "Roscrea 2nd XV: table says -8 pts from 2, results give 0 from 0",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   }
