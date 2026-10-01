@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-01T07:25:13Z",
+ "updated": "2026-10-01T19:22:57Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -657,7 +657,7 @@
    "home": "North Kildare 2nd XV",
    "away": "Longford 2nd XV",
    "venue": "The Maws Kilcock",
-   "referee": "Mark Flynn",
+   "referee": "MARK FLYNN",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -748,24 +748,6 @@
    "away": "Clondalkin 1st XV",
    "venue": "Streamstown",
    "referee": "Jason Le Lievre",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
-   "round": null,
-   "note": null,
-   "status": "scheduled"
-  },
-  {
-   "id": "lalor-2026-10-12-02",
-   "date": "2026-10-12",
-   "time": null,
-   "comp": "lalor",
-   "team": null,
-   "home": "Portarlington 1st XV",
-   "away": "North Kildare 1st XV",
-   "venue": "TBC",
-   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -2361,14 +2343,6 @@
  ],
  "issues": [
   {
-   "kind": "duplicate",
-   "comp": "lalor",
-   "pair": "Cill Dara 1st XV v Portlaoise 1st XV",
-   "kept": "Sun 13 Sep 15:00 \u00b7 Preliminary Round \u00b7 25\u201310 \u00b7 Silken Thomas Park \u00b7 Garret Weldon",
-   "hidden": "Mon 12 Oct 15:00 \u00b7 Silken Thomas Park",
-   "why": "Same tie in the same competition. Kept the row with the stronger evidence: a result, then a real date and venue, then a placeholder."
-  },
-  {
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
@@ -2418,9 +2392,9 @@
   }
  ],
  "counts": {
-  "rowsIn": 115,
-  "kept": 114,
-  "merged": 1,
+  "rowsIn": 113,
+  "kept": 113,
+  "merged": 0,
   "attention": 6
  }
 }
