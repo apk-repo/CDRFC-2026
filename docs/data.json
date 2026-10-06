@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-05T07:25:47Z",
+ "updated": "2026-10-06T07:24:20Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -729,7 +729,7 @@
    "home": "North Kildare 1st XV",
    "away": "Longford 1st XV",
    "venue": "The Maws Kilcock",
-   "referee": "Marcus Lynch (Pending)",
+   "referee": "Marcus Lynch",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -819,7 +819,7 @@
    "home": "North Kildare 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "The Maws Kilcock",
-   "referee": "SENAN MURPHY (Pending)",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
