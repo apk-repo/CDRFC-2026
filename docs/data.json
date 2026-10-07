@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-07T07:25:40Z",
+ "updated": "2026-10-07T19:24:06Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -765,7 +765,7 @@
    "home": "Clondalkin 2nd XV",
    "away": "Cill Dara 2nd XV",
    "venue": "Baldonnel Farm",
-   "referee": null,
+   "referee": "Robin Cunningham",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
