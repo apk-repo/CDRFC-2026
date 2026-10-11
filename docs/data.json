@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11T15:21:37Z",
+ "updated": "2026-10-11T17:21:37Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -40,6 +40,20 @@
    "standings": [
     {
      "pos": 1,
+     "team": "Cill Dara 1st XV",
+     "pld": 3,
+     "w": 3,
+     "d": 0,
+     "l": 0,
+     "pf": 146,
+     "pa": 47,
+     "diff": 99,
+     "bp": 3,
+     "bpl": 0,
+     "pts": 15
+    },
+    {
+     "pos": 2,
      "team": "North Kildare 1st XV",
      "pld": 3,
      "w": 3,
@@ -53,21 +67,21 @@
      "pts": 13
     },
     {
-     "pos": 2,
-     "team": "Cill Dara 1st XV",
-     "pld": 2,
+     "pos": 3,
+     "team": "Newbridge 1st XV",
+     "pld": 3,
      "w": 2,
      "d": 0,
-     "l": 0,
-     "pf": 101,
-     "pa": 28,
-     "diff": 73,
+     "l": 1,
+     "pf": 82,
+     "pa": 83,
+     "diff": -1,
      "bp": 2,
      "bpl": 0,
      "pts": 10
     },
     {
-     "pos": 3,
+     "pos": 4,
      "team": "Longford 1st XV",
      "pld": 3,
      "w": 1,
@@ -81,74 +95,60 @@
      "pts": 8
     },
     {
-     "pos": 4,
-     "team": "Portlaoise 1st XV",
-     "pld": 2,
-     "w": 1,
-     "d": 0,
-     "l": 1,
-     "pf": 44,
-     "pa": 46,
-     "diff": -2,
-     "bp": 1,
-     "bpl": 0,
-     "pts": 5
-    },
-    {
      "pos": 5,
-     "team": "Newbridge 1st XV",
-     "pld": 2,
+     "team": "Roscrea 1st XV",
+     "pld": 3,
      "w": 1,
      "d": 0,
-     "l": 1,
-     "pf": 53,
-     "pa": 64,
-     "diff": -11,
-     "bp": 1,
-     "bpl": 0,
-     "pts": 5
+     "l": 2,
+     "pf": 76,
+     "pa": 91,
+     "diff": -15,
+     "bp": 3,
+     "bpl": 1,
+     "pts": 7
     },
     {
      "pos": 6,
-     "team": "New Ross 1st XV",
-     "pld": 2,
+     "team": "Portlaoise 1st XV",
+     "pld": 3,
      "w": 1,
      "d": 0,
-     "l": 1,
-     "pf": 36,
-     "pa": 81,
-     "diff": -45,
+     "l": 2,
+     "pf": 63,
+     "pa": 91,
+     "diff": -28,
      "bp": 1,
      "bpl": 0,
      "pts": 5
     },
     {
      "pos": 7,
-     "team": "Roscrea 1st XV",
-     "pld": 2,
-     "w": 0,
+     "team": "New Ross 1st XV",
+     "pld": 3,
+     "w": 1,
      "d": 0,
      "l": 2,
-     "pf": 42,
-     "pa": 59,
-     "diff": -17,
-     "bp": 2,
-     "bpl": 1,
-     "pts": 2
+     "pf": 55,
+     "pa": 110,
+     "diff": -55,
+     "bp": 1,
+     "bpl": 0,
+     "pts": 5
     },
     {
      "pos": 8,
      "team": "Clondalkin 1st XV",
-     "pld": 2,
+     "pld": 3,
      "w": 0,
      "d": 0,
-     "l": 2,
-     "pf": 23,
-     "pa": 54,
-     "diff": -31,
-     "bp": 0,
-     "bpl": 0,
-     "pts": 0
+     "l": 3,
+     "pf": 55,
+     "pa": 88,
+     "diff": -33,
+     "bp": 2,
+     "bpl": 1,
+     "pts": 2
     }
    ],
    "standingsSource": "table"
@@ -181,6 +181,20 @@
     },
     {
      "pos": 2,
+     "team": "Longford 2nd XV",
+     "pld": 3,
+     "w": 2,
+     "d": 0,
+     "l": 1,
+     "pf": 105,
+     "pa": 83,
+     "diff": 22,
+     "bp": null,
+     "bpl": 1,
+     "pts": 9
+    },
+    {
+     "pos": 3,
      "team": "Cill Dara 2nd XV",
      "pld": 3,
      "w": 2,
@@ -194,7 +208,7 @@
      "pts": 8
     },
     {
-     "pos": 3,
+     "pos": 4,
      "team": "Portlaoise 2nd XV",
      "pld": 3,
      "w": 2,
@@ -208,32 +222,18 @@
      "pts": 8
     },
     {
-     "pos": 4,
-     "team": "Longford 2nd XV",
-     "pld": 2,
-     "w": 1,
-     "d": 0,
-     "l": 1,
-     "pf": 76,
-     "pa": 57,
-     "diff": 19,
-     "bp": null,
-     "bpl": 1,
-     "pts": 5
-    },
-    {
      "pos": 5,
      "team": "Clondalkin 2nd XV",
-     "pld": 2,
-     "w": 1,
+     "pld": 3,
+     "w": 2,
      "d": 0,
      "l": 1,
-     "pf": 74,
-     "pa": 66,
-     "diff": 8,
+     "pf": 100,
+     "pa": 80,
+     "diff": 20,
      "bp": null,
      "bpl": 0,
-     "pts": 4
+     "pts": 8
     },
     {
      "pos": 6,
@@ -252,27 +252,27 @@
     {
      "pos": 7,
      "team": "North Kildare 2nd XV",
-     "pld": 2,
+     "pld": 3,
      "w": 0,
      "d": 0,
-     "l": 2,
-     "pf": 19,
-     "pa": 50,
-     "diff": -31,
+     "l": 3,
+     "pf": 45,
+     "pa": 79,
+     "diff": -34,
      "bp": null,
-     "bpl": 0,
-     "pts": -4
+     "bpl": 1,
+     "pts": -3
     },
     {
      "pos": 8,
      "team": "Roscrea 2nd XV",
-     "pld": 2,
+     "pld": 3,
      "w": 0,
      "d": 0,
-     "l": 2,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
+     "l": 3,
+     "pf": 14,
+     "pa": 26,
+     "diff": -12,
      "bp": null,
      "bpl": 0,
      "pts": -8
@@ -631,7 +631,7 @@
    "status": "played"
   },
   {
-   "id": "j22a-2026-10-11-10",
+   "id": "j22a-2026-10-11-08",
    "date": "2026-10-11",
    "time": "13:00",
    "comp": "j22a",
@@ -640,16 +640,16 @@
    "away": "Longford 2nd XV",
    "venue": "The Maws Kilcock",
    "referee": "MARK FLYNN",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 26,
+   "awayScore": 29,
+   "homeTries": 2,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
-   "id": "j22a-2026-10-11-08",
+   "id": "j22a-2026-10-11-09",
    "date": "2026-10-11",
    "time": "13:30",
    "comp": "j22a",
@@ -667,7 +667,7 @@
    "status": "played"
   },
   {
-   "id": "j22a-2026-10-11-09",
+   "id": "j22a-2026-10-11-10",
    "date": "2026-10-11",
    "time": "13:30",
    "comp": "j22a",
@@ -694,13 +694,13 @@
    "away": "Clondalkin 2nd XV",
    "venue": "Streamstown",
    "referee": "Patrick Marshall",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 14,
+   "awayScore": 26,
+   "homeTries": 2,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "lge2a-2026-10-11-09",
@@ -712,13 +712,13 @@
    "away": "Portlaoise 1st XV",
    "venue": "Silken Thomas Park",
    "referee": "maxime du pradel",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 45,
+   "awayScore": 19,
+   "homeTries": 7,
+   "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "lge2a-2026-10-11-10",
@@ -730,13 +730,13 @@
    "away": "Newbridge 1st XV",
    "venue": "FBD Park",
    "referee": "Peter Lynch",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 19,
+   "awayScore": 29,
+   "homeTries": 2,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "lge2a-2026-10-11-11",
@@ -748,13 +748,13 @@
    "away": "Clondalkin 1st XV",
    "venue": "Streamstown",
    "referee": "Jason Le Lievre",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 34,
+   "awayScore": 32,
+   "homeTries": 6,
+   "awayTries": 5,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "j22a-2026-10-17-12",
@@ -2378,7 +2378,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "North Kildare 2nd XV: table says -4 pts from 2, results give 0 from 1",
+   "kept": "North Kildare 2nd XV: table says -3 pts from 3, results give 1 from 2",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2386,7 +2386,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Roscrea 2nd XV: table says -8 pts from 2, results give 0 from 0",
+   "kept": "Roscrea 2nd XV: table says -8 pts from 3, results give 0 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   }
