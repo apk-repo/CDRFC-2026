@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11T13:23:21Z",
+ "updated": "2026-10-11T15:21:37Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -40,6 +40,20 @@
    "standings": [
     {
      "pos": 1,
+     "team": "North Kildare 1st XV",
+     "pld": 3,
+     "w": 3,
+     "d": 0,
+     "l": 0,
+     "pf": 78,
+     "pa": 54,
+     "diff": 24,
+     "bp": 1,
+     "bpl": 0,
+     "pts": 13
+    },
+    {
+     "pos": 2,
      "team": "Cill Dara 1st XV",
      "pld": 2,
      "w": 2,
@@ -53,32 +67,18 @@
      "pts": 10
     },
     {
-     "pos": 2,
-     "team": "North Kildare 1st XV",
-     "pld": 2,
-     "w": 2,
-     "d": 0,
-     "l": 0,
-     "pf": 53,
-     "pa": 30,
-     "diff": 23,
-     "bp": 1,
-     "bpl": 0,
-     "pts": 9
-    },
-    {
      "pos": 3,
      "team": "Longford 1st XV",
-     "pld": 2,
+     "pld": 3,
      "w": 1,
      "d": 0,
-     "l": 1,
-     "pf": 49,
-     "pa": 39,
-     "diff": 10,
-     "bp": 3,
-     "bpl": 1,
-     "pts": 7
+     "l": 2,
+     "pf": 73,
+     "pa": 64,
+     "diff": 9,
+     "bp": 4,
+     "bpl": 2,
+     "pts": 8
     },
     {
      "pos": 4,
@@ -168,33 +168,47 @@
     {
      "pos": 1,
      "team": "Newbridge 2nd XV",
-     "pld": 2,
+     "pld": 3,
      "w": 2,
-     "d": 0,
+     "d": 1,
      "l": 0,
-     "pf": 25,
-     "pa": 12,
+     "pf": 49,
+     "pa": 36,
      "diff": 13,
      "bp": null,
      "bpl": 0,
-     "pts": 8
+     "pts": 10
     },
     {
      "pos": 2,
-     "team": "Portlaoise 2nd XV",
-     "pld": 2,
+     "team": "Cill Dara 2nd XV",
+     "pld": 3,
      "w": 2,
      "d": 0,
-     "l": 0,
-     "pf": 0,
-     "pa": 0,
-     "diff": 0,
+     "l": 1,
+     "pf": 78,
+     "pa": 51,
+     "diff": 27,
      "bp": null,
      "bpl": 0,
      "pts": 8
     },
     {
      "pos": 3,
+     "team": "Portlaoise 2nd XV",
+     "pld": 3,
+     "w": 2,
+     "d": 0,
+     "l": 1,
+     "pf": 26,
+     "pa": 66,
+     "diff": -40,
+     "bp": null,
+     "bpl": 0,
+     "pts": 8
+    },
+    {
+     "pos": 4,
      "team": "Longford 2nd XV",
      "pld": 2,
      "w": 1,
@@ -208,7 +222,7 @@
      "pts": 5
     },
     {
-     "pos": 4,
+     "pos": 5,
      "team": "Clondalkin 2nd XV",
      "pld": 2,
      "w": 1,
@@ -222,32 +236,18 @@
      "pts": 4
     },
     {
-     "pos": 5,
-     "team": "Cill Dara 2nd XV",
-     "pld": 2,
-     "w": 1,
-     "d": 0,
-     "l": 1,
-     "pf": 12,
-     "pa": 25,
-     "diff": -13,
-     "bp": null,
-     "bpl": 0,
-     "pts": 4
-    },
-    {
      "pos": 6,
      "team": "New Ross 2nd XV",
-     "pld": 2,
+     "pld": 3,
      "w": 1,
-     "d": 0,
+     "d": 1,
      "l": 1,
-     "pf": 33,
-     "pa": 29,
+     "pf": 57,
+     "pa": 53,
      "diff": 4,
      "bp": null,
      "bpl": 0,
-     "pts": 0
+     "pts": 2
     },
     {
      "pos": 7,
@@ -622,16 +622,16 @@
    "away": "Longford 1st XV",
    "venue": "The Maws Kilcock",
    "referee": "Fergus Balfe",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 25,
+   "awayScore": 24,
+   "homeTries": 3,
+   "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
-   "id": "j22a-2026-10-11-08",
+   "id": "j22a-2026-10-11-10",
    "date": "2026-10-11",
    "time": "13:00",
    "comp": "j22a",
@@ -649,7 +649,7 @@
    "status": "scheduled"
   },
   {
-   "id": "j22a-2026-10-11-09",
+   "id": "j22a-2026-10-11-08",
    "date": "2026-10-11",
    "time": "13:30",
    "comp": "j22a",
@@ -658,16 +658,16 @@
    "away": "Portlaoise 2nd XV",
    "venue": "Silken Thomas Park",
    "referee": "Damian Deegan",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 66,
+   "awayScore": 26,
+   "homeTries": 10,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
-   "id": "j22a-2026-10-11-10",
+   "id": "j22a-2026-10-11-09",
    "date": "2026-10-11",
    "time": "13:30",
    "comp": "j22a",
@@ -676,13 +676,13 @@
    "away": "Newbridge 2nd XV",
    "venue": "FBD Park",
    "referee": "Niall Callery",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 24,
+   "awayScore": 24,
+   "homeTries": 4,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "played"
   },
   {
    "id": "j22a-2026-10-11-11",
@@ -2346,7 +2346,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Newbridge 2nd XV: table says 8 pts from 2, results give 4 from 1",
+   "kept": "Newbridge 2nd XV: table says 10 pts from 3, results give 6 from 2",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2354,7 +2354,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Portlaoise 2nd XV: table says 8 pts from 2, results give 0 from 0",
+   "kept": "Cill Dara 2nd XV: table says 8 pts from 3, results give 4 from 2",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2362,7 +2362,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "Cill Dara 2nd XV: table says 4 pts from 2, results give 0 from 1",
+   "kept": "Portlaoise 2nd XV: table says 8 pts from 3, results give 0 from 1",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
@@ -2370,7 +2370,7 @@
    "kind": "attention",
    "comp": "j22a",
    "pair": "Seconds League J2 Division 2A",
-   "kept": "New Ross 2nd XV: table says 0 pts from 2, results give 4 from 1",
+   "kept": "New Ross 2nd XV: table says 2 pts from 3, results give 6 from 2",
    "hidden": null,
    "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
   },
