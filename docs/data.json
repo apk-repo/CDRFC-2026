@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-12T07:28:46Z",
+ "updated": "2026-10-12T19:22:43Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -819,7 +819,7 @@
    "home": "North Kildare 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "The Maws Kilcock",
-   "referee": null,
+   "referee": "Ben Petherbridge (Pending)",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
