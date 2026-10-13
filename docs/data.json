@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-12T19:22:43Z",
+ "updated": "2026-10-13T07:29:24Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -801,7 +801,7 @@
    "home": "Longford 2nd XV",
    "away": "Newbridge 2nd XV",
    "venue": "Precision Health Park",
-   "referee": null,
+   "referee": "Emmet O'Fahy (Pending)",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -837,7 +837,7 @@
    "home": "Portlaoise 2nd XV",
    "away": "New Ross 2nd XV",
    "venue": "Togher",
-   "referee": null,
+   "referee": "Thomas Lyons",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
