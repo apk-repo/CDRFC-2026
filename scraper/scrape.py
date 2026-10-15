@@ -36,6 +36,8 @@ REF_RE = re.compile(r"^(?:referee\s*)?:\s*(.*)$", re.I)
 VALUE_RE = re.compile(r"^:\s*(.*)$")
 INT_RE = re.compile(r"^[+\-\u2212]?\d+$")
 OFF_RE = re.compile(r"\b(off|postponed|cancell?ed|abandoned|walkover|conceded)\b", re.I)
+# "Conceded by Roscrea 2" / "Walkover to Longford 2" — the league awards the game
+CONCEDE_RE = re.compile(r"\b(?:conceded|walkover)\s+(?:by|to)\s+(.+)$", re.I)
 LABELS = {"referee", "comment"}
 TEAM_SUFFIX_RE = re.compile(r"^(.*?)\s+(\d+)$")
 
@@ -197,12 +199,27 @@ def compute_standings(fixtures, comp):
     against the published Division 2A and J2 2A tables after round 1: exact match.
     """
     try_bonus = comp.get("tryBonus", True)
+    # points the league awards for a walkover, and what it docks the side that conceded
+    walkover_pts = comp.get("walkoverPoints", 4)
+    concede_pts = comp.get("concedePoints", -4)
     rows = {}
     for f in fixtures:
         for t in (f["home"], f["away"]):
             rows.setdefault(t, {"team": t, "pld": 0, "w": 0, "d": 0, "l": 0,
                                 "pf": 0, "pa": 0, "bp": 0, "bpl": 0, "pts": 0})
     for f in fixtures:
+        if f["status"] == "conceded" and f.get("concededBy"):
+            loser = f["concededBy"]
+            winner = f["away"] if loser == f["home"] else f["home"]
+            if winner in rows and loser in rows:
+                rows[winner]["pld"] += 1
+                rows[winner]["w"] += 1
+                rows[winner]["pts"] += walkover_pts
+                rows[loser]["pld"] += 1
+                rows[loser]["l"] += 1
+                rows[loser]["pts"] += concede_pts
+                rows[loser]["conceded"] = rows[loser].get("conceded", 0) + 1
+            continue
         if f["status"] != "played" or f["homeScore"] is None:
             continue
         for me, s, o, tries in ((f["home"], f["homeScore"], f["awayScore"], f["homeTries"]),
@@ -230,6 +247,7 @@ def compute_standings(fixtures, comp):
     for i, r in enumerate(ordered, 1):
         r["pos"] = i
         r["diff"] = r["pf"] - r["pa"]
+        r.setdefault("conceded", 0)
         if not try_bonus:
             r["bp"] = None
     return ordered
@@ -295,10 +313,15 @@ def row_to_fixture(cells, ref, date, comp, idx):
     venue = toks.pop(0) if toks else "TBC"
 
     status = "played" if hs is not None else "scheduled"
-    rnd = note = None
+    rnd = note = conceded_by = None
     for e in toks:
         if OFF_RE.search(e) and hs is None:
-            status = "called-off"
+            m = CONCEDE_RE.search(e)
+            if m:
+                status = "conceded"
+                conceded_by = team_name(m.group(1).strip())
+            else:
+                status = "called-off"
             note = e
         elif ROUND_WORDS.search(e) and rnd is None:
             rnd = e
@@ -321,6 +344,7 @@ def row_to_fixture(cells, ref, date, comp, idx):
         "round": rnd,
         "note": note,
         "status": status,
+        "concededBy": conceded_by,
     }
 
 
@@ -594,6 +618,7 @@ def main():
         "updated": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "club": cfg["club"],
         "links": cfg.get("links", {}),
+        "venues": cfg.get("venues", {}),
         "teams": cfg["teams"],
         "competitions": comps_out,
         "fixtures": kept,

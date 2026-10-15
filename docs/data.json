@@ -4,7 +4,8 @@
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
   "clubId": 3461,
-  "tagline": "Silken Thomas Park \u00b7 Kildare"
+  "tagline": "Silken Thomas Park \u00b7 Kildare",
+  "homeVenue": "Silken Thomas Park"
  },
  "links": {
   "fines": "https://apk-repo.github.io/fines"
@@ -322,7 +323,8 @@
    "awayTries": 2,
    "round": "Preliminary Round",
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-19-00",
@@ -340,7 +342,8 @@
    "awayTries": null,
    "round": null,
    "note": "Conceded by New Ross 2",
-   "status": "called-off"
+   "status": "conceded",
+   "concededBy": "New Ross 2nd XV"
   },
   {
    "id": "lge2a-2026-09-19-00",
@@ -358,7 +361,8 @@
    "awayTries": 1,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-20-01",
@@ -376,7 +380,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-20-02",
@@ -394,7 +399,8 @@
    "awayTries": null,
    "round": null,
    "note": "Conceded by North Kildare 2",
-   "status": "called-off"
+   "status": "conceded",
+   "concededBy": "North Kildare 2nd XV"
   },
   {
    "id": "j22a-2026-09-20-03",
@@ -412,7 +418,8 @@
    "awayTries": null,
    "round": null,
    "note": "Conceded by Roscrea 2",
-   "status": "called-off"
+   "status": "conceded",
+   "concededBy": "Roscrea 2nd XV"
   },
   {
    "id": "lge2a-2026-09-20-01",
@@ -430,7 +437,8 @@
    "awayTries": 2,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-09-20-02",
@@ -448,7 +456,8 @@
    "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-09-20-03",
@@ -466,7 +475,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-26-04",
@@ -484,7 +494,8 @@
    "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-09-26-04",
@@ -502,7 +513,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-26-05",
@@ -520,7 +532,8 @@
    "awayTries": 2,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-09-26-05",
@@ -538,7 +551,8 @@
    "awayTries": 5,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-27-06",
@@ -556,7 +570,8 @@
    "awayTries": 5,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-09-27-07",
@@ -574,7 +589,8 @@
    "awayTries": null,
    "round": null,
    "note": "Conceded by Roscrea 2",
-   "status": "called-off"
+   "status": "conceded",
+   "concededBy": "Roscrea 2nd XV"
   },
   {
    "id": "lge2a-2026-09-27-06",
@@ -592,7 +608,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-09-27-07",
@@ -610,7 +627,8 @@
    "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-11-08",
@@ -628,7 +646,8 @@
    "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-11-08",
@@ -646,7 +665,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-11-09",
@@ -664,7 +684,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-11-10",
@@ -682,7 +703,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-11-11",
@@ -700,7 +722,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-11-09",
@@ -718,7 +741,8 @@
    "awayTries": 3,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-11-10",
@@ -736,7 +760,8 @@
    "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-11-11",
@@ -754,7 +779,8 @@
    "awayTries": 5,
    "round": null,
    "note": null,
-   "status": "played"
+   "status": "played",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-17-12",
@@ -772,7 +798,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-17-12",
@@ -790,7 +817,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-18-13",
@@ -808,7 +836,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-18-14",
@@ -826,7 +855,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-18-15",
@@ -844,7 +874,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-18-13",
@@ -862,7 +893,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-18-14",
@@ -880,7 +912,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-18-15",
@@ -898,7 +931,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-10-31-16",
@@ -916,7 +950,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-10-31-16",
@@ -934,7 +969,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-01-17",
@@ -952,7 +988,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-01-18",
@@ -970,7 +1007,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-01-19",
@@ -988,7 +1026,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-01-17",
@@ -1006,7 +1045,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-01-18",
@@ -1024,7 +1064,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-01-19",
@@ -1042,7 +1083,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-08-20",
@@ -1060,7 +1102,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-08-21",
@@ -1078,7 +1121,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-08-22",
@@ -1096,7 +1140,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-08-23",
@@ -1114,7 +1159,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-08-20",
@@ -1132,7 +1178,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-08-21",
@@ -1150,7 +1197,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-08-22",
@@ -1168,7 +1216,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-08-23",
@@ -1186,7 +1235,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-22-24",
@@ -1204,7 +1254,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-22-25",
@@ -1222,7 +1273,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-22-26",
@@ -1240,7 +1292,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-22-27",
@@ -1258,7 +1311,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-22-24",
@@ -1276,7 +1330,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-22-25",
@@ -1294,7 +1349,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-22-26",
@@ -1312,7 +1368,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-22-27",
@@ -1330,7 +1387,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-28-28",
@@ -1348,7 +1406,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-28-28",
@@ -1366,7 +1425,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-29-29",
@@ -1384,7 +1444,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-29-30",
@@ -1402,7 +1463,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-11-29-31",
@@ -1420,7 +1482,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-29-29",
@@ -1438,7 +1501,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-29-30",
@@ -1456,7 +1520,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-11-29-31",
@@ -1474,7 +1539,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-12-12-32",
@@ -1492,7 +1558,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-12-12-32",
@@ -1510,7 +1577,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-12-12-33",
@@ -1528,7 +1596,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-12-12-33",
@@ -1546,7 +1615,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-12-13-34",
@@ -1564,7 +1634,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2026-12-13-35",
@@ -1582,7 +1653,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-12-13-34",
@@ -1600,7 +1672,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2026-12-13-35",
@@ -1618,7 +1691,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-10-36",
@@ -1636,7 +1710,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-10-37",
@@ -1654,7 +1729,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-10-38",
@@ -1672,7 +1748,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-10-39",
@@ -1690,7 +1767,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-10-36",
@@ -1708,7 +1786,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-10-37",
@@ -1726,7 +1805,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-10-38",
@@ -1744,7 +1824,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-10-39",
@@ -1762,7 +1843,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-16-40",
@@ -1780,7 +1862,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-16-40",
@@ -1798,7 +1881,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-17-41",
@@ -1816,7 +1900,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-17-42",
@@ -1834,7 +1919,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-01-17-43",
@@ -1852,7 +1938,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-17-41",
@@ -1870,7 +1957,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-17-42",
@@ -1888,7 +1976,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-01-17-43",
@@ -1906,7 +1995,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-06-44",
@@ -1924,7 +2014,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-06-44",
@@ -1942,7 +2033,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-07-45",
@@ -1960,7 +2052,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-07-46",
@@ -1978,7 +2071,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-07-47",
@@ -1996,7 +2090,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-07-45",
@@ -2014,7 +2109,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-07-46",
@@ -2032,7 +2128,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-07-47",
@@ -2050,7 +2147,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-14-48",
@@ -2068,7 +2166,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-14-49",
@@ -2086,7 +2185,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-14-50",
@@ -2104,7 +2204,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-14-51",
@@ -2122,7 +2223,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-14-48",
@@ -2140,7 +2242,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-14-49",
@@ -2158,7 +2261,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-14-50",
@@ -2176,7 +2280,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-14-51",
@@ -2194,7 +2299,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-28-52",
@@ -2212,7 +2318,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-28-53",
@@ -2230,7 +2337,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-28-54",
@@ -2248,7 +2356,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "j22a-2027-02-28-55",
@@ -2266,7 +2375,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-28-52",
@@ -2284,7 +2394,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-28-53",
@@ -2302,7 +2413,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-28-54",
@@ -2320,7 +2432,8 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   },
   {
    "id": "lge2a-2027-02-28-55",
@@ -2338,63 +2451,62 @@
    "awayTries": null,
    "round": null,
    "note": null,
-   "status": "scheduled"
+   "status": "scheduled",
+   "concededBy": null
   }
  ],
- "issues": [
-  {
-   "kind": "attention",
-   "comp": "j22a",
-   "pair": "Seconds League J2 Division 2A",
-   "kept": "Newbridge 2nd XV: table says 10 pts from 3, results give 6 from 2",
-   "hidden": null,
-   "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
-  },
-  {
-   "kind": "attention",
-   "comp": "j22a",
-   "pair": "Seconds League J2 Division 2A",
-   "kept": "Cill Dara 2nd XV: table says 8 pts from 3, results give 4 from 2",
-   "hidden": null,
-   "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
-  },
-  {
-   "kind": "attention",
-   "comp": "j22a",
-   "pair": "Seconds League J2 Division 2A",
-   "kept": "Portlaoise 2nd XV: table says 8 pts from 3, results give 0 from 1",
-   "hidden": null,
-   "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
-  },
-  {
-   "kind": "attention",
-   "comp": "j22a",
-   "pair": "Seconds League J2 Division 2A",
-   "kept": "New Ross 2nd XV: table says 2 pts from 3, results give 6 from 2",
-   "hidden": null,
-   "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
-  },
-  {
-   "kind": "attention",
-   "comp": "j22a",
-   "pair": "Seconds League J2 Division 2A",
-   "kept": "North Kildare 2nd XV: table says -3 pts from 3, results give 1 from 2",
-   "hidden": null,
-   "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
-  },
-  {
-   "kind": "attention",
-   "comp": "j22a",
-   "pair": "Seconds League J2 Division 2A",
-   "kept": "Roscrea 2nd XV: table says -8 pts from 3, results give 0 from 1",
-   "hidden": null,
-   "why": "The published table and the results disagree. Usually a points deduction or an awarded game; worth a look either way."
-  }
- ],
+ "issues": [],
  "counts": {
   "rowsIn": 113,
   "kept": 113,
   "merged": 0,
-  "attention": 6
+  "attention": 0
+ },
+ "venues": {
+  "Silken Thomas Park": {
+   "club": "Cill Dara RFC",
+   "eircode": "",
+   "town": "Kildare, Co. Kildare"
+  },
+  "Rosetown": {
+   "club": "Newbridge RFC",
+   "eircode": "",
+   "town": "Newbridge, Co. Kildare"
+  },
+  "The Maws Kilcock": {
+   "club": "North Kildare RFC",
+   "eircode": "",
+   "town": "Kilcock, Co. Kildare"
+  },
+  "Baldonnel Farm": {
+   "club": "Clondalkin RFC",
+   "eircode": "",
+   "town": "Clondalkin, Co. Dublin"
+  },
+  "Togher": {
+   "club": "Portlaoise RFC",
+   "eircode": "",
+   "town": "Portlaoise, Co. Laois"
+  },
+  "Streamstown": {
+   "club": "Roscrea RFC",
+   "eircode": "",
+   "town": "Roscrea, Co. Tipperary"
+  },
+  "Precision Health Park": {
+   "club": "Longford RFC",
+   "eircode": "",
+   "town": "Longford, Co. Longford"
+  },
+  "FBD Park": {
+   "club": "New Ross RFC",
+   "eircode": "",
+   "town": "New Ross, Co. Wexford"
+  },
+  "Lea Rd": {
+   "club": "Portarlington RFC",
+   "eircode": "",
+   "town": "Portarlington, Co. Laois"
+  }
  }
 }

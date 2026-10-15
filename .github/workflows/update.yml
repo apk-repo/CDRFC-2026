@@ -27,8 +27,19 @@ jobs:
 
       - run: pip install -r scraper/requirements.txt
 
+      - name: Keep a copy of the current data to diff against
+        run: cp docs/data.json docs/.data.previous.json || true
+
       - name: Scrape
         run: python scraper/scrape.py
+
+      - name: Report what changed
+        env:
+          ALERT_WEBHOOK: ${{ secrets.ALERT_WEBHOOK }}
+        run: python scraper/alerts.py --post || true
+
+      - name: Tidy up
+        run: rm -f docs/.data.previous.json
 
       - name: Commit if anything changed
         run: |

@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+docs/.data.previous.json
+docs/last-alert.txt

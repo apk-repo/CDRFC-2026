@@ -197,7 +197,8 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .tc7.na{color:#B7B2A8}
 .tname{font-size:14px;font-weight:600;color:var(--text);line-height:1.25;display:block}
 .trow.ours .tname{font-weight:700}
-.tsub{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap}
+.tsub{font-size:10px;color:var(--muted);margin-top:3px;white-space:nowrap;
+  display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .pts{font-family:'Oswald',sans-serif;font-size:19px;font-weight:600;color:var(--text);text-align:right}
 
 .zkey{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;padding:4px 4px 0 4px}
@@ -273,3 +274,44 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .results .score-row.lost .score-num{color:#B8645C}
 .results .score-row.won .score-name{color:var(--text)}
 .results .score-num{border-left-color:rgba(20,18,16,.06)}
+
+/* ---------------- form strip ---------------- */
+.form{display:flex;gap:3px}
+.fdot{width:15px;height:15px;border-radius:3px;display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#fff;letter-spacing:0}
+.fd-w{background:var(--green)}
+.fd-l{background:var(--accent)}
+.fd-d{background:var(--faint)}
+.fd-c{background:#6B2F2A}
+.fd-none{background:var(--sand);color:var(--faint)}
+
+.sc-form{display:flex;align-items:center;gap:9px;margin-top:11px}
+.sc-form-l{font-size:10px;font-weight:700;letter-spacing:1.2px;color:#6B675E}
+.sc-form .form{justify-content:flex-start}
+
+/* ---------------- position chart ---------------- */
+.chartcard{padding:12px 10px 6px 10px}
+.poschart{width:100%;height:auto;display:block;overflow:visible}
+.pc-grid{stroke:var(--sep);stroke-width:1}
+.pc-ax{fill:var(--faint);font-size:9px;font-family:'Source Sans 3',sans-serif}
+.pc-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.pc-dot{fill:var(--accent)}
+.pc-now{fill:var(--gold);stroke:var(--accent);stroke-width:2}
+.pc-now-l{fill:var(--text);font-size:11px;font-weight:700;font-family:'Oswald',sans-serif}
+
+/* ---------------- walkover ---------------- */
+.bp-conc{background:#F0E2E0;color:#8C271F}
+.rc-off .rc-badge{background:var(--sand);color:var(--muted)}
+
+/* ---------------- share ---------------- */
+.share-row{display:flex;margin-top:2px}
+.sharebtn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;
+  border:1px solid var(--line);border-radius:17px;background:var(--card);
+  color:var(--muted);font-size:12px;font-weight:600;cursor:pointer}
+.sharebtn:hover{border-color:var(--gold);color:var(--text)}
+.sharebtn:disabled{opacity:.5}
+.sh-ico{font-size:14px;line-height:1;transform:scaleX(-1)}
+
+/* ---------------- offline notice ---------------- */
+.stalebar{background:var(--gold-wash);color:var(--gold-deep);border-bottom:1px solid #E4D7C2;
+  font-size:12px;font-weight:600;padding:9px 16px;text-align:center}

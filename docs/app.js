@@ -46,6 +46,18 @@
   }
   function fmtDay(d) { return DAYS[d.getDay()] + " " + d.getDate() + " " + MONS[d.getMonth()]; }
   function fmtLongDay(d) { return DAYS_FULL[d.getDay()] + " " + d.getDate() + " " + MONS[d.getMonth()]; }
+  /* Eircode routes to the exact gate; the name alone is a guess */
+  function venueInfo(name) { return (D.venues && D.venues[name]) || {}; }
+  function mapsUrl(name) {
+    var v = venueInfo(name);
+    var q = v.eircode ? v.eircode : (name + (v.town ? ", " + v.town : ", Ireland"));
+    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  }
+  function venueLine(name) {
+    var v = venueInfo(name);
+    return name + (v.eircode ? " \u00b7 " + v.eircode : "");
+  }
+
   function ordinal(n) {
     if (!n) return "–";
     var s = ["th", "st", "nd", "rd"], v = n % 100;
@@ -71,6 +83,16 @@
 
   /* ------------------------------------------------------------ rugby logic */
   /* league points one side took from a game: 4 win, 2 draw, 1 losing by 7 or fewer, 1 for 4+ tries */
+  function isOff(f) { return f.status === "called-off" || f.status === "conceded"; }
+  function concededByUs(f) {
+    return f.status === "conceded" && f.concededBy && isCD(f.concededBy);
+  }
+  /* who won a conceded game */
+  function walkoverWinner(f) {
+    if (f.status !== "conceded" || !f.concededBy) return null;
+    return f.concededBy === f.home ? f.away : f.home;
+  }
+
   function matchPoints(f, home) {
     var s = home ? f.homeScore : f.awayScore;
     var o = home ? f.awayScore : f.homeScore;
@@ -175,7 +197,7 @@
       var hero = el("section", "hero");
       hero.appendChild(el("div", "eyebrow", day.items.length > 1 ? "NEXT CLUB DAY" : "NEXT MATCH"));
       hero.appendChild(el("h2", "hero-title", clubOnly(opponent(first)) + " \u2013 " + (homeDay ? "Home" : "Away")));
-      hero.appendChild(el("div", "hero-sub", fmtLongDay(d) + (oneVenue ? " · " + first.venue : "")));
+      hero.appendChild(el("div", "hero-sub", fmtLongDay(d) + (oneVenue ? " · " + venueLine(first.venue) : "")));
 
       /* countdown to the first kick-off of the day */
       var cd = el("div", "countdown");
@@ -222,7 +244,7 @@
       };
       acts.appendChild(cal);
       var dir = el("a", "btn btn-ghost", "Directions");
-      dir.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(first.venue + ", Ireland");
+      dir.href = mapsUrl(first.venue);
       dir.target = "_blank"; dir.rel = "noopener";
       acts.appendChild(dir);
       hero.appendChild(acts);
@@ -262,12 +284,16 @@
     var c = comp(f.comp);
     var card = el("article", "rcard");
     var mp = f.status === "played" ? matchPoints(f, ourHome) : null;
-    var state = f.status === "called-off" ? "off" : (mp ? mp.res.toLowerCase() : "d");
+    var state;
+    if (f.status === "conceded") state = concededByUs(f) ? "l" : "w";
+    else if (f.status === "called-off") state = "off";
+    else state = mp ? mp.res.toLowerCase() : "d";
     card.classList.add("rc-" + state);
 
     var head = el("div", "rc-head");
-    head.appendChild(el("span", "rc-badge",
-      state === "off" ? "OFF" : state === "w" ? "WON" : state === "l" ? "LOST" : "DRAW"));
+    var badge = state === "off" ? "OFF" : state === "w" ? "WON" : state === "l" ? "LOST" : "DRAW";
+    if (f.status === "conceded") badge = concededByUs(f) ? "CONC" : "W/O";
+    head.appendChild(el("span", "rc-badge", badge));
     var ht = el("div", "rc-title");
     ht.appendChild(el("div", "rc-team", teamLabelFor(f.team)));
     ht.appendChild(el("div", "rc-meta", c.short + " · " + fmtDay(parseDT(f)) + " · " + f.venue));
@@ -275,7 +301,16 @@
     card.appendChild(head);
 
     var body = el("div", "rc-body");
-    if (f.status === "called-off") {
+    if (f.status === "conceded") {
+      var ct = el("div", "rc-off");
+      ct.appendChild(el("span", "nw", f.home));
+      ct.appendChild(document.createTextNode(" v "));
+      ct.appendChild(el("span", "nw", f.away));
+      body.appendChild(ct);
+      body.appendChild(el("div", "rc-note",
+        concededByUs(f) ? "Conceded \u00b7 4 points to " + clubOnly(walkoverWinner(f)) + ", 4 docked"
+                        : "Walkover \u00b7 " + clubOnly(f.concededBy) + " conceded, 4 points awarded"));
+    } else if (f.status === "called-off") {
       var t = el("div", "rc-off");
       t.appendChild(el("span", "nw", f.home));
       t.appendChild(document.createTextNode(" v "));
@@ -292,6 +327,11 @@
       if (mp && c.type === "league") chips.appendChild(el("span", "pill pill-strong", "+" + mp.pts + " league pts"));
       if (c.type === "cup" && f.round) chips.appendChild(el("span", "pill", f.round));
       body.appendChild(chips);
+      if (f.homeScore != null) {
+        var sr = el("div", "share-row");
+        sr.appendChild(shareButton(f));
+        body.appendChild(sr);
+      }
     }
     card.appendChild(body);
     return card;
@@ -340,6 +380,12 @@
       mini.appendChild(row);
     });
     card.appendChild(mini);
+
+    var fr = el("div", "sc-form");
+    fr.appendChild(el("span", "sc-form-l", "FORM"));
+    fr.appendChild(formStrip(c.id, me.team, 5));
+    card.appendChild(fr);
+
     card.appendChild(el("div", "sc-gap", gapLine(rows, i)));
     return card;
   }
@@ -473,7 +519,7 @@
     root.appendChild(el("div", "label", c.name.toUpperCase() + " · EVERY RESULT"));
 
     var done = D.fixtures.filter(function (f) {
-      return f.comp === c.id && f.date && (f.status === "played" || f.status === "called-off");
+      return f.comp === c.id && f.date && f.status !== "scheduled";
     });
     if (!done.length) { root.appendChild(el("p", "empty", "No results yet this season.")); return root; }
 
@@ -494,7 +540,18 @@
         var mine = isCD(f.home) || isCD(f.away);
         var row = el("div", "res-row" + (i ? " sep" : "") + (mine ? " mine" : ""));
         var body = el("div", "res-body");
-        if (f.status === "called-off") {
+        if (f.status === "conceded") {
+          var ct = el("div", "res-title");
+          ct.appendChild(el("span", "nw", f.home));
+          ct.appendChild(document.createTextNode(" v "));
+          ct.appendChild(el("span", "nw", f.away));
+          body.appendChild(ct);
+          var cm = el("div", "res-meta");
+          cm.appendChild(el("span", "bp bp-conc", "W/O"));
+          cm.appendChild(document.createTextNode(" " + clubOnly(f.concededBy) + " conceded \u00b7 " +
+            clubOnly(walkoverWinner(f)) + " awarded the game \u00b7 " + fmtDay(parseDT(f))));
+          body.appendChild(cm);
+        } else if (f.status === "called-off") {
           var t = el("div", "res-title muted");
           t.appendChild(el("span", "nw", f.home));
           t.appendChild(document.createTextNode(" v "));
@@ -503,7 +560,12 @@
           body.appendChild(el("div", "res-meta", fmtDay(parseDT(f)) + " · called off"));
         } else {
           body.appendChild(scoreline(f));
-          body.appendChild(el("div", "res-meta", fmtDay(parseDT(f)) + " · " + f.venue));
+          body.appendChild(el("div", "res-meta", fmtDay(parseDT(f)) + " · " + venueLine(f.venue)));
+          if (mine) {
+            var sr2 = el("div", "share-row");
+            sr2.appendChild(shareButton(f));
+            body.appendChild(sr2);
+          }
         }
         row.appendChild(body);
         card.appendChild(row);
@@ -523,6 +585,141 @@
     w.appendChild(el("span", cls, badge));
     w.appendChild(el("span", null, text));
     return w;
+  }
+
+  /* ----------------------------------------------------------- history */
+  /* Rebuild the table after each round from the results we already hold, so form
+     and position-by-round need no stored history. */
+  function roundsOf(compId) {
+    var done = D.fixtures.filter(function (f) {
+      return f.comp === compId && f.date && f.status !== "scheduled";
+    }).sort(function (a, b) { return parseDT(a) - parseDT(b); });
+    var out = [], seen = {};
+    done.forEach(function (f) {
+      var k = weekendKey(f);
+      if (!seen[k]) { seen[k] = { key: k, items: [] }; out.push(seen[k]); }
+      seen[k].items.push(f);
+    });
+    return out;
+  }
+
+  function tableAfter(compId, upto) {
+    var c = comp(compId);
+    var tb = c.tryBonus !== false;
+    var rows = {};
+    (c.standings || []).forEach(function (r) {
+      rows[r.team] = { team: r.team, pld: 0, pf: 0, pa: 0, pts: 0 };
+    });
+    D.fixtures.filter(function (f) { return f.comp === compId; }).forEach(function (f) {
+      [f.home, f.away].forEach(function (t) {
+        if (!rows[t]) rows[t] = { team: t, pld: 0, pf: 0, pa: 0, pts: 0 };
+      });
+    });
+    roundsOf(compId).slice(0, upto).forEach(function (g) {
+      g.items.forEach(function (f) {
+        if (f.status === "conceded" && f.concededBy) {
+          var w = walkoverWinner(f);
+          if (rows[w]) { rows[w].pld++; rows[w].pts += 4; }
+          if (rows[f.concededBy]) { rows[f.concededBy].pld++; rows[f.concededBy].pts -= 4; }
+          return;
+        }
+        if (f.status !== "played" || f.homeScore == null) return;
+        [[f.home, true], [f.away, false]].forEach(function (side) {
+          var r = rows[side[0]];
+          if (!r) return;
+          var mp = matchPoints(f, side[1]);
+          var sc = side[1] ? f.homeScore : f.awayScore;
+          var op = side[1] ? f.awayScore : f.homeScore;
+          r.pld++; r.pf += sc; r.pa += op;
+          if (mp) r.pts += mp.pts;
+        });
+      });
+    });
+    var list = Object.keys(rows).map(function (k) { return rows[k]; });
+    list.sort(function (a, b) {
+      return (b.pts - a.pts) || ((b.pf - b.pa) - (a.pf - a.pa)) || (b.pf - a.pf) || a.team.localeCompare(b.team);
+    });
+    list.forEach(function (r, i) { r.pos = i + 1; });
+    return list;
+  }
+
+  /* W / L / D / walkover per team, oldest first */
+  function formOf(compId, team) {
+    var out = [];
+    D.fixtures.filter(function (f) {
+      return f.comp === compId && f.date && f.status !== "scheduled" &&
+             (f.home === team || f.away === team);
+    }).sort(function (a, b) { return parseDT(a) - parseDT(b); }).forEach(function (f) {
+      if (f.status === "conceded" && f.concededBy) {
+        out.push({ r: f.concededBy === team ? "C" : "W", f: f });
+      } else if (f.status === "called-off") {
+        return;
+      } else if (f.homeScore != null) {
+        var mp = matchPoints(f, f.home === team);
+        out.push({ r: mp.res, f: f });
+      }
+    });
+    return out;
+  }
+
+  function formStrip(compId, team, max) {
+    var wrap = el("div", "form");
+    var list = formOf(compId, team);
+    if (!list.length) { wrap.appendChild(el("span", "fdot fd-none", "–")); return wrap; }
+    list.slice(-(max || 5)).forEach(function (x) {
+      var d = el("span", "fdot fd-" + x.r.toLowerCase(), x.r);
+      var f = x.f;
+      var them = f.home === team ? f.away : f.home;
+      d.title = clubOnly(them) + (f.homeScore != null ? " " + f.homeScore + "\u2013" + f.awayScore : " (walkover)");
+      wrap.appendChild(d);
+    });
+    return wrap;
+  }
+
+  /* position by round, drawn as an inline SVG */
+  function positionChart(compId, team) {
+    var rounds = roundsOf(compId);
+    if (rounds.length < 2) return null;
+    var n = (comp(compId).standings || []).length || 8;
+    var pts = [];
+    for (var i = 1; i <= rounds.length; i++) {
+      var t = tableAfter(compId, i);
+      for (var k = 0; k < t.length; k++) if (t[k].team === team) pts.push(t[k].pos);
+    }
+    if (pts.length < 2) return null;
+
+    var W = 300, H = 108, padL = 22, padR = 10, padT = 12, padB = 20;
+    var iw = W - padL - padR, ih = H - padT - padB;
+    var x = function (i) { return padL + (pts.length === 1 ? iw / 2 : iw * i / (pts.length - 1)); };
+    var y = function (p) { return padT + ih * (p - 1) / (n - 1); };
+
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("class", "poschart");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "League position after each round: " + pts.join(", "));
+    function add(tag, attrs, text) {
+      var e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (text != null) e.textContent = text;
+      svg.appendChild(e);
+      return e;
+    }
+    [1, n].forEach(function (p) {
+      add("line", { x1: padL, y1: y(p), x2: W - padR, y2: y(p), class: "pc-grid" });
+      add("text", { x: padL - 6, y: y(p) + 3.5, class: "pc-ax", "text-anchor": "end" }, String(p));
+    });
+    var dpath = pts.map(function (p, i) { return (i ? "L" : "M") + x(i) + " " + y(p); }).join(" ");
+    add("path", { d: dpath, class: "pc-line" });
+    pts.forEach(function (p, i) {
+      add("circle", { cx: x(i), cy: y(p), r: i === pts.length - 1 ? 4 : 2.6,
+                      class: "pc-dot" + (i === pts.length - 1 ? " pc-now" : "") });
+    });
+    add("text", { x: x(pts.length - 1), y: y(pts[pts.length - 1]) - 9, class: "pc-now-l",
+                  "text-anchor": "end" }, ordinal(pts[pts.length - 1]));
+    add("text", { x: padL, y: H - 5, class: "pc-ax" }, "R1");
+    add("text", { x: W - padR, y: H - 5, class: "pc-ax", "text-anchor": "end" }, "R" + pts.length);
+    return svg;
   }
 
   /* ================================================================ TABLES */
@@ -566,7 +763,11 @@
       row.appendChild(el("div", "tc tc1", String(r.pos)));
       var name = el("div", "tc tc2");
       name.appendChild(nameNode(r.team, "tname"));
-      name.appendChild(el("div", "tsub", r.pld ? (r.pf + "–" + r.pa + " · " + (r.diff > 0 ? "+" : "") + r.diff) : "no games played"));
+      var sub = el("div", "tsub");
+      sub.appendChild(el("span", null,
+        r.pld ? (r.pf + "–" + r.pa + " · " + (r.diff > 0 ? "+" : "") + r.diff) : "no games played"));
+      sub.appendChild(formStrip(c.id, r.team, 5));
+      name.appendChild(sub);
       row.appendChild(name);
       [r.pld, r.w, r.d, r.l].forEach(function (v, i) {
         row.appendChild(el("div", "tc tc" + (i + 3), String(v == null ? 0 : v)));
@@ -594,6 +795,13 @@
         "Top team is promoted. 2nd plays off against the second-last team in the division above. " +
         "Bottom team is relegated. Second-last plays off against the 2nd team in the division below."));
     }
+    var chart = positionChart(c.id, teamLabelFor(c.team));
+    if (chart) {
+      root.appendChild(el("div", "label", "OUR POSITION BY ROUND"));
+      var cc = el("div", "card chartcard");
+      cc.appendChild(chart);
+      root.appendChild(cc);
+    }
     if (c.note) notes.appendChild(el("p", "note-strong", c.note));
     notes.appendChild(el("p", null,
       "TB try bonus: 4 or more tries in a game. LB losing bonus: lost by 7 points or fewer." +
@@ -603,6 +811,95 @@
     }
     root.appendChild(notes);
     return root;
+  }
+
+  /* ----------------------------------------------------------- share card */
+  function shareCard(f) {
+    var ourHome = isCD(f.home);
+    var W = 1080, H = 1080;
+    var cv = document.createElement("canvas");
+    cv.width = W; cv.height = H;
+    var g = cv.getContext("2d");
+
+    g.fillStyle = "#141210"; g.fillRect(0, 0, W, H);
+    g.strokeStyle = "rgba(212,165,60,.5)"; g.lineWidth = 6;
+    g.strokeRect(34, 34, W - 68, H - 68);
+
+    function draw() {
+      g.textAlign = "center";
+      g.fillStyle = "#D4A53C";
+      g.font = "700 30px Oswald, system-ui, sans-serif";
+      var c = comp(f.comp);
+      g.fillText((c.short || "").toUpperCase() + "  \u00b7  " + fmtDay(parseDT(f)).toUpperCase(), W / 2, 300);
+
+      var hs = f.homeScore, as = f.awayScore;
+      var rows = [[f.home, hs], [f.away, as]];
+      var yy = 440;
+      rows.forEach(function (r) {
+        var win = hs != null && as != null && hs !== as && r[1] === Math.max(hs, as);
+        g.textAlign = "left";
+        g.fillStyle = win ? "#FFFFFF" : "#A8A092";
+        g.font = (win ? "700 " : "500 ") + "52px 'Source Sans 3', system-ui, sans-serif";
+        g.fillText(r[0], 120, yy);
+        g.textAlign = "right";
+        g.fillStyle = win ? "#D4A53C" : "#7A766D";
+        g.font = "600 96px Oswald, system-ui, sans-serif";
+        g.fillText(r[1] == null ? "\u2013" : String(r[1]), W - 120, yy + 14);
+        yy += 150;
+      });
+
+      g.strokeStyle = "rgba(212,165,60,.28)"; g.lineWidth = 2;
+      g.beginPath(); g.moveTo(120, 690); g.lineTo(W - 120, 690); g.stroke();
+
+      g.textAlign = "center";
+      g.fillStyle = "#A8A092";
+      g.font = "400 34px 'Source Sans 3', system-ui, sans-serif";
+      g.fillText(venueInfo(f.venue).club ? f.venue : f.venue, W / 2, 760);
+      g.fillStyle = "#D4A53C";
+      g.font = "500 26px Oswald, system-ui, sans-serif";
+      g.fillText("CILL DARA RFC", W / 2, 980);
+      return cv;
+    }
+
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        g.drawImage(img, W / 2 - 90, 80, 180, 180);
+        resolve(draw());
+      };
+      img.onerror = function () { resolve(draw()); };
+      img.src = "crest-192.png";
+    });
+  }
+
+  function shareButton(f) {
+    var b = el("button", "sharebtn");
+    b.type = "button";
+    b.innerHTML = "";
+    b.appendChild(el("span", "sh-ico", "\u21AA"));
+    b.appendChild(el("span", null, "Share"));
+    b.onclick = function () {
+      b.disabled = true;
+      shareCard(f).then(function (cv) {
+        cv.toBlob(function (blob) {
+          b.disabled = false;
+          if (!blob) return;
+          var name = "cill-dara-" + (f.date || "result") + ".png";
+          var file = new File([blob], name, { type: "image/png" });
+          var text = f.home + " " + f.homeScore + " \u2013 " + f.awayScore + " " + f.away;
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], text: text }).catch(function () {});
+          } else {
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = name;
+            a.click();
+            setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+          }
+        }, "image/png");
+      });
+    };
+    return b;
   }
 
   /* ================================================================ SHELL */
@@ -683,6 +980,16 @@
     return f;
   }
 
+  /* data.json older than two days usually means the phone is offline */
+  function flagStale(d) {
+    var age = (Date.now() - new Date(d.updated)) / 86400000;
+    if (age < 2) return;
+    var bar = el("div", "stalebar",
+      "Showing saved fixtures from " + new Date(d.updated).toLocaleDateString("en-IE", { dateStyle: "medium" }) +
+      ". Reconnect for the latest.");
+    document.body.insertBefore(bar, document.getElementById("main"));
+  }
+
   function boot(data) {
     D = data;
     $("#clubname").textContent = D.club.name;
@@ -704,11 +1011,17 @@
     render();
   }
 
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+
   if (window.__DATA__) boot(window.__DATA__);
   else {
     fetch("data.json", { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(boot)
+      .then(function (data) { boot(data); flagStale(data); })
       .catch(function (e) {
         $("#main").innerHTML = '<p class="empty">Could not load the fixtures (' + e.message + ').</p>';
       });
