@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-14T19:36:54Z",
+ "updated": "2026-10-15T07:43:19Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -801,7 +801,7 @@
    "home": "Longford 2nd XV",
    "away": "Newbridge 2nd XV",
    "venue": "Precision Health Park",
-   "referee": "Emmet O'Fahy (Pending)",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
