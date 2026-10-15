@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15T19:33:19Z",
+ "updated": "2026-10-15T23:06:01Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -9,6 +9,53 @@
  },
  "links": {
   "fines": "https://apk-repo.github.io/fines"
+ },
+ "venues": {
+  "Silken Thomas Park": {
+   "club": "Cill Dara RFC",
+   "eircode": "",
+   "town": "Kildare, Co. Kildare"
+  },
+  "Rosetown": {
+   "club": "Newbridge RFC",
+   "eircode": "",
+   "town": "Newbridge, Co. Kildare"
+  },
+  "The Maws Kilcock": {
+   "club": "North Kildare RFC",
+   "eircode": "",
+   "town": "Kilcock, Co. Kildare"
+  },
+  "Baldonnel Farm": {
+   "club": "Clondalkin RFC",
+   "eircode": "",
+   "town": "Clondalkin, Co. Dublin"
+  },
+  "Togher": {
+   "club": "Portlaoise RFC",
+   "eircode": "",
+   "town": "Portlaoise, Co. Laois"
+  },
+  "Streamstown": {
+   "club": "Roscrea RFC",
+   "eircode": "",
+   "town": "Roscrea, Co. Tipperary"
+  },
+  "Precision Health Park": {
+   "club": "Longford RFC",
+   "eircode": "",
+   "town": "Longford, Co. Longford"
+  },
+  "FBD Park": {
+   "club": "New Ross RFC",
+   "eircode": "",
+   "town": "New Ross, Co. Wexford"
+  },
+  "Lea Rd": {
+   "club": "Portarlington RFC",
+   "eircode": "",
+   "town": "Portarlington, Co. Laois"
+  }
  },
  "teams": [
   {
@@ -2461,52 +2508,5 @@
   "kept": 113,
   "merged": 0,
   "attention": 0
- },
- "venues": {
-  "Silken Thomas Park": {
-   "club": "Cill Dara RFC",
-   "eircode": "",
-   "town": "Kildare, Co. Kildare"
-  },
-  "Rosetown": {
-   "club": "Newbridge RFC",
-   "eircode": "",
-   "town": "Newbridge, Co. Kildare"
-  },
-  "The Maws Kilcock": {
-   "club": "North Kildare RFC",
-   "eircode": "",
-   "town": "Kilcock, Co. Kildare"
-  },
-  "Baldonnel Farm": {
-   "club": "Clondalkin RFC",
-   "eircode": "",
-   "town": "Clondalkin, Co. Dublin"
-  },
-  "Togher": {
-   "club": "Portlaoise RFC",
-   "eircode": "",
-   "town": "Portlaoise, Co. Laois"
-  },
-  "Streamstown": {
-   "club": "Roscrea RFC",
-   "eircode": "",
-   "town": "Roscrea, Co. Tipperary"
-  },
-  "Precision Health Park": {
-   "club": "Longford RFC",
-   "eircode": "",
-   "town": "Longford, Co. Longford"
-  },
-  "FBD Park": {
-   "club": "New Ross RFC",
-   "eircode": "",
-   "town": "New Ross, Co. Wexford"
-  },
-  "Lea Rd": {
-   "club": "Portarlington RFC",
-   "eircode": "",
-   "town": "Portarlington, Co. Laois"
-  }
  }
 }
