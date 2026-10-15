@@ -380,3 +380,54 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   .ev-flake{opacity:.35}
   .ev-bar-fill{transition:none}
 }
+
+/* ---------------- match-day weather ---------------- */
+.wx-host:empty{display:none}
+.wx{display:flex;align-items:center;gap:11px;background:var(--ink-2);border-radius:10px;
+  padding:9px 12px;margin-top:2px}
+.wx-ico{width:30px;height:30px;flex-shrink:0;overflow:visible}
+.wx-sun{fill:var(--gold)}
+.wx-ray{stroke:var(--gold);stroke-width:1.6;stroke-linecap:round}
+.wx-cloud{fill:#C9D2CC}
+.wx-drop{stroke:#8FB6D6;stroke-width:1.7;stroke-linecap:round;animation:wx-rain 1.3s linear infinite}
+.wx-flk{fill:#EDF3F7;animation:wx-snow 2.4s linear infinite}
+.wx-bolt{fill:var(--gold)}
+.wx-fog{stroke:#A8B3AC;stroke-width:1.6;stroke-linecap:round}
+.wx-txt{flex:1;min-width:0}
+.wx-top{display:flex;align-items:baseline;gap:8px}
+.wx-temp{font-family:'Oswald',sans-serif;font-size:19px;font-weight:600;color:#fff;
+  font-variant-numeric:tabular-nums}
+.wx-desc{font-size:13px;color:#EDE8DE}
+.wx-sub{font-size:11px;color:var(--on-dark-muted);margin-top:2px}
+.wx-warn{font-size:9px;font-weight:700;letter-spacing:.8px;padding:4px 7px;border-radius:4px;
+  background:var(--accent);color:#fff;flex-shrink:0}
+@keyframes wx-rain{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}100%{opacity:0;transform:translateY(4px)}}
+@keyframes wx-snow{0%{opacity:0;transform:translateY(-3px)}35%{opacity:1}100%{opacity:0;transform:translateY(4px)}}
+
+/* ---------------- reaching a new camp ---------------- */
+.everest{position:relative}
+.ev-spark{fill:var(--gold);opacity:0}
+.ev-party .ev-spark{animation:ev-spark .95s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes ev-spark{
+  0%{opacity:0;transform:translate(0,0) scale(.4)}
+  18%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.9)}
+}
+.ev-camp.flare .ev-camp-ring{animation:ev-flare 1.5s ease-out 2}
+@keyframes ev-flare{
+  0%,100%{stroke-width:1.6;r:3.4}
+  40%{stroke-width:3.2;r:6.4}
+}
+.ev-party .ev-alt-n{animation:ev-pop .8s ease-out}
+@keyframes ev-pop{0%{transform:scale(1)}35%{transform:scale(1.16)}100%{transform:scale(1)}}
+.ev-banner{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.86);
+  background:var(--gold);color:var(--ink);font-family:'Oswald',sans-serif;font-size:15px;
+  font-weight:600;letter-spacing:2.4px;padding:9px 18px;border-radius:999px;white-space:nowrap;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);opacity:0;pointer-events:none;
+  transition:opacity .45s ease,transform .45s cubic-bezier(.2,.8,.3,1)}
+.ev-banner.in{opacity:1;transform:translate(-50%,-50%) scale(1)}
+@media (prefers-reduced-motion: reduce){
+  .ev-party .ev-spark,.ev-camp.flare .ev-camp-ring,.ev-party .ev-alt-n{animation:none}
+  .wx-drop,.wx-flk{animation:none;opacity:.85}
+  .ev-banner{transition:opacity .2s linear}
+}

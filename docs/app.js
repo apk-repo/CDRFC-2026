@@ -198,6 +198,9 @@
       hero.appendChild(el("div", "eyebrow", day.items.length > 1 ? "NEXT CLUB DAY" : "NEXT MATCH"));
       hero.appendChild(el("h2", "hero-title", clubOnly(opponent(first)) + " \u2013 " + (homeDay ? "Home" : "Away")));
       hero.appendChild(el("div", "hero-sub", fmtLongDay(d) + (oneVenue ? " · " + venueLine(first.venue) : "")));
+      var wxHost = el("div", "wx-host");
+      hero.appendChild(wxHost);
+      attachWeather(wxHost, first);
 
       /* countdown to the first kick-off of the day */
       var cd = el("div", "countdown");
@@ -723,6 +726,122 @@
   }
 
 
+
+  function svgEl(tag, attrs, text) {
+    var e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (var a in attrs) {
+      if (a === "style") e.style.cssText = attrs[a];
+      else e.setAttribute(a, attrs[a]);
+    }
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  /* ----------------------------------------------------------- weather */
+  /* Open-Meteo: no key, CORS open, forecast about 16 days out. If the call
+     fails the strip simply never appears — the fixture still reads fine. */
+  var WMO = {
+    0: ["Clear", "sun"], 1: ["Mostly clear", "sun"], 2: ["Partly cloudy", "cloud"],
+    3: ["Overcast", "cloud"], 45: ["Fog", "fog"], 48: ["Freezing fog", "fog"],
+    51: ["Light drizzle", "rain"], 53: ["Drizzle", "rain"], 55: ["Heavy drizzle", "rain"],
+    56: ["Freezing drizzle", "rain"], 57: ["Freezing drizzle", "rain"],
+    61: ["Light rain", "rain"], 63: ["Rain", "rain"], 65: ["Heavy rain", "rain"],
+    66: ["Freezing rain", "rain"], 67: ["Freezing rain", "rain"],
+    71: ["Light snow", "snow"], 73: ["Snow", "snow"], 75: ["Heavy snow", "snow"],
+    77: ["Snow grains", "snow"], 80: ["Showers", "rain"], 81: ["Showers", "rain"],
+    82: ["Heavy showers", "rain"], 85: ["Snow showers", "snow"], 86: ["Snow showers", "snow"],
+    95: ["Thunderstorms", "storm"], 96: ["Thunderstorms", "storm"], 99: ["Thunderstorms", "storm"]
+  };
+
+  function windArrow(deg) {
+    var dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+                "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return dirs[Math.round((deg % 360) / 22.5) % 16];
+  }
+
+  function wxIcon(kind) {
+    var g = svgEl("svg", { viewBox: "0 0 24 24", class: "wx-ico", "aria-hidden": "true" });
+    function add(tag, a) { g.appendChild(svgEl(tag, a)); }
+    if (kind === "sun") {
+      add("circle", { cx: 12, cy: 12, r: 4.4, class: "wx-sun" });
+      for (var i = 0; i < 8; i++) {
+        var a = i * Math.PI / 4;
+        add("line", { x1: 12 + Math.cos(a) * 7, y1: 12 + Math.sin(a) * 7,
+                      x2: 12 + Math.cos(a) * 9.2, y2: 12 + Math.sin(a) * 9.2, class: "wx-ray" });
+      }
+      return g;
+    }
+    add("path", { d: "M7 17h9a4 4 0 0 0 .4-8 5.6 5.6 0 0 0-10.7 1.4A3.4 3.4 0 0 0 7 17z",
+                  class: "wx-cloud" });
+    if (kind === "rain") {
+      [9, 13, 17].forEach(function (x, i) {
+        add("line", { x1: x, y1: 19, x2: x - 1.6, y2: 22.2, class: "wx-drop",
+                      style: "animation-delay:" + (i * 0.22) + "s" });
+      });
+    } else if (kind === "snow") {
+      [9, 13, 17].forEach(function (x, i) {
+        add("circle", { cx: x, cy: 20.6, r: 1.1, class: "wx-flk",
+                        style: "animation-delay:" + (i * 0.25) + "s" });
+      });
+    } else if (kind === "storm") {
+      add("path", { d: "M13 18l-3 4h2.6L11 25.5 16 20h-2.6L15 18z", class: "wx-bolt" });
+    } else if (kind === "fog") {
+      [19.5, 22].forEach(function (y) {
+        add("line", { x1: 6, y1: y, x2: 18, y2: y, class: "wx-fog" });
+      });
+    }
+    return g;
+  }
+
+  /* one line of weather for a fixture, appended once the forecast arrives */
+  function attachWeather(host, f) {
+    var v = venueInfo(f.venue);
+    if (!v || v.lat == null || v.lon == null || !f.date) return;
+    var kick = parseDT(f);
+    var days = Math.round((kick - new Date()) / 86400000);
+    if (days < 0 || days > 14) return;
+
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + v.lat +
+      "&longitude=" + v.lon +
+      "&hourly=temperature_2m,apparent_temperature,precipitation,precipitation_probability," +
+      "weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m" +
+      "&timezone=Europe%2FDublin&start_date=" + f.date + "&end_date=" + f.date;
+
+    fetch(url, { mode: "cors" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) {
+        if (!host.isConnected) return;
+        var h = d && d.hourly;
+        if (!h || !h.time || !h.time.length) return;
+        var want = f.date + "T" + (f.time && f.time.length === 5 ? f.time.slice(0, 3) : "15:") + "00";
+        var i = h.time.indexOf(want);
+        if (i < 0) i = Math.min(15, h.time.length - 1);
+
+        var code = h.weather_code[i];
+        var meta = WMO[code] || ["", "cloud"];
+        var strip = el("div", "wx");
+        strip.appendChild(wxIcon(meta[1]));
+        var txt = el("div", "wx-txt");
+        var top = el("div", "wx-top");
+        top.appendChild(el("span", "wx-temp", Math.round(h.temperature_2m[i]) + "°"));
+        top.appendChild(el("span", "wx-desc", meta[0]));
+        txt.appendChild(top);
+        var bits = [];
+        var gust = Math.round(h.wind_gusts_10m[i]);
+        bits.push(Math.round(h.wind_speed_10m[i]) + " km/h " + windArrow(h.wind_direction_10m[i]) +
+                  (gust >= 40 ? ", gusting " + gust : ""));
+        var pop = h.precipitation_probability ? h.precipitation_probability[i] : null;
+        if (pop != null) bits.push(pop + "% rain");
+        var feels = Math.round(h.apparent_temperature[i]);
+        if (Math.abs(feels - Math.round(h.temperature_2m[i])) >= 2) bits.push("feels " + feels + "°");
+        txt.appendChild(el("div", "wx-sub", bits.join(" · ")));
+        strip.appendChild(txt);
+        if (gust >= 55) strip.appendChild(el("span", "wx-warn", "WINDY"));
+        host.appendChild(strip);
+      })
+      .catch(function () { /* no forecast, no strip */ });
+  }
+
   /* ----------------------------------------------------------- Everest */
   /* Base Camp is the end of preseason. The summit is the title: every league
      point available across the season, climbed. Real Everest altitudes. */
@@ -739,13 +858,6 @@
     ]
   };
 
-  function svgEl(tag, attrs, text) {
-    var e = document.createElementNS("http://www.w3.org/2000/svg", tag);
-    for (var a in attrs) e.setAttribute(a, attrs[a]);
-    if (text != null) e.textContent = text;
-    return e;
-  }
-
   function everestState(c) {
     var me = null;
     (c.standings || []).forEach(function (r) { if (isCD(r.team)) me = r; });
@@ -758,17 +870,31 @@
     var frac = available ? Math.min(1, pts / available) : 0;
     var alt = EV.base + frac * (EV.summit - EV.base);
 
-    var at = EV.camps[0], next = null;
+    var at = EV.camps[0], next = null, atIdx = 0;
     for (var i = 0; i < EV.camps.length; i++) {
-      if (alt + 0.5 >= EV.camps[i].alt) at = EV.camps[i];
+      if (alt + 0.5 >= EV.camps[i].alt) { at = EV.camps[i]; atIdx = i; }
       else { next = EV.camps[i]; break; }
     }
     return {
+      atIdx: atIdx,
       pts: pts, available: available, rounds: rounds, played: me.pld,
       frac: frac, alt: alt, at: at, next: next,
       climbed: Math.round(alt - EV.base),
       toGo: Math.round(EV.summit - alt)
     };
+  }
+
+  /* Remember the highest camp each viewer has seen, so a new one lands as a
+     moment rather than a number that quietly changed. Per phone, per team. */
+  function seenCamp(compId, idx) {
+    var key = "cd-everest-" + compId;
+    var prev = null;
+    try {
+      var raw = localStorage.getItem(key);
+      if (raw !== null) prev = parseInt(raw, 10);
+      localStorage.setItem(key, String(idx));
+    } catch (e) { /* private window, blocked storage: no celebration, no error */ }
+    return (prev !== null && !isNaN(prev) && idx > prev) ? prev : null;
   }
 
   var everestAnim = null;
@@ -860,6 +986,16 @@
     var climber = svgEl("g", { class: "ev-climber" });
     climber.appendChild(svgEl("circle", { r: 9, class: "ev-halo" }));
     climber.appendChild(svgEl("circle", { r: 3.6, class: "ev-dot" }));
+    var burst = svgEl("g", { class: "ev-burst" });
+    for (var bi = 0; bi < 14; bi++) {
+      var ang = bi * (Math.PI * 2 / 14);
+      var spark = svgEl("circle", { r: 1.7, cx: 0, cy: 0, class: "ev-spark" });
+      spark.style.setProperty("--dx", (Math.cos(ang) * 26).toFixed(1) + "px");
+      spark.style.setProperty("--dy", (Math.sin(ang) * 26).toFixed(1) + "px");
+      spark.style.animationDelay = (bi * 0.012) + "s";
+      burst.appendChild(spark);
+    }
+    climber.appendChild(burst);
     svg.appendChild(climber);
 
     var snow = svgEl("g", { class: "ev-snow" });
@@ -914,10 +1050,26 @@
       });
     }
 
+    var fromIdx = seenCamp(c.id, st.atIdx);
+    function celebrate() {
+      if (fromIdx === null) return;
+      var reached = campDots[st.atIdx];
+      if (reached) reached.classList.add("flare");
+      wrap.classList.add("ev-party");
+      var banner = el("div", "ev-banner",
+        (st.at.name === "The Summit" ? "SUMMIT" : st.at.name.toUpperCase()) + " REACHED");
+      wrap.appendChild(banner);
+      requestAnimationFrame(function () { banner.classList.add("in"); });
+      setTimeout(function () {
+        banner.classList.remove("in");
+        setTimeout(function () { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 600);
+      }, 4200);
+    }
+
     requestAnimationFrame(function () {
       try { len = route.getTotalLength(); } catch (e) { len = 300; }
       campDots.forEach(function (g) { place(g, parseFloat(g.getAttribute("data-f"))); });
-      if (reduce) { paint(st.frac); return; }
+      if (reduce) { paint(st.frac); celebrate(); return; }
       var t0 = null, dur = 2200;
       stopEverest();
       (function step(t) {
@@ -926,7 +1078,7 @@
         var eased = 1 - Math.pow(1 - k, 3);
         paint(st.frac * eased);
         if (k < 1) everestAnim = requestAnimationFrame(step);
-        else everestAnim = null;
+        else { everestAnim = null; celebrate(); }
       })(performance.now());
     });
 

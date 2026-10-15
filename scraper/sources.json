@@ -73,47 +73,74 @@
     "Silken Thomas Park": {
       "club": "Cill Dara RFC",
       "eircode": "",
-      "town": "Kildare, Co. Kildare"
+      "town": "Kildare, Co. Kildare",
+      "lat": 53.158,
+      "lon": -6.913,
+      "coordsApprox": true
     },
     "Rosetown": {
       "club": "Newbridge RFC",
       "eircode": "",
-      "town": "Newbridge, Co. Kildare"
+      "town": "Newbridge, Co. Kildare",
+      "lat": 53.181,
+      "lon": -6.8,
+      "coordsApprox": true
     },
     "The Maws Kilcock": {
       "club": "North Kildare RFC",
       "eircode": "",
-      "town": "Kilcock, Co. Kildare"
+      "town": "Kilcock, Co. Kildare",
+      "lat": 53.401,
+      "lon": -6.67,
+      "coordsApprox": true
     },
     "Baldonnel Farm": {
       "club": "Clondalkin RFC",
       "eircode": "",
-      "town": "Clondalkin, Co. Dublin"
+      "town": "Clondalkin, Co. Dublin",
+      "lat": 53.321,
+      "lon": -6.395,
+      "coordsApprox": true
     },
     "Togher": {
       "club": "Portlaoise RFC",
       "eircode": "",
-      "town": "Portlaoise, Co. Laois"
+      "town": "Portlaoise, Co. Laois",
+      "lat": 53.033,
+      "lon": -7.3,
+      "coordsApprox": true
     },
     "Streamstown": {
       "club": "Roscrea RFC",
       "eircode": "",
-      "town": "Roscrea, Co. Tipperary"
+      "town": "Roscrea, Co. Tipperary",
+      "lat": 52.957,
+      "lon": -7.8,
+      "coordsApprox": true
     },
     "Precision Health Park": {
       "club": "Longford RFC",
       "eircode": "",
-      "town": "Longford, Co. Longford"
+      "town": "Longford, Co. Longford",
+      "lat": 53.727,
+      "lon": -7.795,
+      "coordsApprox": true
     },
     "FBD Park": {
       "club": "New Ross RFC",
       "eircode": "",
-      "town": "New Ross, Co. Wexford"
+      "town": "New Ross, Co. Wexford",
+      "lat": 52.396,
+      "lon": -6.945,
+      "coordsApprox": true
     },
     "Lea Rd": {
       "club": "Portarlington RFC",
       "eircode": "",
-      "town": "Portarlington, Co. Laois"
+      "town": "Portarlington, Co. Laois",
+      "lat": 53.163,
+      "lon": -7.189,
+      "coordsApprox": true
     }
   }
 }
