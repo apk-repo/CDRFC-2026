@@ -722,6 +722,217 @@
     return svg;
   }
 
+
+  /* ----------------------------------------------------------- Everest */
+  /* Base Camp is the end of preseason. The summit is the title: every league
+     point available across the season, climbed. Real Everest altitudes. */
+  var EV = {
+    base: 5364,
+    summit: 8849,
+    camps: [
+      { alt: 5364, tag: "BC", name: "Base Camp",  note: "Preseason done, the league starts here" },
+      { alt: 5943, tag: "C1", name: "Camp I",     note: "Through the Khumbu Icefall" },
+      { alt: 6400, tag: "C2", name: "Camp II",    note: "Into the Western Cwm" },
+      { alt: 7162, tag: "C3", name: "Camp III",   note: "On the Lhotse Face" },
+      { alt: 7920, tag: "C4", name: "Camp IV",    note: "South Col, the death zone" },
+      { alt: 8849, tag: "", name: "The Summit",  note: "League title" }
+    ]
+  };
+
+  function svgEl(tag, attrs, text) {
+    var e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (var a in attrs) e.setAttribute(a, attrs[a]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function everestState(c) {
+    var me = null;
+    (c.standings || []).forEach(function (r) { if (isCD(r.team)) me = r; });
+    if (!me) return null;
+    var teams = (c.standings || []).length || 8;
+    var rounds = (teams - 1) * 2;
+    var perGame = c.tryBonus !== false ? 5 : 4;
+    var available = rounds * perGame;
+    var pts = Math.max(0, me.pts);
+    var frac = available ? Math.min(1, pts / available) : 0;
+    var alt = EV.base + frac * (EV.summit - EV.base);
+
+    var at = EV.camps[0], next = null;
+    for (var i = 0; i < EV.camps.length; i++) {
+      if (alt + 0.5 >= EV.camps[i].alt) at = EV.camps[i];
+      else { next = EV.camps[i]; break; }
+    }
+    return {
+      pts: pts, available: available, rounds: rounds, played: me.pld,
+      frac: frac, alt: alt, at: at, next: next,
+      climbed: Math.round(alt - EV.base),
+      toGo: Math.round(EV.summit - alt)
+    };
+  }
+
+  var everestAnim = null;
+  function stopEverest() {
+    if (everestAnim) { cancelAnimationFrame(everestAnim); everestAnim = null; }
+  }
+
+  function everestCard(c) {
+    var st = everestState(c);
+    if (!st) return null;
+
+    var wrap = el("div", "card everest");
+    var stage = el("div", "ev-head");
+    var left = el("div", "ev-stage");
+    left.appendChild(el("div", "ev-stage-name", st.at.name));
+    left.appendChild(el("div", "ev-stage-note", st.at.note));
+    stage.appendChild(left);
+    var alt = el("div", "ev-alt");
+    var num = el("div", "ev-alt-n", "0");
+    alt.appendChild(num);
+    alt.appendChild(el("div", "ev-alt-u", "METRES"));
+    stage.appendChild(alt);
+    wrap.appendChild(stage);
+
+    var W = 340, H = 250;
+    var svg = svgEl("svg", {
+      viewBox: "0 0 " + W + " " + H, class: "ev-svg", role: "img",
+      "aria-label": "Season progress up Everest: " + Math.round(st.alt) +
+                    " metres, " + st.at.name + ", " + st.pts + " of " + st.available + " league points"
+    });
+
+    var defs = svgEl("defs");
+    var sky = svgEl("linearGradient", { id: "evSky", x1: "0", y1: "0", x2: "0", y2: "1" });
+    sky.appendChild(svgEl("stop", { offset: "0", "stop-color": "#0E1726" }));
+    sky.appendChild(svgEl("stop", { offset: "0.55", "stop-color": "#2A2435" }));
+    sky.appendChild(svgEl("stop", { offset: "1", "stop-color": "#6E4733" }));
+    defs.appendChild(sky);
+    var rock = svgEl("linearGradient", { id: "evRock", x1: "0", y1: "0", x2: "0", y2: "1" });
+    rock.appendChild(svgEl("stop", { offset: "0", "stop-color": "#4A4740" }));
+    rock.appendChild(svgEl("stop", { offset: "1", "stop-color": "#17150F" }));
+    defs.appendChild(rock);
+    svg.appendChild(defs);
+
+    svg.appendChild(svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#evSky)" }));
+    [[52, 44, 0.9], [96, 28, 0.6], [150, 52, 0.5], [214, 24, 0.8], [268, 48, 0.6], [304, 32, 0.9],
+     [24, 70, 0.5], [128, 16, 0.7], [292, 70, 0.45]].forEach(function (p) {
+      svg.appendChild(svgEl("circle", { cx: p[0], cy: p[1], r: 1.1, fill: "#F4F1EA",
+                                        opacity: p[2], class: "ev-star" }));
+    });
+
+    svg.appendChild(svgEl("path", {
+      d: "M-4 196 L40 148 L74 174 L112 132 L148 168 L188 120 L228 166 L268 128 L308 170 L344 146 L344 254 L-4 254 Z",
+      fill: "#211C18", opacity: ".9"
+    }));
+    svg.appendChild(svgEl("path", {
+      d: "M-8 254 L198 28 L258 104 L298 78 L348 254 Z", fill: "url(#evRock)"
+    }));
+    svg.appendChild(svgEl("path", {
+      d: "M198 28 L229 62 L216 58 L205 70 L193 56 L180 68 L168 58 Z", fill: "#EDE8DE", opacity: ".93"
+    }));
+    svg.appendChild(svgEl("path", {
+      d: "M198 28 L229 62 L223 64 L198 36 L176 62 L168 58 Z", fill: "#FFFFFF", opacity: ".35"
+    }));
+
+    var ROUTE = "M58 204 C 84 180 96 166 118 142 " +
+                "C 136 122 148 106 162 86 C 174 68 182 50 198 28";
+    svg.appendChild(svgEl("path", { d: ROUTE, class: "ev-route-bg" }));
+    var route = svgEl("path", { d: ROUTE, class: "ev-route" });
+    svg.appendChild(route);
+
+    /* summit flag */
+    var flag = svgEl("g", { class: "ev-flag" });
+    flag.appendChild(svgEl("line", { x1: 198, y1: 28, x2: 198, y2: 8, class: "ev-pole" }));
+    flag.appendChild(svgEl("path", { d: "M198 9 L217 14 L198 20 Z", class: "ev-flagcloth" }));
+    svg.appendChild(flag);
+
+    /* camps, placed along the route at their share of the climb */
+    var campDots = [];
+    EV.camps.forEach(function (cp) {
+      var f = (cp.alt - EV.base) / (EV.summit - EV.base);
+      var g = svgEl("g", { class: "ev-camp", "data-f": f });
+      g.appendChild(svgEl("circle", { r: 3.4, class: "ev-camp-ring" }));
+      if (cp.tag) g.appendChild(svgEl("text", { class: "ev-camp-t", x: -8, y: 3.5,
+                                                "text-anchor": "end" }, cp.tag));
+      svg.appendChild(g);
+      campDots.push(g);
+    });
+
+    var climber = svgEl("g", { class: "ev-climber" });
+    climber.appendChild(svgEl("circle", { r: 9, class: "ev-halo" }));
+    climber.appendChild(svgEl("circle", { r: 3.6, class: "ev-dot" }));
+    svg.appendChild(climber);
+
+    var snow = svgEl("g", { class: "ev-snow" });
+    for (var i = 0; i < 18; i++) {
+      var fl = svgEl("circle", { cx: (i * 37 % W), cy: -4, r: 0.7 + (i % 3) * 0.45, class: "ev-flake" });
+      fl.style.animationDuration = (7 + (i % 5) * 2.4) + "s";
+      fl.style.animationDelay = (-(i * 1.37) % 9) + "s";
+      fl.style.setProperty("--sway", ((i % 4) * 7 - 10) + "px");
+      snow.appendChild(fl);
+    }
+    svg.appendChild(snow);
+    wrap.appendChild(svg);
+
+    var foot = el("div", "ev-foot");
+    var bar = el("div", "ev-bar");
+    var fill = el("div", "ev-bar-fill");
+    bar.appendChild(fill);
+    EV.camps.forEach(function (cp) {
+      var t = el("span", "ev-bar-tick");
+      t.style.left = ((cp.alt - EV.base) / (EV.summit - EV.base) * 100) + "%";
+      bar.appendChild(t);
+    });
+    foot.appendChild(bar);
+    var line = el("div", "ev-line");
+    line.appendChild(el("span", "ev-strong", st.pts + " of " + st.available));
+    line.appendChild(el("span", null, " league points climbed · round " + st.played +
+      " of " + st.rounds + " · " + st.toGo.toLocaleString() + " m to the summit"));
+    foot.appendChild(line);
+    if (st.next) {
+      foot.appendChild(el("div", "ev-next",
+        "Next: " + st.next.name + " at " + st.next.alt.toLocaleString() + " m — " +
+        Math.ceil((st.next.alt - st.alt) / (EV.summit - EV.base) * st.available) + " more points"));
+    }
+    wrap.appendChild(foot);
+
+    /* --- the climb, animated once the card is on screen --- */
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var len = 0;
+    function place(el2, f) {
+      var pt = route.getPointAtLength(len * Math.max(0, Math.min(1, f)));
+      el2.setAttribute("transform", "translate(" + pt.x + "," + pt.y + ")");
+    }
+    function paint(f) {
+      var shown = EV.base + f * (EV.summit - EV.base);
+      num.textContent = Math.round(shown).toLocaleString();
+      place(climber, f);
+      fill.style.width = (f * 100) + "%";
+      route.style.strokeDasharray = len;
+      route.style.strokeDashoffset = len * (1 - f);
+      campDots.forEach(function (g) {
+        g.classList.toggle("reached", parseFloat(g.getAttribute("data-f")) <= f + 0.001);
+      });
+    }
+
+    requestAnimationFrame(function () {
+      try { len = route.getTotalLength(); } catch (e) { len = 300; }
+      campDots.forEach(function (g) { place(g, parseFloat(g.getAttribute("data-f"))); });
+      if (reduce) { paint(st.frac); return; }
+      var t0 = null, dur = 2200;
+      stopEverest();
+      (function step(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / dur);
+        var eased = 1 - Math.pow(1 - k, 3);
+        paint(st.frac * eased);
+        if (k < 1) everestAnim = requestAnimationFrame(step);
+        else everestAnim = null;
+      })(performance.now());
+    });
+
+    return wrap;
+  }
+
   /* ================================================================ TABLES */
   var tableTeam = "1st";
   function viewTables() {
@@ -801,6 +1012,11 @@
       var cc = el("div", "card chartcard");
       cc.appendChild(chart);
       root.appendChild(cc);
+    }
+    var ev = everestCard(c);
+    if (ev) {
+      root.appendChild(el("div", "label", "THE EVEREST JOURNEY"));
+      root.appendChild(ev);
     }
     if (c.note) notes.appendChild(el("p", "note-strong", c.note));
     notes.appendChild(el("p", null,
@@ -915,6 +1131,7 @@
 
   function render() {
     var main = $("#main");
+    stopEverest();
     main.innerHTML = "";
     var v = tab === "fixtures" ? viewFixtures()
           : tab === "results" ? viewResults()

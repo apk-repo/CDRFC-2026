@@ -315,3 +315,68 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 /* ---------------- offline notice ---------------- */
 .stalebar{background:var(--gold-wash);color:var(--gold-deep);border-bottom:1px solid #E4D7C2;
   font-size:12px;font-weight:600;padding:9px 16px;text-align:center}
+
+/* ---------------- Everest journey ---------------- */
+.everest{overflow:hidden;background:var(--ink);border-color:var(--line-dark)}
+.ev-head{display:flex;align-items:flex-end;gap:12px;padding:14px 15px 10px 15px}
+.ev-stage{flex:1;min-width:0}
+.ev-stage-name{font-family:'Oswald',sans-serif;font-size:21px;font-weight:600;color:#fff;line-height:1.1}
+.ev-stage-note{font-size:11px;color:var(--on-dark-muted);margin-top:3px}
+.ev-alt{text-align:right;flex-shrink:0}
+.ev-alt-n{font-family:'Oswald',sans-serif;font-size:30px;font-weight:600;color:var(--gold);
+  line-height:1;font-variant-numeric:tabular-nums}
+.ev-alt-u{font-size:9px;font-weight:700;letter-spacing:1.6px;color:var(--on-dark-muted);margin-top:3px}
+
+.ev-svg{display:block;width:100%;height:auto}
+.ev-route-bg{fill:none;stroke:rgba(244,241,234,.16);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:3 5}
+.ev-route{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ev-pole{stroke:rgba(244,241,234,.75);stroke-width:1.4}
+.ev-flagcloth{fill:var(--accent)}
+.ev-camp-ring{fill:#141210;stroke:rgba(244,241,234,.45);stroke-width:1.6}
+.ev-camp.reached .ev-camp-ring{stroke:var(--gold);fill:var(--gold)}
+.ev-camp-t{fill:var(--on-dark-muted);font-size:8px;font-weight:700;letter-spacing:.5px;
+  font-family:'Source Sans 3',sans-serif}
+.ev-camp.reached .ev-camp-t{fill:#EDE8DE}
+.ev-halo{fill:var(--gold);opacity:.22}
+.ev-dot{fill:var(--gold);stroke:#141210;stroke-width:1.2}
+.ev-flake{fill:#F4F1EA;opacity:.5}
+
+.ev-foot{padding:12px 15px 14px 15px}
+.ev-bar{position:relative;height:5px;border-radius:3px;background:rgba(244,241,234,.14);overflow:visible}
+.ev-bar-fill{height:100%;width:0;border-radius:3px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .12s linear}
+.ev-bar-tick{position:absolute;top:-3px;width:1px;height:11px;background:rgba(244,241,234,.3)}
+.ev-line{font-size:11px;color:var(--on-dark-muted);margin-top:10px;line-height:1.5}
+.ev-strong{color:#fff;font-weight:700}
+.ev-next{font-size:11px;color:var(--gold);margin-top:5px}
+
+/* motion: the flag flutters, the snow falls, the climber breathes */
+@keyframes ev-fall{
+  0%{transform:translate(0,-6px);opacity:0}
+  12%{opacity:.55}
+  88%{opacity:.4}
+  100%{transform:translate(var(--sway,6px),258px);opacity:0}
+}
+@keyframes ev-flutter{
+  0%,100%{transform:scaleX(1) skewY(0deg)}
+  35%{transform:scaleX(.82) skewY(-5deg)}
+  70%{transform:scaleX(1.05) skewY(4deg)}
+}
+@keyframes ev-breathe{
+  0%,100%{opacity:.18;r:8}
+  50%{opacity:.38;r:11}
+}
+@keyframes ev-twinkle{0%,100%{opacity:.25}50%{opacity:.9}}
+.ev-flake{animation:ev-fall linear infinite}
+.ev-flagcloth{transform-origin:198px 20px;animation:ev-flutter 2.4s ease-in-out infinite}
+.ev-halo{animation:ev-breathe 2.8s ease-in-out infinite}
+.ev-star{animation:ev-twinkle 4s ease-in-out infinite}
+.ev-star:nth-of-type(2n){animation-duration:6.5s;animation-delay:-2s}
+.ev-star:nth-of-type(3n){animation-duration:5.2s;animation-delay:-3.4s}
+
+@media (prefers-reduced-motion: reduce){
+  .ev-flake,.ev-flagcloth,.ev-halo,.ev-star{animation:none}
+  .ev-flake{opacity:.35}
+  .ev-bar-fill{transition:none}
+}
