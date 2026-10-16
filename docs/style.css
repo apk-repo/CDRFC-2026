@@ -7,6 +7,7 @@
   --gold:#D4A53C; --gold-deep:#8A6414; --gold-wash:#F6EDD6;
   --accent:#B2332A; --accent-dark:#8C271F; --accent-wash:#FBF1EF; --accent-tag:#F3E0DD;
   --green:#2E6B4F; --green-wash:#E6EFE9; --green-soft:#9CC7B0;
+  --on-sand:#4A4740;
   --red-soft:#E6ABA5; --amber:#9A5B18;
   box-sizing:border-box;
 }
@@ -108,7 +109,7 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .score-row.won .score-num{font-weight:600;color:var(--text)}
 .bp{font-size:9px;font-weight:700;letter-spacing:.4px;padding:2px 5px;border-radius:4px;line-height:1.2}
 .bp-tb{background:var(--gold-wash);color:var(--gold-deep)}
-.bp-lb{background:var(--sand);color:#4A4740}
+.bp-lb{background:var(--sand);color:var(--on-sand)}
 
 /* ---------------- last time out ---------------- */
 .rcard{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -128,7 +129,7 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .rc-off{font-size:15px;font-weight:600;color:var(--muted)}
 .rc-note{font-size:12px;color:var(--muted)}
 .chips-row{display:flex;flex-wrap:wrap;gap:6px}
-.pill{font-size:11px;font-weight:600;padding:4px 9px;border-radius:12px;background:var(--sand);color:#4A4740}
+.pill{font-size:11px;font-weight:600;padding:4px 9px;border-radius:12px;background:var(--sand);color:var(--on-sand)}
 .pill-gold{background:var(--gold-wash);color:var(--gold-deep)}
 .pill-strong{background:var(--ink);color:var(--gold)}
 
@@ -148,7 +149,7 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .sc-zone.zone-po-up{background:#EEF5F1;color:#3F7A5E}
 .sc-zone.zone-po-down{background:#FBEFEC;color:#9A3E36}
 .sc-zone.zone-down{background:var(--accent-tag);color:var(--accent-dark)}
-.sc-zone.zone-none{background:var(--sand);color:#4A4740;font-weight:500}
+.sc-zone.zone-none{background:var(--sand);color:var(--on-sand);font-weight:500}
 .sc-mini{margin-top:11px;border:1px solid var(--sep);border-radius:10px;overflow:hidden}
 .sc-row{display:grid;grid-template-columns:4px 22px minmax(0,1fr) auto 30px;gap:9px;align-items:center;
   padding:8px 10px 8px 0;border-top:1px solid var(--sep);font-size:13px}
@@ -186,7 +187,7 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .thead{padding-top:9px;padding-bottom:9px;background:var(--ink);border-bottom:0}
 .thead .tc{font-size:10px;font-weight:700;color:var(--on-dark-muted);letter-spacing:.5px}
 .thead .tc7,.thead .tc8{color:var(--gold)}
-.tc{font-size:13px;color:#4A4740;text-align:center;font-variant-numeric:tabular-nums}
+.tc{font-size:13px;color:var(--on-sand);text-align:center;font-variant-numeric:tabular-nums}
 .tc0{width:4px;align-self:stretch;margin:-8px 0}
 .thead .tc0{margin:0}
 .tc1{padding-left:6px;text-align:left;font-family:'Oswald',sans-serif;font-size:15px;font-weight:500}
@@ -222,10 +223,10 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 .fx-meta{font-size:11px;color:var(--muted)}
 .tag{font-size:9px;font-weight:700;letter-spacing:.6px;padding:3px 6px;border-radius:4px;white-space:nowrap}
 .tag-1st{background:var(--accent-tag);color:var(--accent-dark)}
-.tag-2nd{background:var(--sand);color:#4A4740}
+.tag-2nd{background:var(--sand);color:var(--on-sand)}
 .tag-home{background:var(--green-wash);color:var(--green)}
-.tag-away{background:var(--sand);color:#4A4740}
-.tag-none{background:#DFD9CA;color:#4A4740}
+.tag-away{background:var(--sand);color:var(--on-sand)}
+.tag-none{background:#DFD9CA;color:var(--on-sand)}
 .linkrow{margin-top:6px;appearance:none;border:1px solid var(--line);background:var(--card);border-radius:12px;
   height:46px;font-size:13px;font-weight:700;color:var(--accent);cursor:pointer}
 .linkrow:hover{border-color:#CFC9BC}
@@ -430,4 +431,112 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   .ev-party .ev-spark,.ev-camp.flare .ev-camp-ring,.ev-party .ev-alt-n{animation:none}
   .wx-drop,.wx-flk{animation:none;opacity:.85}
   .ev-banner{transition:opacity .2s linear}
+}
+
+/* ---------------- last season's ghost ---------------- */
+.ev-ghost-route{fill:none;stroke:rgba(200,214,205,.55);stroke-width:1.6;stroke-linecap:round;
+  stroke-dasharray:2 4}
+.ev-ghost-dot{fill:rgba(237,232,222,.5);stroke:rgba(20,18,16,.6);stroke-width:1.2}
+.ev-ghost-tick{stroke:rgba(237,232,222,.65);stroke-width:2;stroke-linecap:round}
+.ev-ghost-line{display:flex;align-items:flex-start;gap:8px;font-size:11px;
+  color:var(--on-dark-muted);margin-top:8px;line-height:1.5}
+.ev-ghost-key{width:14px;height:0;border-top:2px dashed rgba(200,214,205,.75);
+  flex-shrink:0;margin-top:8px}
+.ev-ghost-sub{font-size:11px;color:rgba(168,160,146,.75);margin-top:3px;padding-left:22px;line-height:1.5}
+
+/* ---------------- season summary ---------------- */
+.summary{padding:15px}
+.sum-text{margin:0;font-size:15px;line-height:1.6;color:var(--text)}
+.sum-team{font-size:11px;font-weight:700;letter-spacing:.8px;color:var(--faint);margin-top:10px}
+
+/* ---------------- on this day ---------------- */
+.otd{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.otd-head{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--sep)}
+.otd-when{min-width:0}
+.otd-date{font-size:14px;font-weight:700;color:var(--text)}
+.otd-meta{font-size:11px;color:var(--muted);margin-top:1px}
+.otd-body{padding:12px 14px 13px 14px}
+.otd-venue{font-size:11px;color:var(--muted);margin-top:8px}
+
+/* ---------------- opposition dossier ---------------- */
+.dossier{padding:14px}
+.dos-top{display:flex;align-items:flex-start;gap:12px}
+.dos-title{flex:1;min-width:0}
+.dos-team{font-size:16px;font-weight:700;color:var(--text);line-height:1.25;display:block}
+.dos-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.dos-form{flex-shrink:0;padding-top:2px}
+.dos-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:13px}
+.dos-stat{background:var(--sand);border-radius:9px;padding:9px 6px;text-align:center}
+.dos-v{font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;color:var(--text)}
+.dos-k{font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--muted);margin-top:3px;
+  text-transform:uppercase}
+.dos-h2h{margin-top:13px;border-top:1px solid var(--sep);padding-top:11px}
+.dos-h2h-l{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--faint);margin-bottom:7px}
+.dos-row{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:13px}
+.dos-res{width:19px;height:19px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.dr-w{background:var(--green)}
+.dr-l{background:var(--accent)}
+.dr-d{background:var(--faint)}
+.dos-score{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--text);
+  font-variant-numeric:tabular-nums;min-width:52px}
+.dos-where{font-size:11px;color:var(--muted)}
+@media(max-width:400px){.dos-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------------- dark mode ----------------
+   The header, hero and Everest card are dark in both themes; what changes is
+   the paper, the cards and the text on them. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#121110; --card:#1C1A17; --line:#2E2B26; --sep:#262320; --sand:#27241F;
+    --text:#EDE8DE; --muted:#A49E92; --faint:#857F74;
+    --accent-wash:#241A18; --accent-tag:#3A2420; --gold-wash:#2A2114;
+    --green-wash:#17241D; --on-sand:#C6BFB2;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:#121110; --card:#1C1A17; --line:#2E2B26; --sep:#262320; --sand:#27241F;
+  --text:#EDE8DE; --muted:#A49E92; --faint:#857F74;
+  --accent-wash:#241A18; --accent-tag:#3A2420; --gold-wash:#2A2114;
+  --green-wash:#17241D; --on-sand:#C6BFB2;
+}
+
+/* pieces that need a nudge once the paper is dark */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tag-none{background:#332E27}
+  :root:not([data-theme="light"]) .seg-btn.on{box-shadow:none;background:#302C26}
+  :root:not([data-theme="light"]) .stand-row:hover{background:#231F1B}
+  :root:not([data-theme="light"]) .results .score-row.won{background:#16241C}
+  :root:not([data-theme="light"]) .results .score-row.lost{background:#2A1A18}
+  :root:not([data-theme="light"]) .results .score-num{border-left-color:rgba(237,232,222,.10)}
+  :root:not([data-theme="light"]) .score-num{border-left-color:rgba(237,232,222,.10)}
+  :root:not([data-theme="light"]) .card.dashed{background:#1E1B17;border-color:#39342C}
+  :root:not([data-theme="light"]) .chip-btn{background:#1C1A17}
+  :root:not([data-theme="light"]) .linkrow{background:#1C1A17}
+  :root:not([data-theme="light"]) .stalebar{background:#2A2114;border-bottom-color:#3B3121;color:#D9B968}
+}
+:root[data-theme="dark"] .tag-none{background:#332E27}
+:root[data-theme="dark"] .seg-btn.on{box-shadow:none;background:#302C26}
+:root[data-theme="dark"] .stand-row:hover{background:#231F1B}
+:root[data-theme="dark"] .results .score-row.won{background:#16241C}
+:root[data-theme="dark"] .results .score-row.lost{background:#2A1A18}
+:root[data-theme="dark"] .results .score-num{border-left-color:rgba(237,232,222,.10)}
+:root[data-theme="dark"] .score-num{border-left-color:rgba(237,232,222,.10)}
+:root[data-theme="dark"] .card.dashed{background:#1E1B17;border-color:#39342C}
+:root[data-theme="dark"] .chip-btn{background:#1C1A17}
+:root[data-theme="dark"] .linkrow{background:#1C1A17}
+:root[data-theme="dark"] .stalebar{background:#2A2114;border-bottom-color:#3B3121;color:#D9B968}
+
+/* the theme switch, beside the Fines button */
+.themebtn{width:40px;height:40px;border-radius:20px;border:1px solid var(--line-dark);
+  background:transparent;color:#E8E4DA;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;padding:0}
+.themebtn:hover{background:var(--ink-2)}
+.themebtn svg{width:18px;height:18px}
+.themebtn .moon{display:none}
+:root[data-theme="dark"] .themebtn .moon{display:block}
+:root[data-theme="dark"] .themebtn .sun{display:none}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .themebtn .moon{display:block}
+  :root:not([data-theme="light"]) .themebtn .sun{display:none}
 }

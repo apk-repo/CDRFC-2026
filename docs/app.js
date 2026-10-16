@@ -2,7 +2,7 @@
 (function () {
   "use strict";
 
-  var D = null;
+  var D = null, H = null;
 
   /* ------------------------------------------------------------ helpers */
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -180,6 +180,210 @@
     return s;
   }
 
+
+  /* ------------------------------------------------- season summary */
+  /* Plain sentences built from the actual numbers, so it reads like someone
+     wrote it rather than a row of statistics. */
+  function seasonSummary(c) {
+    var me = null;
+    (c.standings || []).forEach(function (r) { if (isCD(r.team)) me = r; });
+    if (!me || !me.pld) return null;
+
+    var n = (c.standings || []).length;
+    var bits = [];
+    var rec = me.w + (me.w === 1 ? " win" : " wins");
+    if (me.d) rec += ", " + me.d + (me.d === 1 ? " draw" : " draws");
+    if (me.l) rec += " and " + me.l + (me.l === 1 ? " defeat" : " defeats");
+    else if (me.w === me.pld) rec = me.w + " from " + me.pld;
+
+    var place = ordinal(me.pos) + " of " + n;
+    if (me.pos === 1) {
+      var second = c.standings[1];
+      place = second && second.pts === me.pts ? "top on points difference" : "top of the table";
+    }
+    bits.push(rec + ", and " + place + ".");
+
+    var diff = me.pf - me.pa;
+    bits.push(me.pf + " points scored and " + me.pa + " conceded" +
+              (diff > 0 ? ", a difference of +" + diff : "") + ".");
+
+    if (c.tryBonus !== false && me.bp) {
+      bits.push(me.bp === me.pld
+        ? "A try bonus in every game so far."
+        : "Try bonuses in " + me.bp + " of " + me.pld + ".");
+    }
+    if (me.bpl) bits.push(me.bpl + (me.bpl === 1 ? " losing bonus point." : " losing bonus points."));
+
+    var gh = ghostAt(c.id, me.pld);
+    if (gh) {
+      var d = me.pts - gh.pts;
+      bits.push(d > 0
+        ? "At the same stage last season the side had " + gh.pts + "; this one has " + me.pts + "."
+        : (d < 0
+            ? "Last season's side had " + gh.pts + " at this stage, " + Math.abs(d) + " more than now."
+            : "Exactly level with last season's side at this stage, on " + me.pts + "."));
+    }
+    return bits.join(" ");
+  }
+
+  /* ------------------------------------------------- on this day */
+  function onThisDay() {
+    if (!H || !H.seasons) return null;
+    var now = new Date();
+    var best = null;
+    H.seasons.forEach(function (season) {
+      (season.competitions || []).forEach(function (c) {
+        (c.fixtures || []).forEach(function (f) {
+          if (!f.date || f.homeScore == null) return;
+          var d = new Date(f.date + "T12:00:00");
+          /* distance from today's date, ignoring the year */
+          var anniv = new Date(now.getFullYear(), d.getMonth(), d.getDate(), 12);
+          var gap = Math.round(Math.abs(anniv - new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12)) / 86400000);
+          gap = Math.min(gap, 365 - gap);
+          if (!best || gap < best.gap) best = { gap: gap, f: f, season: season.label, comp: c };
+        });
+      });
+    });
+    return best;
+  }
+
+  function onThisDayCard() {
+    var hit = onThisDay();
+    if (!hit) return null;
+    var f = hit.f, ourHome = isCD(f.home);
+    var us = ourHome ? f.homeScore : f.awayScore;
+    var them = ourHome ? f.awayScore : f.homeScore;
+    var res = us > them ? "w" : (us < them ? "l" : "d");
+    var d = new Date(f.date + "T12:00:00");
+
+    var card = el("article", "otd rc-" + res);
+    var head = el("div", "otd-head");
+    head.appendChild(el("span", "rc-badge", res === "w" ? "WON" : res === "l" ? "LOST" : "DREW"));
+    var ht = el("div", "otd-when");
+    ht.appendChild(el("div", "otd-date", fmtLongDay(d) + " " + d.getFullYear()));
+    ht.appendChild(el("div", "otd-meta", hit.season + " · " + (hit.comp.name || "")));
+    head.appendChild(ht);
+    card.appendChild(head);
+
+    var body = el("div", "otd-body");
+    body.appendChild(scorelineRaw(f));
+    body.appendChild(el("div", "otd-venue", f.venue || ""));
+    card.appendChild(body);
+    return { card: card, exact: hit.gap <= 1 };
+  }
+
+  /* history fixtures carry no competition the app knows, so draw them plainly */
+  function scorelineRaw(f) {
+    var wrap = el("div", "score");
+    var hs = f.homeScore, as = f.awayScore;
+    [{ name: f.home, score: hs, tries: f.homeTries },
+     { name: f.away, score: as, tries: f.awayTries }].forEach(function (side) {
+      var won = hs != null && as != null && hs !== as && side.score === Math.max(hs, as);
+      var row = el("div", "score-row" + (won ? " won" : ""));
+      row.appendChild(nameNode(side.name, "score-name" + (isCD(side.name) ? " ours" : "")));
+      var extra = el("div", "score-extra");
+      if (side.tries != null) extra.appendChild(el("span", "score-tries", side.tries + "t"));
+      row.appendChild(extra);
+      row.appendChild(el("div", "score-num", side.score == null ? "–" : String(side.score)));
+      wrap.appendChild(row);
+    });
+    return wrap;
+  }
+
+  /* ------------------------------------------------- opposition dossier */
+  function dossier(f) {
+    var c = comp(f.comp);
+    if (!c || !c.standings || !c.standings.length) return null;
+    var them = opponent(f);
+    var row = c.standings.filter(function (r) { return r.team === them; })[0];
+    if (!row) return null;
+
+    var theirs = D.fixtures.filter(function (x) {
+      return x.comp === c.id && (x.home === them || x.away === them) && x.status === "played";
+    });
+    var home = { w: 0, p: 0 }, away = { w: 0, p: 0 }, tf = 0, ta = 0;
+    theirs.forEach(function (x) {
+      var atHome = x.home === them;
+      var us = atHome ? x.homeScore : x.awayScore;
+      var th = atHome ? x.awayScore : x.homeScore;
+      var bucket = atHome ? home : away;
+      bucket.p++;
+      if (us > th) bucket.w++;
+      tf += (atHome ? x.homeTries : x.awayTries) || 0;
+      ta += (atHome ? x.awayTries : x.homeTries) || 0;
+    });
+
+    /* every previous meeting we hold, this season and last */
+    var met = [];
+    D.fixtures.forEach(function (x) {
+      if (x.status !== "played") return;
+      if ((x.home === them && isCD(x.away)) || (x.away === them && isCD(x.home))) met.push(x);
+    });
+    if (H && H.seasons) {
+      H.seasons.forEach(function (season) {
+        (season.competitions || []).forEach(function (hc) {
+          (hc.fixtures || []).forEach(function (x) {
+            if (x.homeScore == null) return;
+            if (x.home === them || x.away === them) met.push(x);
+          });
+        });
+      });
+    }
+    met.sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
+
+    return { team: them, row: row, home: home, away: away, tf: tf, ta: ta,
+             met: met.slice(0, 4), n: c.standings.length, compId: c.id };
+  }
+
+  function dossierCard(f) {
+    var k = dossier(f);
+    if (!k) return null;
+    var card = el("div", "card dossier");
+
+    var top = el("div", "dos-top");
+    var tt = el("div", "dos-title");
+    tt.appendChild(nameNode(k.team, "dos-team"));
+    tt.appendChild(el("div", "dos-meta", ordinal(k.row.pos) + " of " + k.n + " · " +
+      k.row.pts + " pts · " + k.row.pf + "–" + k.row.pa));
+    top.appendChild(tt);
+    var fw = el("div", "dos-form");
+    fw.appendChild(formStrip(k.compId, k.team, 5));
+    top.appendChild(fw);
+    card.appendChild(top);
+
+    var grid = el("div", "dos-grid");
+    function stat(label, value) {
+      var b = el("div", "dos-stat");
+      b.appendChild(el("div", "dos-v", value));
+      b.appendChild(el("div", "dos-k", label));
+      grid.appendChild(b);
+    }
+    stat("at home", k.home.p ? k.home.w + " of " + k.home.p : "–");
+    stat("away", k.away.p ? k.away.w + " of " + k.away.p : "–");
+    stat("tries for", String(k.tf));
+    stat("tries against", String(k.ta));
+    card.appendChild(grid);
+
+    if (k.met.length) {
+      var h2h = el("div", "dos-h2h");
+      h2h.appendChild(el("div", "dos-h2h-l", "LAST MEETINGS"));
+      k.met.forEach(function (m) {
+        var ourHome = isCD(m.home);
+        var us = ourHome ? m.homeScore : m.awayScore;
+        var th = ourHome ? m.awayScore : m.homeScore;
+        var r = el("div", "dos-row");
+        r.appendChild(el("span", "dos-res dr-" + (us > th ? "w" : us < th ? "l" : "d"),
+                         us > th ? "W" : us < th ? "L" : "D"));
+        r.appendChild(el("span", "dos-score", us + "–" + th));
+        r.appendChild(el("span", "dos-where", (ourHome ? "home" : "away") + " · " +
+          fmtDay(new Date(m.date + "T12:00:00")) + " " + new Date(m.date + "T12:00:00").getFullYear()));
+        h2h.appendChild(r);
+      });
+      card.appendChild(h2h);
+    }
+    return card;
+  }
+
   /* ================================================================ MATCHDAY */
   function viewMatchday() {
     var root = el("div", "view");
@@ -252,6 +456,13 @@
       acts.appendChild(dir);
       hero.appendChild(acts);
       root.appendChild(hero);
+
+      var lead = day.items.filter(function (x) { return x.team === "1st"; })[0] || first;
+      var dos = dossierCard(lead);
+      if (dos) {
+        root.appendChild(el("div", "label", clubOnly(opponent(lead)).toUpperCase() + " \u00b7 THE OPPOSITION"));
+        root.appendChild(dos);
+      }
     } else {
       root.appendChild(el("p", "empty", "No fixtures left in the feed."));
     }
@@ -278,6 +489,22 @@
       var st = el("div", "stack");
       ls.forEach(function (c) { st.appendChild(standingCard(c)); });
       root.appendChild(st);
+
+      var firstLeague = ls.filter(function (c) { return c.team === "1st"; })[0] || ls[0];
+      var sum = seasonSummary(firstLeague);
+      if (sum) {
+        root.appendChild(el("div", "label", "THE SEASON SO FAR"));
+        var sc = el("div", "card summary");
+        sc.appendChild(el("p", "sum-text", sum));
+        sc.appendChild(el("div", "sum-team", teamLabelFor(firstLeague.team) + " \u00b7 " + firstLeague.name));
+        root.appendChild(sc);
+      }
+    }
+
+    var otd = onThisDayCard();
+    if (otd) {
+      root.appendChild(el("div", "label", otd.exact ? "ON THIS DAY" : "AROUND THIS TIME LAST SEASON"));
+      root.appendChild(otd.card);
     }
     return root;
   }
@@ -842,6 +1069,35 @@
       .catch(function () { /* no forecast, no strip */ });
   }
 
+  /* ----------------------------------------------------------- history */
+  function lastSeason(compId) {
+    if (!H || !H.seasons || !H.seasons.length) return null;
+    for (var i = H.seasons.length - 1; i >= 0; i--) {
+      var found = (H.seasons[i].competitions || []).filter(function (c) { return c.id === compId; })[0];
+      if (found) return { label: H.seasons[i].label, comp: found };
+    }
+    return null;
+  }
+
+  /* where last season's side stood after the same number of games */
+  function ghostAt(compId, round) {
+    var prev = lastSeason(compId);
+    if (!prev || !prev.comp.progress || !prev.comp.progress.length) return null;
+    var pr = prev.comp.progress;
+    var upto = pr.filter(function (x) { return x.round <= round; });
+    var cum = upto.length ? upto[upto.length - 1].cum : 0;
+    var avail = prev.comp.available || 70;
+    var finalCum = pr[pr.length - 1].cum;
+    return {
+      label: prev.label, comp: prev.comp,
+      round: Math.min(round, pr.length), pts: cum, available: avail,
+      frac: Math.min(1, cum / avail),
+      finalPts: finalCum, finalFrac: Math.min(1, finalCum / avail),
+      finalPos: prev.comp.final ? prev.comp.final.pos : null,
+      rounds: pr.length
+    };
+  }
+
   /* ----------------------------------------------------------- Everest */
   /* Base Camp is the end of preseason. The summit is the title: every league
      point available across the season, climbed. Real Everest altitudes. */
@@ -983,6 +1239,21 @@
       campDots.push(g);
     });
 
+    /* last season over the same ground, for pace rather than decoration */
+    var gh = ghostAt(c.id, st.played);
+    var ghostEls = null;
+    if (gh) {
+      var gRoute = svgEl("path", { d: ROUTE, class: "ev-ghost-route" });
+      svg.appendChild(gRoute);
+      var gFinal = svgEl("g", { class: "ev-ghost-final" });
+      gFinal.appendChild(svgEl("line", { x1: -7, y1: 0, x2: 7, y2: 0, class: "ev-ghost-tick" }));
+      svg.appendChild(gFinal);
+      var gMark = svgEl("g", { class: "ev-ghost" });
+      gMark.appendChild(svgEl("circle", { r: 4.6, class: "ev-ghost-dot" }));
+      svg.appendChild(gMark);
+      ghostEls = { route: gRoute, mark: gMark, final: gFinal };
+    }
+
     var climber = svgEl("g", { class: "ev-climber" });
     climber.appendChild(svgEl("circle", { r: 9, class: "ev-halo" }));
     climber.appendChild(svgEl("circle", { r: 3.6, class: "ev-dot" }));
@@ -1029,6 +1300,21 @@
         "Next: " + st.next.name + " at " + st.next.alt.toLocaleString() + " m — " +
         Math.ceil((st.next.alt - st.alt) / (EV.summit - EV.base) * st.available) + " more points"));
     }
+    if (gh) {
+      var gAlt = EV.base + gh.frac * (EV.summit - EV.base);
+      var diff = Math.round(st.alt - gAlt);
+      var grow = el("div", "ev-ghost-line");
+      grow.appendChild(el("span", "ev-ghost-key"));
+      var word = diff > 0 ? "ahead of them" : (diff < 0 ? "behind them" : "level");
+      var txt = gh.label + " at this stage: " + Math.round(gAlt).toLocaleString() + " m on " +
+                gh.pts + " points \u00b7 ";
+      txt += diff === 0 ? "level" : (Math.abs(diff).toLocaleString() + " m " + word);
+      grow.appendChild(el("span", null, txt));
+      foot.appendChild(grow);
+      foot.appendChild(el("div", "ev-ghost-sub",
+        "They finished " + (gh.finalPos ? ordinal(gh.finalPos) + " on " : "on ") + gh.finalPts +
+        " points, the dash further up the route."));
+    }
     wrap.appendChild(foot);
 
     /* --- the climb, animated once the card is on screen --- */
@@ -1042,6 +1328,13 @@
       var shown = EV.base + f * (EV.summit - EV.base);
       num.textContent = Math.round(shown).toLocaleString();
       place(climber, f);
+      if (ghostEls) {
+        var gf = gh.frac * (st.frac ? Math.min(1, f / st.frac) : 1);
+        place(ghostEls.mark, gf);
+        place(ghostEls.final, gh.finalFrac);
+        ghostEls.route.style.strokeDasharray = len;
+        ghostEls.route.style.strokeDashoffset = len * (1 - gf);
+      }
       fill.style.width = (f * 100) + "%";
       route.style.strokeDasharray = len;
       route.style.strokeDashoffset = len * (1 - f);
@@ -1359,8 +1652,28 @@
     document.body.insertBefore(bar, document.getElementById("main"));
   }
 
+  /* light, dark, or whatever the phone is set to */
+  function initTheme() {
+    var btn = $("#theme");
+    if (!btn) return;
+    function current() {
+      var set = document.documentElement.getAttribute("data-theme");
+      if (set) return set;
+      return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ? "dark" : "light";
+    }
+    function apply(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      try { localStorage.setItem("cd-theme", t); } catch (e) { /* private window */ }
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", "#141210");
+    }
+    btn.onclick = function () { apply(current() === "dark" ? "light" : "dark"); };
+  }
+
   function boot(data) {
     D = data;
+    initTheme();
     $("#clubname").textContent = D.club.name;
     if (D.club.tagline) $("#tagline").textContent = D.club.tagline;
     var fines = $("#fines");
@@ -1388,11 +1701,19 @@
 
   if (window.__DATA__) boot(window.__DATA__);
   else {
-    fetch("data.json", { cache: "no-store" })
-      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(function (data) { boot(data); flagStale(data); })
-      .catch(function (e) {
-        $("#main").innerHTML = '<p class="empty">Could not load the fixtures (' + e.message + ').</p>';
-      });
+    /* history is a bonus: if it is missing the app behaves exactly as before */
+    Promise.all([
+      fetch("data.json", { cache: "no-store" })
+        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+      fetch("history.json", { cache: "no-store" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; })
+    ]).then(function (both) {
+      H = both[1];
+      boot(both[0]);
+      flagStale(both[0]);
+    }).catch(function (e) {
+      $("#main").innerHTML = '<p class="empty">Could not load the fixtures (' + e.message + ').</p>';
+    });
   }
 })();

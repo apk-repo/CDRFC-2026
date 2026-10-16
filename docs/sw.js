@@ -2,12 +2,12 @@
    Shell files: cache first, refreshed in the background.
    data.json:   network first, falling back to the last copy, so a pitch with no
                 signal still shows the fixtures you had this morning. */
-var VERSION = "v3";
+var VERSION = "v4";
 var SHELL = "shell-" + VERSION;
 var DATA = "data-" + VERSION;
 var FILES = [
   "./", "./index.html", "./app.js", "./style.css",
-  "./crest-96.png", "./crest-192.png", "./crest-512.png",
+  "./crest-96.png", "./crest-192.png", "./crest-512.png", "./wallpaper.html",
   "./favicon-32.png", "./apple-touch-icon.png", "./manifest.webmanifest"
 ];
 
@@ -33,7 +33,7 @@ self.addEventListener("fetch", function (e) {
   var url = new URL(req.url);
   if (url.origin !== location.origin) return;
 
-  if (url.pathname.endsWith("data.json")) {
+  if (url.pathname.endsWith("data.json") || url.pathname.endsWith("history.json")) {
     e.respondWith(
       fetch(req).then(function (res) {
         var copy = res.clone();
