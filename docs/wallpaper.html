@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Everest wallpaper — Cill Dara RFC</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#141210">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  main{max-width:900px;margin:0 auto;padding:16px}
+  .shot{display:flex;justify-content:center;padding:4px 0 2px 0}
+  .frame{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 14px 40px rgba(20,18,16,.26);background:#141210;line-height:0}
+  .frame canvas{display:block;width:100%;height:auto}
+  .controls{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .opt{height:38px;padding:0 13px;border:1px solid var(--line);border-radius:19px;background:var(--card);
+    color:var(--muted);font-size:13px;font-weight:600;cursor:pointer}
+  .opt.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:700}
+  .save{height:50px;border:0;border-radius:12px;background:var(--accent);color:#fff;
+    font-size:15px;font-weight:700;cursor:pointer;width:100%}
+  .save:hover{background:var(--accent-dark)}
+  .meta{font-size:12px;color:var(--muted);line-height:1.5}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:6px 0 0 0}
+  .steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:7px;
+    font-size:13px;color:var(--text);line-height:1.5}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:18px;height:18px;
+    border-radius:9px;background:var(--ink);color:var(--gold);font-family:'Oswald',sans-serif;
+    font-size:11px;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <img class="crest" src="crest-96.png" width="48" height="48" alt="Cill Dara RFC crest">
+    <div class="club">
+      <h1>Everest wallpaper</h1>
+      <div class="tagline" id="sub">Reading the season…</div>
+    </div>
+    <a class="finesbtn" href="index.html">← Hub</a>
+  </div>
+</header>
+
+<main>
+  <div class="shot"><div class="frame" id="frame"><canvas id="cv"></canvas></div></div>
+
+  <div class="controls">
+    <div class="row" id="teams"></div>
+    <div class="row" id="sizes"></div>
+    <button class="save" id="save" type="button">Save wallpaper</button>
+    <div class="meta" id="note"></div>
+    <ol class="steps">
+      <li>Tap <strong>Save wallpaper</strong>. It lands in your Downloads.</li>
+      <li>Open it in Google Photos or Files, then <strong>Set as wallpaper</strong>.</li>
+      <li>Choose <strong>Home screen</strong>, and turn off any crop or zoom so it sits exactly as drawn.</li>
+    </ol>
+    <div class="meta">Come back after a win and save it again — the climb will have moved.</div>
+  </div>
+
+  <div class="credit" style="margin-top:26px">
+    <span class="credit-rule"></span>
+    <span class="credit-text">Created by Aaron Kane</span>
+    <span class="credit-rule"></span>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var EV = {
+    base: 5364, summit: 8849,
+    camps: [
+      { alt: 5364, tag: "BC", name: "Base Camp" },
+      { alt: 5943, tag: "C1", name: "Camp I" },
+      { alt: 6400, tag: "C2", name: "Camp II" },
+      { alt: 7162, tag: "C3", name: "Camp III" },
+      { alt: 7920, tag: "C4", name: "Camp IV" },
+      { alt: 8849, tag: "",   name: "The Summit" }
+    ]
+  };
+
+  var D = null, team = "1st", crest = null;
+  var cv = document.getElementById("cv"), g = cv.getContext("2d");
+
+  /* The phone's own resolution, so nothing is scaled or cropped when it is set. */
+  function deviceSize() {
+    var r = window.devicePixelRatio || 1;
+    var w = Math.round(Math.min(screen.width, screen.height) * r);
+    var h = Math.round(Math.max(screen.width, screen.height) * r);
+    return { w: w, h: h, label: "This phone (" + w + "×" + h + ")" };
+  }
+  var SIZES = [];
+  var size = null;
+
+  function leagues() { return D.competitions.filter(function (c) { return c.type === "league"; }); }
+  function compFor(t) { return leagues().filter(function (c) { return c.team === t; })[0]; }
+  function teamLabel(t) {
+    var x = D.teams.filter(function (y) { return y.id === t; })[0];
+    return x ? x.label : t;
+  }
+
+  function state(c) {
+    var me = null;
+    (c.standings || []).forEach(function (r) { if (/^Cill Dara\b/.test(r.team)) me = r; });
+    if (!me) return null;
+    var teams = (c.standings || []).length || 8;
+    var rounds = (teams - 1) * 2;
+    var available = rounds * (c.tryBonus !== false ? 5 : 4);
+    var pts = Math.max(0, me.pts);
+    var frac = available ? Math.min(1, pts / available) : 0;
+    var alt = EV.base + frac * (EV.summit - EV.base);
+    var at = EV.camps[0];
+    for (var i = 0; i < EV.camps.length; i++) if (alt + 0.5 >= EV.camps[i].alt) at = EV.camps[i];
+    return { pts: pts, available: available, pld: me.pld, rounds: rounds,
+             frac: frac, alt: alt, at: at, pos: me.pos };
+  }
+
+  /* ---- the scene, drawn in proportion so it works at any resolution ---- */
+  function draw() {
+    var W = size.w, H = size.h;
+    cv.width = W; cv.height = H;
+    var c = compFor(team), st = state(c);
+    if (!st) return;
+    var u = H / 100;                     /* one unit = 1% of height */
+
+    /* sky */
+    var sky = g.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0, "#0B1220");
+    sky.addColorStop(0.42, "#1A1726");
+    sky.addColorStop(0.72, "#3B2A2A");
+    sky.addColorStop(1, "#6E4733");
+    g.fillStyle = sky; g.fillRect(0, 0, W, H);
+
+    /* stars, thinner near the horizon */
+    for (var i = 0; i < 90; i++) {
+      var sx = (Math.sin(i * 12.9898) * 43758.5453) % 1;
+      var sy = (Math.sin(i * 78.233) * 12345.6789) % 1;
+      sx = Math.abs(sx); sy = Math.abs(sy);
+      var y = sy * H * 0.5;
+      g.globalAlpha = 0.18 + Math.abs(Math.sin(i * 3.3)) * 0.55 * (1 - y / (H * 0.5));
+      g.fillStyle = "#F4F1EA";
+      g.beginPath();
+      g.arc(sx * W, y, (i % 5 === 0 ? 2.1 : 1.3) * (W / 1080), 0, Math.PI * 2);
+      g.fill();
+    }
+    g.globalAlpha = 1;
+
+    /* --- geometry: apex and base of the climb --- */
+    var apexX = W * 0.52, apexY = H * 0.455;
+    var footX = W * 0.14, footY = H * 0.845;
+
+    /* back range */
+    g.fillStyle = "#1C1814";
+    g.beginPath();
+    g.moveTo(-W * 0.05, H * 0.70);
+    [[0.10, 0.60], [0.22, 0.68], [0.33, 0.565], [0.44, 0.645],
+     [0.58, 0.545], [0.70, 0.64], [0.84, 0.575], [1.05, 0.655]].forEach(function (p) {
+      g.lineTo(W * p[0], H * p[1]);
+    });
+    g.lineTo(W * 1.05, H * 1.05); g.lineTo(-W * 0.05, H * 1.05);
+    g.closePath(); g.fill();
+
+    /* the mountain */
+    var rock = g.createLinearGradient(0, apexY, 0, H);
+    rock.addColorStop(0, "#524E46");
+    rock.addColorStop(0.55, "#2A2620");
+    rock.addColorStop(1, "#14110D");
+    g.fillStyle = rock;
+    g.beginPath();
+    g.moveTo(-W * 0.18, H * 1.05);
+    g.lineTo(apexX, apexY);
+    g.lineTo(W * 0.70, H * 0.60);
+    g.lineTo(W * 0.80, H * 0.565);
+    g.lineTo(W * 1.18, H * 1.05);
+    g.closePath(); g.fill();
+
+    /* summit snow */
+    g.fillStyle = "#EDE8DE";
+    g.beginPath();
+    g.moveTo(apexX, apexY);
+    g.lineTo(apexX + W * 0.085, apexY + H * 0.052);
+    g.lineTo(apexX + W * 0.047, apexY + H * 0.040);
+    g.lineTo(apexX + W * 0.018, apexY + H * 0.062);
+    g.lineTo(apexX - W * 0.016, apexY + H * 0.036);
+    g.lineTo(apexX - W * 0.052, apexY + H * 0.058);
+    g.lineTo(apexX - W * 0.082, apexY + H * 0.047);
+    g.closePath(); g.fill();
+    g.globalAlpha = 0.33; g.fillStyle = "#FFFFFF";
+    g.beginPath();
+    g.moveTo(apexX, apexY);
+    g.lineTo(apexX + W * 0.085, apexY + H * 0.052);
+    g.lineTo(apexX + W * 0.067, apexY + H * 0.054);
+    g.lineTo(apexX, apexY + H * 0.013);
+    g.lineTo(apexX - W * 0.062, apexY + H * 0.053);
+    g.lineTo(apexX - W * 0.082, apexY + H * 0.047);
+    g.closePath(); g.fill();
+    g.globalAlpha = 1;
+
+    /* the route, a gentle curve from foot to apex */
+    function routeAt(t) {
+      var c1x = footX + (apexX - footX) * 0.30, c1y = footY - (footY - apexY) * 0.42;
+      var c2x = footX + (apexX - footX) * 0.52, c2y = footY - (footY - apexY) * 0.76;
+      var mt = 1 - t;
+      return {
+        x: mt*mt*mt*footX + 3*mt*mt*t*c1x + 3*mt*t*t*c2x + t*t*t*apexX,
+        y: mt*mt*mt*footY + 3*mt*mt*t*c1y + 3*mt*t*t*c2y + t*t*t*apexY
+      };
+    }
+    function stroke(from, to, style, width, dash) {
+      g.save();
+      g.strokeStyle = style; g.lineWidth = width; g.lineCap = "round"; g.lineJoin = "round";
+      if (dash) g.setLineDash(dash);
+      g.beginPath();
+      for (var t = from; t <= to + 0.0001; t += 0.004) {
+        var p = routeAt(t);
+        if (t === from) g.moveTo(p.x, p.y); else g.lineTo(p.x, p.y);
+      }
+      g.stroke(); g.restore();
+    }
+    var px = W / 1080;
+    stroke(0, 1, "rgba(244,241,234,.22)", 4 * px, [7 * px, 11 * px]);
+    if (st.frac > 0) stroke(0, st.frac, "#D4A53C", 6 * px);
+
+    /* camps */
+    EV.camps.forEach(function (cp) {
+      var f = (cp.alt - EV.base) / (EV.summit - EV.base);
+      var p = routeAt(f);
+      var done = f <= st.frac + 0.001;
+      g.beginPath(); g.arc(p.x, p.y, 9 * px, 0, Math.PI * 2);
+      g.fillStyle = done ? "#D4A53C" : "#141210";
+      g.fill();
+      g.lineWidth = 3.4 * px;
+      g.strokeStyle = done ? "#D4A53C" : "rgba(244,241,234,.5)";
+      g.stroke();
+      if (cp.tag) {
+        g.font = "700 " + Math.round(20 * px) + "px 'Source Sans 3', sans-serif";
+        g.textAlign = "right"; g.textBaseline = "middle";
+        g.fillStyle = done ? "#EDE8DE" : "rgba(168,160,146,.9)";
+        g.fillText(cp.tag, p.x - 18 * px, p.y);
+      }
+    });
+
+    /* summit flag */
+    var fx = apexX, fy = apexY;
+    g.strokeStyle = "rgba(244,241,234,.8)"; g.lineWidth = 3.4 * px;
+    g.beginPath(); g.moveTo(fx, fy); g.lineTo(fx, fy - H * 0.030); g.stroke();
+    g.fillStyle = "#B2332A";
+    g.beginPath();
+    g.moveTo(fx, fy - H * 0.029);
+    g.lineTo(fx + W * 0.052, fy - H * 0.022);
+    g.lineTo(fx, fy - H * 0.013);
+    g.closePath(); g.fill();
+
+    /* the climber */
+    var me = routeAt(st.frac);
+    g.globalAlpha = 0.25; g.fillStyle = "#D4A53C";
+    g.beginPath(); g.arc(me.x, me.y, 26 * px, 0, Math.PI * 2); g.fill();
+    g.globalAlpha = 1;
+    g.beginPath(); g.arc(me.x, me.y, 10 * px, 0, Math.PI * 2);
+    g.fillStyle = "#D4A53C"; g.fill();
+    g.lineWidth = 3.4 * px; g.strokeStyle = "#141210"; g.stroke();
+
+    /* ---- text, sat under the clock and clear of the dock ---- */
+    g.textAlign = "center"; g.textBaseline = "alphabetic";
+    g.fillStyle = "#D4A53C";
+    g.font = "700 " + Math.round(2.0 * u) + "px 'Source Sans 3', sans-serif";
+    g.letterSpacing = Math.round(0.5 * u) + "px";
+    g.fillText(st.at.name.toUpperCase(), W / 2, 19.0 * u);
+    g.letterSpacing = "0px";
+
+    g.fillStyle = "#FFFFFF";
+    g.font = "600 " + Math.round(9.2 * u) + "px Oswald, sans-serif";
+    g.fillText(Math.round(st.alt).toLocaleString(), W / 2, 28.6 * u);
+
+    g.fillStyle = "rgba(237,232,222,.72)";
+    g.font = "600 " + Math.round(1.75 * u) + "px 'Source Sans 3', sans-serif";
+    g.letterSpacing = Math.round(0.42 * u) + "px";
+    g.fillText("METRES CLIMBED", W / 2, 31.7 * u);
+    g.letterSpacing = "0px";
+
+    /* a slim progress bar */
+    var bw = W * 0.56, bx = (W - bw) / 2, by = 34.6 * u, bh = Math.max(3, 0.52 * u);
+    g.fillStyle = "rgba(244,241,234,.18)";
+    g.beginPath(); g.roundRect(bx, by, bw, bh, bh / 2); g.fill();
+    var grad = g.createLinearGradient(bx, 0, bx + bw, 0);
+    grad.addColorStop(0, "#B2332A"); grad.addColorStop(1, "#D4A53C");
+    g.fillStyle = grad;
+    g.beginPath(); g.roundRect(bx, by, Math.max(bh, bw * st.frac), bh, bh / 2); g.fill();
+
+    g.fillStyle = "rgba(237,232,222,.82)";
+    g.font = "400 " + Math.round(1.85 * u) + "px 'Source Sans 3', sans-serif";
+    g.fillText(st.pts + " of " + st.available + " league points  ·  round " + st.pld + " of " + st.rounds,
+               W / 2, by + 3.5 * u);
+
+    /* a soft floor so dock icons stay readable over the mountain */
+    var vig = g.createLinearGradient(0, H * 0.84, 0, H);
+    vig.addColorStop(0, "rgba(10,9,7,0)");
+    vig.addColorStop(1, "rgba(10,9,7,.55)");
+    g.fillStyle = vig; g.fillRect(0, H * 0.84, W, H * 0.16);
+
+    /* footer: crest and club on one line, tucked under the dock */
+    var cs = 3.5 * u, gap = 1.2 * u, fy2 = 96.4 * u;
+    g.font = "500 " + Math.round(1.5 * u) + "px Oswald, sans-serif";
+    g.letterSpacing = Math.round(0.2 * u) + "px";
+    var label = teamLabel(team).toUpperCase() + "  \u00b7  2026/27";
+    var tw = g.measureText(label).width;
+    var total = (crest ? cs + gap : 0) + tw;
+    var startX = (W - total) / 2;
+    if (crest) g.drawImage(crest, startX, fy2 - cs * 0.78, cs, cs);
+    g.textAlign = "left";
+    g.fillStyle = "rgba(212,165,60,.92)";
+    g.fillText(label, startX + (crest ? cs + gap : 0), fy2);
+    g.letterSpacing = "0px";
+    g.textAlign = "center";
+  }
+
+  /* ---- controls ---- */
+  function chips(host, items, current, pick) {
+    host.innerHTML = "";
+    items.forEach(function (it) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt" + (it[0] === current ? " on" : "");
+      b.textContent = it[1];
+      b.onclick = function () { pick(it[0]); };
+      host.appendChild(b);
+    });
+  }
+
+  function refresh() {
+    chips(document.getElementById("teams"),
+      leagues().map(function (c) { return [c.team, teamLabel(c.team)]; }), team,
+      function (v) { team = v; refresh(); });
+    chips(document.getElementById("sizes"),
+      SIZES.map(function (s, i) { return [i, s.label]; }), SIZES.indexOf(size),
+      function (i) { size = SIZES[i]; refresh(); });
+    draw();
+    var st = state(compFor(team));
+    document.getElementById("sub").textContent =
+      st ? st.at.name + " · " + Math.round(st.alt).toLocaleString() + " m" : "";
+    document.getElementById("note").textContent =
+      "Drawn at " + size.w + " × " + size.h + " pixels. " +
+      "Last read " + new Date(D.updated).toLocaleString("en-IE", { dateStyle: "medium", timeStyle: "short" }) + ".";
+  }
+
+  document.getElementById("save").onclick = function () {
+    cv.toBlob(function (blob) {
+      if (!blob) return;
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "cill-dara-everest-" + team + "-" + size.w + "x" + size.h + ".png";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
+    }, "image/png");
+  };
+
+  function boot(data) {
+    D = data;
+    var dev = deviceSize();
+    SIZES = [dev];
+    [[1080, 2400, "OnePlus 1080 × 2400"], [1440, 3216, "OnePlus QHD 1440 × 3216"],
+     [1080, 1920, "Classic 1080 × 1920"]].forEach(function (s) {
+      if (s[0] !== dev.w || s[1] !== dev.h) SIZES.push({ w: s[0], h: s[1], label: s[2] });
+    });
+    size = SIZES[0];
+    var img = new Image();
+    img.onload = function () { crest = img; refresh(); };
+    img.onerror = function () { refresh(); };
+    img.src = "crest-192.png";
+  }
+
+  function start(data) {
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { boot(data); });
+    else boot(data);
+  }
+
+  fetch("data.json", { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(start)
+    .catch(function (e) {
+      document.getElementById("sub").textContent = "Could not load the season (" + e.message + ")";
+    });
+})();
+</script>
+</body>
+</html>
