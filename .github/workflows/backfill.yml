@@ -1,0 +1,36 @@
+name: Backfill past seasons
+
+# Past seasons do not change, so this runs by hand when a season is added
+# to the "history" block in scraper/sources.json.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backfill
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r scraper/requirements.txt
+      - name: Scrape the archive
+        run: python scraper/backfill.py
+      - name: Commit if anything changed
+        run: |
+          if [ -z "$(git status --porcelain docs)" ]; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name  "fixtures-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Backfill past seasons $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push

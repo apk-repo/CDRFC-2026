@@ -159,5 +159,21 @@
       "lon": -7.189,
       "coordsApprox": true
     }
-  }
+  },
+  "history": [
+    {
+      "label": "2025/26",
+      "competitions": [
+        {
+          "id": "lge2a",
+          "name": "Leinster League Division 2A",
+          "short": "League 2A",
+          "team": "1st",
+          "type": "league",
+          "tryBonus": true,
+          "url": "https://leinsterrugby.sportlomo.com/league/206695/"
+        }
+      ]
+    }
+  ]
 }
