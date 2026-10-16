@@ -106,6 +106,14 @@
     return r;
   }
 
+  /* Sportlomo's BP column is the TOTAL; the four-try count is its own column.
+     Derive it when an older data.json is still being served. */
+  function tryBonusOf(r) {
+    if (r.bp4 != null) return r.bp4;
+    if (r.bp != null) return Math.max(0, r.bp - (r.bpl || 0));
+    return 0;
+  }
+
   function zoneOf(pos, n, z) {
     z = z || {};
     var up = z.autoUp || 0, pu = z.playoffUp || 0, dn = z.autoDown || 0, pd = z.playoffDown || 0;
@@ -207,10 +215,11 @@
     bits.push(me.pf + " points scored and " + me.pa + " conceded" +
               (diff > 0 ? ", a difference of +" + diff : "") + ".");
 
-    if (c.tryBonus !== false && me.bp) {
-      bits.push(me.bp === me.pld
+    var myTb = tryBonusOf(me);
+    if (c.tryBonus !== false && myTb) {
+      bits.push(myTb === me.pld
         ? "A try bonus in every game so far."
-        : "Try bonuses in " + me.bp + " of " + me.pld + ".");
+        : "Try bonuses in " + myTb + " of " + me.pld + ".");
     }
     if (me.bpl) bits.push(me.bpl + (me.bpl === 1 ? " losing bonus point." : " losing bonus points."));
 
@@ -1428,7 +1437,7 @@
       [r.pld, r.w, r.d, r.l].forEach(function (v, i) {
         row.appendChild(el("div", "tc tc" + (i + 3), String(v == null ? 0 : v)));
       });
-      row.appendChild(el("div", "tc tc7" + (tb ? "" : " na"), tb ? String(r.bp == null ? 0 : r.bp) : "–"));
+      row.appendChild(el("div", "tc tc7" + (tb ? "" : " na"), tb ? String(tryBonusOf(r)) : "–"));
       row.appendChild(el("div", "tc tc8", String(r.bpl == null ? 0 : r.bpl)));
       row.appendChild(el("div", "tc tc9 pts", String(r.pts)));
       tbl.appendChild(row);
@@ -1465,8 +1474,9 @@
     }
     if (c.note) notes.appendChild(el("p", "note-strong", c.note));
     notes.appendChild(el("p", null,
-      "TB try bonus: 4 or more tries in a game. LB losing bonus: lost by 7 points or fewer." +
-      (tb ? "" : " This competition does not award a try bonus.")));
+      "TB try bonus: 4 or more tries in a game. LB losing bonus: lost by 7 points or fewer. " +
+      (tb ? "Together they make the bonus points total Sportlomo shows as BP."
+          : "This competition does not award a try bonus.")));
     if (c.standingsSource === "computed") {
       notes.appendChild(el("p", null, "Calculated from results, so it will not show a points deduction or an awarded game."));
     }

@@ -171,8 +171,10 @@ HEAD_ALIASES = {
     "pf": {"pf", "for", "pts for", "points for"},
     "pa": {"pa", "against", "pts against", "points against"},
     "diff": {"diff", "pd", "+/-", "difference"},
-    "bp": {"bp", "tbp", "try bp", "bp t", "bpt"},
-    "bpl": {"bp l", "bpl", "lbp", "losing bp", "bp (l)", "l bp"},
+    "bp": {"bp", "bonus", "bonus points"},
+    "bpl": {"bp l", "bpl", "lbp", "losing bp", "bp (l)", "l bp", "bp losing"},
+    "bp4": {"bp 4-try", "bp 4 try", "bp4try", "bp4", "4-try bp", "4 try bp",
+            "try bp", "tbp", "bp t", "bpt", "bp try"},
     "pts": {"pts", "points", "total"},
 }
 
@@ -226,14 +228,23 @@ def parse_standings(html):
                 return None if j is None or j + shift >= len(cells) else _int(cells[j + shift])
 
             pf, pa = g("pf") or 0, g("pa") or 0
+            # BP is the total; derive whichever of the three is absent
+            bp_total, bp_lose, bp_try = g("bp"), g("bpl"), g("bp4")
+            if bp_try is None and bp_total is not None and bp_lose is not None:
+                bp_try = bp_total - bp_lose
+            if bp_total is None and bp_try is not None:
+                bp_total = bp_try + (bp_lose or 0)
+            elif bp_total is None and bp_lose is not None:
+                bp_total = bp_lose          # a league with no try bonus at all
             out.append({
                 "pos": g("pos") or n,
                 "team": team_name(cells[colmap["team"] + shift]),
                 "pld": g("pld") or 0, "w": g("w") or 0, "d": g("d") or 0, "l": g("l") or 0,
                 "pf": pf, "pa": pa,
                 "diff": g("diff") if g("diff") is not None else pf - pa,
-                "bp": g("bp") if "bp" in colmap else None,
-                "bpl": g("bpl") or 0,
+                "bp": bp_total,
+                "bp4": bp_try,
+                "bpl": bp_lose or 0,
                 "pts": g("pts") or 0,
             })
         if len(out) >= 4:
@@ -255,7 +266,7 @@ def compute_standings(fixtures, comp):
     for f in fixtures:
         for t in (f["home"], f["away"]):
             rows.setdefault(t, {"team": t, "pld": 0, "w": 0, "d": 0, "l": 0,
-                                "pf": 0, "pa": 0, "bp": 0, "bpl": 0, "pts": 0})
+                                "pf": 0, "pa": 0, "bp": 0, "bp4": 0, "bpl": 0, "pts": 0})
     for f in fixtures:
         if f["status"] == "conceded" and f.get("concededBy"):
             loser = f["concededBy"]
@@ -289,7 +300,7 @@ def compute_standings(fixtures, comp):
                     r["bpl"] += 1
                     r["pts"] += 1
             if try_bonus and tries is not None and tries >= 4:
-                r["bp"] += 1
+                r["bp4"] += 1
                 r["pts"] += 1
     ordered = sorted(rows.values(),
                      key=lambda r: (-r["pts"], -(r["pf"] - r["pa"]), -r["pf"], r["team"]))
@@ -297,8 +308,9 @@ def compute_standings(fixtures, comp):
         r["pos"] = i
         r["diff"] = r["pf"] - r["pa"]
         r.setdefault("conceded", 0)
+        r["bp"] = (r.get("bp4") or 0) + (r.get("bpl") or 0)
         if not try_bonus:
-            r["bp"] = None
+            r["bp4"] = None
     return ordered
 
 
@@ -541,6 +553,12 @@ def check_standings(parsed, computed):
         elif (r["pts"], r["pld"]) != (c["pts"], c["pld"]):
             diffs.append("%s: table says %d pts from %d, results give %d from %d"
                          % (r["team"], r["pts"], r["pld"], c["pts"], c["pld"]))
+        elif r.get("bp") is not None and r.get("bpl") is not None \
+                and r.get("bp4") is not None \
+                and r["bp"] != (r["bp4"] or 0) + (r["bpl"] or 0):
+            diffs.append("%s: bonus points do not add up \u2014 table shows %d total, "
+                         "%s four-try and %d losing"
+                         % (r["team"], r["bp"], r["bp4"], r["bpl"]))
     return diffs
 
 
@@ -705,7 +723,7 @@ def main():
             computed = compute_standings(fixtures, comp)
             if parsed and not comp.get("tryBonus", True):
                 for r in parsed:
-                    r["bp"] = None
+                    r["bp4"] = None
             if parsed:
                 record["standings"] = parsed
                 record["standingsSource"] = "table"
