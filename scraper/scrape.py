@@ -110,6 +110,55 @@ def lines_of(html):
     return [x for x in out if x.lower() not in NOISE and x.lower() != "v"]
 
 
+# ---------------------------------------------------------------- discovery
+
+BASE = "https://leinsterrugby.sportlomo.com"
+COMP_HREF_RE = re.compile(r"/(league|league-diagram)/(\d+)")
+
+
+def discover_competitions(html):
+    """
+    Every competition heading on a fixtures page links to that competition's own
+    page. Sportlomo mints a NEW competition id for each cup round, so the club
+    fixtures page is the only reliable way to find a round once it is drawn.
+
+    Returns {url: name}.
+    """
+    soup = BeautifulSoup(html, "lxml")
+    out = {}
+    for a in soup.find_all("a", href=True):
+        m = COMP_HREF_RE.search(a["href"])
+        if not m:
+            continue
+        name = " ".join(a.get_text().split()).lstrip(">").strip(" -\u2013")
+        if not name or len(name) > 90 or name.lower() in NOISE:
+            continue
+        url = "%s/%s/%s/" % (BASE, m.group(1), m.group(2))
+        out.setdefault(url, name)
+    return out
+
+
+def same_comp(url_a, url_b):
+    """Compare by numeric id, ignoring league vs league-diagram and trailing slashes."""
+    ma, mb = COMP_HREF_RE.search(url_a or ""), COMP_HREF_RE.search(url_b or "")
+    return bool(ma and mb and ma.group(2) == mb.group(2))
+
+
+def comp_urls(comp):
+    """A competition may be spread over several pages: a bracket plus a page per round."""
+    urls = list(comp.get("urls") or [])
+    if comp.get("url"):
+        urls.insert(0, comp["url"])
+    seen, out = set(), []
+    for u in urls:
+        m = COMP_HREF_RE.search(u or "")
+        k = m.group(2) if m else u
+        if k not in seen:
+            seen.add(k)
+            out.append(u)
+    return out
+
+
 # ---------------------------------------------------------------- standings
 
 HEAD_ALIASES = {
@@ -549,6 +598,56 @@ def main():
 
     all_fixtures, comps_out, notes = [], [], []
 
+    # The club fixtures page lists every competition the club is entered in, so a new
+    # cup round is found the moment it is drawn rather than waiting for a config edit.
+    discovered = {}
+    club_url = cfg["club"].get("fixturesUrl")
+    if club_url:
+        try:
+            discovered = discover_competitions(fetch(club_url, session))
+            print("discovered %d competition pages on the club fixtures page"
+                  % len(discovered), file=sys.stderr)
+        except Exception as e:                                     # noqa: BLE001
+            print("could not read the club fixtures page: %s" % e, file=sys.stderr)
+
+    claimed = set()
+    for comp in cfg["competitions"]:
+        for u in comp_urls(comp):
+            m = COMP_HREF_RE.search(u or "")
+            if m:
+                claimed.add(m.group(2))
+
+    # attach each discovered page to the competition whose keyword its name matches
+    extra = {}
+    for url, name in discovered.items():
+        m = COMP_HREF_RE.search(url)
+        cid = m.group(2) if m else None
+        if cid in claimed:
+            continue
+        low = name.lower()
+        hit = None
+        for comp in cfg["competitions"]:
+            for kw in (comp.get("match") or []):
+                if kw.lower() in low:
+                    hit = comp
+                    break
+            if hit:
+                break
+        if hit:
+            extra.setdefault(hit["id"], []).append(url)
+            notes.append({"kind": "attention", "comp": hit["id"], "pair": name,
+                          "kept": "New round found: " + url,
+                          "hidden": None,
+                          "why": "Sportlomo publishes each cup round as its own competition page. "
+                                 "This one was picked up automatically; add it to sources.json "
+                                 "under that competition's urls to make it permanent."})
+        else:
+            notes.append({"kind": "attention", "comp": None, "pair": name,
+                          "kept": "Unrecognised competition: " + url,
+                          "hidden": None,
+                          "why": "The club is entered in a competition the app does not track. "
+                                 "Add it to sources.json if it should appear."})
+
     for comp in cfg["competitions"]:
         record = {k: comp[k] for k in ("id", "name", "short", "team", "type") if k in comp}
         record["zones"] = comp.get("zones", {})
@@ -556,22 +655,45 @@ def main():
             record["note"] = comp["note"]
         record["tryBonus"] = comp.get("tryBonus", True)
         record["status"] = comp.get("status", "live")
-        record["source"] = comp.get("url")
+        if record["status"] == "not-drawn" and extra.get(comp["id"]):
+            record["status"] = "live"          # a round has appeared, so it is drawn now
+        pages = comp_urls(comp) + extra.get(comp["id"], [])
+        record["source"] = pages[0] if pages else None
+        record["sources"] = pages
         record["standings"] = []
 
-        if not comp.get("url"):
+        if not pages:
             comps_out.append(record)
             continue
 
-        html = fetch(comp["url"], session)
-        lines = lines_of(html)
+        html, fixtures = None, []
+        for page in pages:
+            try:
+                page_html = fetch(page, session)
+            except Exception as e:                                 # noqa: BLE001
+                print("  ! %s: %s" % (page, e), file=sys.stderr)
+                notes.append({"kind": "attention", "comp": comp["id"], "pair": comp["name"],
+                              "kept": "Could not read " + page,
+                              "hidden": None,
+                              "why": "That source page did not load on this run. Anything it holds "
+                                     "is missing until it does."})
+                continue
+            if html is None:
+                html = page_html
+            lines = lines_of(page_html)
+            if args.debug == comp["id"]:
+                print("---- %s ----" % page)
+                for i, x in enumerate(lines):
+                    print("%3d  %s" % (i, x))
+                continue
+            fixtures += parse_fixtures(lines, comp)
 
         if args.debug == comp["id"]:
-            for i, x in enumerate(lines):
-                print("%3d  %s" % (i, x))
             return 0
+        if html is None:
+            comps_out.append(record)
+            continue
 
-        fixtures = parse_fixtures(lines, comp)
         for f in fixtures:
             for side in (f["home"], f["away"]):
                 if side.startswith(club_prefix):
@@ -603,9 +725,10 @@ def main():
 
         all_fixtures += fixtures
         comps_out.append(record)
-        print("%-7s %2d fixtures, %d played, standings %s (%d rows)"
+        print("%-7s %2d fixtures, %d played, standings %s (%d rows), %d page(s)"
               % (comp["id"], len(fixtures), sum(f["status"] == "played" for f in fixtures),
-                 record.get("standingsSource", "-"), len(record["standings"])), file=sys.stderr)
+                 record.get("standingsSource", "-"), len(record["standings"]), len(pages)),
+              file=sys.stderr)
 
     rows_in = len(all_fixtures)
     kept, issues, merged = dedupe(all_fixtures, cfg["competitions"])

@@ -4,7 +4,8 @@
     "short": "Cill Dara",
     "clubId": 3461,
     "tagline": "Silken Thomas Park \u00b7 Kildare",
-    "homeVenue": "Silken Thomas Park"
+    "homeVenue": "Silken Thomas Park",
+    "fixturesUrl": "https://leinsterrugby.sportlomo.com/fixtures/?club_id=3461"
   },
   "links": {
     "fines": "https://apk-repo.github.io/fines"
@@ -35,7 +36,10 @@
         "playoffUp": 1,
         "playoffDown": 1,
         "autoDown": 1
-      }
+      },
+      "match": [
+        "leinster league - division 2a"
+      ]
     },
     {
       "id": "j22a",
@@ -46,7 +50,10 @@
       "url": "https://leinsterrugby.sportlomo.com/league/217302/",
       "tryBonus": false,
       "zones": {},
-      "note": "No promotion or relegation. The 2nd XV's grade follows the 1st XV."
+      "note": "No promotion or relegation. The 2nd XV's grade follows the 1st XV.",
+      "match": [
+        "seconds league (j2) - division 2a"
+      ]
     },
     {
       "id": "lalor",
@@ -55,8 +62,14 @@
       "team": "1st",
       "type": "cup",
       "status": "live",
-      "url": "https://leinsterrugby.sportlomo.com/league-diagram/219467/",
-      "tryBonus": true
+      "tryBonus": true,
+      "urls": [
+        "https://leinsterrugby.sportlomo.com/league-diagram/219467/",
+        "https://leinsterrugby.sportlomo.com/league/220099/"
+      ],
+      "match": [
+        "lalor"
+      ]
     },
     {
       "id": "towns",
@@ -65,8 +78,12 @@
       "team": "1st",
       "type": "cup",
       "status": "not-drawn",
-      "url": null,
-      "tryBonus": true
+      "tryBonus": true,
+      "urls": [],
+      "match": [
+        "towns cup",
+        "provincial towns"
+      ]
     }
   ],
   "venues": {

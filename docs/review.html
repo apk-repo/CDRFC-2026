@@ -62,6 +62,7 @@
     root.appendChild(stats);
 
     function compName(id) {
+      if (!id) return "Not tracked by the app";
       var c = D.competitions.filter(function (x) { return x.id === id; })[0];
       return c ? c.name : id;
     }
