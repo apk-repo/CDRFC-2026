@@ -1,11 +1,12 @@
 {
- "updated": "2026-10-16T07:40:20Z",
+ "updated": "2026-10-16T14:51:37Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
   "clubId": 3461,
   "tagline": "Silken Thomas Park \u00b7 Kildare",
-  "homeVenue": "Silken Thomas Park"
+  "homeVenue": "Silken Thomas Park",
+  "fixturesUrl": "https://leinsterrugby.sportlomo.com/fixtures/?club_id=3461"
  },
  "links": {
   "fines": "https://apk-repo.github.io/fines"
@@ -112,6 +113,9 @@
    "tryBonus": true,
    "status": "live",
    "source": "https://leinsterrugby.sportlomo.com/league/217301/",
+   "sources": [
+    "https://leinsterrugby.sportlomo.com/league/217301/"
+   ],
    "standings": [
     {
      "pos": 1,
@@ -239,6 +243,9 @@
    "tryBonus": false,
    "status": "live",
    "source": "https://leinsterrugby.sportlomo.com/league/217302/",
+   "sources": [
+    "https://leinsterrugby.sportlomo.com/league/217302/"
+   ],
    "standings": [
     {
      "pos": 1,
@@ -365,6 +372,10 @@
    "tryBonus": true,
    "status": "live",
    "source": "https://leinsterrugby.sportlomo.com/league-diagram/219467/",
+   "sources": [
+    "https://leinsterrugby.sportlomo.com/league-diagram/219467/",
+    "https://leinsterrugby.sportlomo.com/league/220099/"
+   ],
    "standings": []
   },
   {
@@ -377,6 +388,7 @@
    "tryBonus": true,
    "status": "not-drawn",
    "source": null,
+   "sources": [],
    "standings": []
   }
  ],
@@ -903,7 +915,7 @@
    "home": "Longford 2nd XV",
    "away": "Newbridge 2nd XV",
    "venue": "Precision Health Park",
-   "referee": null,
+   "referee": "Liam Diskin",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -1009,9 +1021,47 @@
    "concededBy": null
   },
   {
+   "id": "lalor-2026-10-25-00",
+   "date": "2026-10-25",
+   "time": "15:00",
+   "comp": "lalor",
+   "team": "1st",
+   "home": "Cill Dara 1st XV",
+   "away": "Clane 1st XV",
+   "venue": "Silken Thomas Park",
+   "referee": null,
+   "homeScore": null,
+   "awayScore": null,
+   "homeTries": null,
+   "awayTries": null,
+   "round": "Semi Final",
+   "note": null,
+   "status": "scheduled",
+   "concededBy": null
+  },
+  {
+   "id": "lalor-2026-10-25-01",
+   "date": "2026-10-25",
+   "time": "15:00",
+   "comp": "lalor",
+   "team": null,
+   "home": "Portarlington 1st XV",
+   "away": "North Kildare 1st XV",
+   "venue": "Lea Rd",
+   "referee": null,
+   "homeScore": null,
+   "awayScore": null,
+   "homeTries": null,
+   "awayTries": null,
+   "round": "Semi Final",
+   "note": null,
+   "status": "scheduled",
+   "concededBy": null
+  },
+  {
    "id": "j22a-2026-10-31-16",
    "date": "2026-10-31",
-   "time": "16:30",
+   "time": "14:00",
    "comp": "j22a",
    "team": "2nd",
    "home": "Cill Dara 2nd XV",
@@ -1030,7 +1080,7 @@
   {
    "id": "lge2a-2026-10-31-16",
    "date": "2026-10-31",
-   "time": "18:00",
+   "time": "15:30",
    "comp": "lge2a",
    "team": "1st",
    "home": "Cill Dara 1st XV",
@@ -2529,11 +2579,28 @@
    "concededBy": null
   }
  ],
- "issues": [],
+ "issues": [
+  {
+   "kind": "attention",
+   "comp": null,
+   "pair": "Mens Friendlies",
+   "kept": "Unrecognised competition: https://leinsterrugby.sportlomo.com/league/216899/",
+   "hidden": null,
+   "why": "The club is entered in a competition the app does not track. Add it to sources.json if it should appear."
+  },
+  {
+   "kind": "attention",
+   "comp": null,
+   "pair": "North Midlands Hosie Cup J1",
+   "kept": "Unrecognised competition: https://leinsterrugby.sportlomo.com/league/217475/",
+   "hidden": null,
+   "why": "The club is entered in a competition the app does not track. Add it to sources.json if it should appear."
+  }
+ ],
  "counts": {
-  "rowsIn": 113,
-  "kept": 113,
+  "rowsIn": 115,
+  "kept": 115,
   "merged": 0,
-  "attention": 0
+  "attention": 2
  }
 }
