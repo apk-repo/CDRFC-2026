@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T13:31:51Z",
+ "updated": "2026-10-17T17:51:05Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -120,17 +120,17 @@
     {
      "pos": 1,
      "team": "Cill Dara 1st XV",
-     "pld": 3,
-     "w": 3,
+     "pld": 4,
+     "w": 4,
      "d": 0,
      "l": 0,
-     "pf": 146,
-     "pa": 47,
-     "diff": 99,
-     "bp": 3,
-     "bp4": 3,
+     "pf": 192,
+     "pa": 82,
+     "diff": 110,
+     "bp": 4,
+     "bp4": 4,
      "bpl": 0,
-     "pts": 15
+     "pts": 20
     },
     {
      "pos": 2,
@@ -225,17 +225,17 @@
     {
      "pos": 8,
      "team": "Clondalkin 1st XV",
-     "pld": 3,
+     "pld": 4,
      "w": 0,
      "d": 0,
-     "l": 3,
-     "pf": 55,
-     "pa": 88,
-     "diff": -33,
-     "bp": 2,
-     "bp4": 1,
+     "l": 4,
+     "pf": 90,
+     "pa": 134,
+     "diff": -44,
+     "bp": 3,
+     "bp4": 2,
      "bpl": 1,
-     "pts": 2
+     "pts": 3
     }
    ],
    "standingsSource": "table"
@@ -913,13 +913,13 @@
    "away": "Cill Dara 1st XV",
    "venue": "Baldonnel Farm",
    "referee": "Izaak Bannister",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 35,
+   "awayScore": 46,
+   "homeTries": 4,
+   "awayTries": 8,
    "round": null,
    "note": null,
-   "status": "scheduled",
+   "status": "played",
    "concededBy": null
   },
   {
