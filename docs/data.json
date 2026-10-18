@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T21:24:26Z",
+ "updated": "2026-10-18T12:01:44Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -257,6 +257,21 @@
    "standings": [
     {
      "pos": 1,
+     "team": "Clondalkin 2nd XV",
+     "pld": 4,
+     "w": 3,
+     "d": 0,
+     "l": 1,
+     "pf": 131,
+     "pa": 106,
+     "diff": 25,
+     "bp": 0,
+     "bp4": null,
+     "bpl": 0,
+     "pts": 12
+    },
+    {
+     "pos": 2,
      "team": "Newbridge 2nd XV",
      "pld": 3,
      "w": 2,
@@ -271,7 +286,22 @@
      "pts": 10
     },
     {
-     "pos": 2,
+     "pos": 3,
+     "team": "Cill Dara 2nd XV",
+     "pld": 4,
+     "w": 2,
+     "d": 0,
+     "l": 2,
+     "pf": 104,
+     "pa": 82,
+     "diff": 22,
+     "bp": 1,
+     "bp4": null,
+     "bpl": 1,
+     "pts": 9
+    },
+    {
+     "pos": 4,
      "team": "Longford 2nd XV",
      "pld": 3,
      "w": 2,
@@ -286,22 +316,7 @@
      "pts": 9
     },
     {
-     "pos": 3,
-     "team": "Cill Dara 2nd XV",
-     "pld": 3,
-     "w": 2,
-     "d": 0,
-     "l": 1,
-     "pf": 78,
-     "pa": 51,
-     "diff": 27,
-     "bp": 0,
-     "bp4": null,
-     "bpl": 0,
-     "pts": 8
-    },
-    {
-     "pos": 4,
+     "pos": 5,
      "team": "Portlaoise 2nd XV",
      "pld": 3,
      "w": 2,
@@ -310,21 +325,6 @@
      "pf": 26,
      "pa": 66,
      "diff": -40,
-     "bp": 0,
-     "bp4": null,
-     "bpl": 0,
-     "pts": 8
-    },
-    {
-     "pos": 5,
-     "team": "Clondalkin 2nd XV",
-     "pld": 3,
-     "w": 2,
-     "d": 0,
-     "l": 1,
-     "pf": 100,
-     "pa": 80,
-     "diff": 20,
      "bp": 0,
      "bp4": null,
      "bpl": 0,
@@ -894,13 +894,13 @@
    "away": "Cill Dara 2nd XV",
    "venue": "Baldonnel Farm",
    "referee": "Robin Cunningham",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 31,
+   "awayScore": 26,
+   "homeTries": 5,
+   "awayTries": 4,
    "round": null,
    "note": null,
-   "status": "scheduled",
+   "status": "played",
    "concededBy": null
   },
   {
@@ -950,14 +950,14 @@
    "home": "North Kildare 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "The Maws Kilcock",
-   "referee": "Mark Gahan",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
    "awayTries": null,
    "round": null,
-   "note": null,
-   "status": "scheduled",
+   "note": "Game Off",
+   "status": "called-off",
    "concededBy": null
   },
   {
