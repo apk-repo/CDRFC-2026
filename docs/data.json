@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-18T21:26:39Z",
+ "updated": "2026-10-19T14:36:48Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -348,8 +348,8 @@
     {
      "pos": 7,
      "team": "North Kildare 2nd XV",
-     "pld": 3,
-     "w": 0,
+     "pld": 4,
+     "w": 1,
      "d": 0,
      "l": 3,
      "pf": 45,
@@ -358,22 +358,22 @@
      "bp": 1,
      "bp4": null,
      "bpl": 1,
-     "pts": -3
+     "pts": 1
     },
     {
      "pos": 8,
      "team": "Roscrea 2nd XV",
-     "pld": 3,
+     "pld": 4,
      "w": 0,
      "d": 0,
-     "l": 3,
+     "l": 4,
      "pf": 14,
      "pa": 26,
      "diff": -12,
      "bp": 0,
      "bp4": null,
      "bpl": 0,
-     "pts": -8
+     "pts": -12
     }
    ],
    "standingsSource": "table"
@@ -947,6 +947,25 @@
    "time": "13:30",
    "comp": "j22a",
    "team": null,
+   "home": "North Kildare 2nd XV",
+   "away": "Roscrea 2nd XV",
+   "venue": "The Maws Kilcock",
+   "referee": null,
+   "homeScore": null,
+   "awayScore": null,
+   "homeTries": null,
+   "awayTries": null,
+   "round": null,
+   "note": "Conceded by Roscrea 2",
+   "status": "conceded",
+   "concededBy": "Roscrea 2nd XV"
+  },
+  {
+   "id": "j22a-2026-10-18-15",
+   "date": "2026-10-18",
+   "time": "13:30",
+   "comp": "j22a",
+   "team": null,
    "home": "Portlaoise 2nd XV",
    "away": "New Ross 2nd XV",
    "venue": "Togher",
@@ -958,25 +977,6 @@
    "round": null,
    "note": null,
    "status": "played",
-   "concededBy": null
-  },
-  {
-   "id": "j22a-2026-10-18-15",
-   "date": "2026-10-18",
-   "time": "13:30",
-   "comp": "j22a",
-   "team": null,
-   "home": "North Kildare 2nd XV",
-   "away": "Roscrea 2nd XV",
-   "venue": "The Maws Kilcock",
-   "referee": null,
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
-   "round": null,
-   "note": "Game Off",
-   "status": "called-off",
    "concededBy": null
   },
   {
@@ -1045,7 +1045,7 @@
    "home": "Cill Dara 1st XV",
    "away": "Clane 1st XV",
    "venue": "Silken Thomas Park",
-   "referee": null,
+   "referee": "Ronan Harris",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -1064,7 +1064,7 @@
    "home": "Portarlington 1st XV",
    "away": "North Kildare 1st XV",
    "venue": "Lea Rd",
-   "referee": null,
+   "referee": "Eamon Timmins",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
