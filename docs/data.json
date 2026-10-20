@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T22:53:07Z",
+ "updated": "2026-10-20T12:40:26Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1037,14 +1037,14 @@
    "concededBy": null
   },
   {
-   "id": "lalor-2026-10-25-00",
-   "date": "2026-10-25",
-   "time": "15:00",
+   "id": "lalor-2026-10-22-00",
+   "date": "2026-10-22",
+   "time": "20:00",
    "comp": "lalor",
    "team": "1st",
    "home": "Cill Dara 1st XV",
    "away": "Clane 1st XV",
-   "venue": "Silken Thomas Park",
+   "venue": "Clane RFC",
    "referee": "Ronan Harris",
    "homeScore": null,
    "awayScore": null,
@@ -1083,7 +1083,7 @@
    "home": "Cill Dara 2nd XV",
    "away": "North Kildare 2nd XV",
    "venue": "Silken Thomas Park",
-   "referee": null,
+   "referee": "Thomas Lyons",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -1102,7 +1102,7 @@
    "home": "Cill Dara 1st XV",
    "away": "North Kildare 1st XV",
    "venue": "Silken Thomas Park",
-   "referee": null,
+   "referee": "Justin Buhl",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
