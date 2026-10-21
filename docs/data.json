@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T12:52:52Z",
+ "updated": "2026-10-21T22:17:03Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1064,14 +1064,14 @@
    "home": "Portarlington 1st XV",
    "away": "North Kildare 1st XV",
    "venue": "Lea Rd",
-   "referee": "Eamon Timmins",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
    "awayTries": null,
-   "round": "Semi Final",
-   "note": null,
-   "status": "scheduled",
+   "round": null,
+   "note": "Game Off",
+   "status": "called-off",
    "concededBy": null
   },
   {
