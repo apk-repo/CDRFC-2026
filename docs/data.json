@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-22T12:55:17Z",
+ "updated": "2026-10-22T22:15:28Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1046,13 +1046,13 @@
    "away": "Clane 1st XV",
    "venue": "Clane RFC",
    "referee": "Ronan Harris",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 14,
+   "awayScore": 42,
+   "homeTries": 1,
+   "awayTries": 6,
    "round": "Semi Final",
    "note": null,
-   "status": "scheduled",
+   "status": "played",
    "concededBy": null
   },
   {
@@ -1159,7 +1159,7 @@
    "home": "Roscrea 2nd XV",
    "away": "Longford 2nd XV",
    "venue": "Streamstown",
-   "referee": "Dave Morris (Pending)",
+   "referee": "Dave Morris",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
