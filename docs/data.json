@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23T12:34:40Z",
+ "updated": "2026-10-23T22:02:48Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1070,9 +1070,9 @@
    "homeTries": null,
    "awayTries": null,
    "round": null,
-   "note": "Game Off",
-   "status": "called-off",
-   "concededBy": null
+   "note": "Conceded by Portarlington 1",
+   "status": "conceded",
+   "concededBy": "Portarlington 1st XV"
   },
   {
    "id": "j22a-2026-10-31-16",
