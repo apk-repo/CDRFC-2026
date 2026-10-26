@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T21:41:34Z",
+ "updated": "2026-10-26T14:08:59Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1046,10 +1046,10 @@
    "away": "Clane 1st XV",
    "venue": "Clane RFC",
    "referee": "Ronan Harris",
-   "homeScore": 14,
-   "awayScore": 42,
-   "homeTries": 1,
-   "awayTries": 6,
+   "homeScore": 42,
+   "awayScore": 14,
+   "homeTries": 6,
+   "awayTries": 1,
    "round": "Semi Final",
    "note": null,
    "status": "played",
