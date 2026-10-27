@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-26T23:05:39Z",
+ "updated": "2026-10-27T13:08:18Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1118,25 +1118,6 @@
    "time": "13:00",
    "comp": "j22a",
    "team": null,
-   "home": "Newbridge 2nd XV",
-   "away": "Portlaoise 2nd XV",
-   "venue": "Rosetown",
-   "referee": "Shane Hughes (Pending)",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
-   "round": null,
-   "note": null,
-   "status": "scheduled",
-   "concededBy": null
-  },
-  {
-   "id": "j22a-2026-11-01-18",
-   "date": "2026-11-01",
-   "time": "13:00",
-   "comp": "j22a",
-   "team": null,
    "home": "New Ross 2nd XV",
    "away": "Clondalkin 2nd XV",
    "venue": "FBD Park",
@@ -1151,7 +1132,7 @@
    "concededBy": null
   },
   {
-   "id": "j22a-2026-11-01-19",
+   "id": "j22a-2026-11-01-18",
    "date": "2026-11-01",
    "time": "13:00",
    "comp": "j22a",
@@ -1170,15 +1151,15 @@
    "concededBy": null
   },
   {
-   "id": "lge2a-2026-11-01-17",
+   "id": "j22a-2026-11-01-19",
    "date": "2026-11-01",
-   "time": "14:30",
-   "comp": "lge2a",
+   "time": "13:30",
+   "comp": "j22a",
    "team": null,
-   "home": "Newbridge 1st XV",
-   "away": "Portlaoise 1st XV",
+   "home": "Newbridge 2nd XV",
+   "away": "Portlaoise 2nd XV",
    "venue": "Rosetown",
-   "referee": "Izaak Bannister",
+   "referee": "Shane Hughes (Pending)",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -1189,7 +1170,7 @@
    "concededBy": null
   },
   {
-   "id": "lge2a-2026-11-01-18",
+   "id": "lge2a-2026-11-01-17",
    "date": "2026-11-01",
    "time": "14:30",
    "comp": "lge2a",
@@ -1208,7 +1189,7 @@
    "concededBy": null
   },
   {
-   "id": "lge2a-2026-11-01-19",
+   "id": "lge2a-2026-11-01-18",
    "date": "2026-11-01",
    "time": "14:30",
    "comp": "lge2a",
@@ -1217,6 +1198,25 @@
    "away": "Longford 1st XV",
    "venue": "Streamstown",
    "referee": "Ciaran Murphy",
+   "homeScore": null,
+   "awayScore": null,
+   "homeTries": null,
+   "awayTries": null,
+   "round": null,
+   "note": null,
+   "status": "scheduled",
+   "concededBy": null
+  },
+  {
+   "id": "lge2a-2026-11-01-19",
+   "date": "2026-11-01",
+   "time": "15:00",
+   "comp": "lge2a",
+   "team": null,
+   "home": "Newbridge 1st XV",
+   "away": "Portlaoise 1st XV",
+   "venue": "Rosetown",
+   "referee": "Izaak Bannister",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
