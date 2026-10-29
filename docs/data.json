@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T23:08:09Z",
+ "updated": "2026-10-29T14:09:55Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1159,7 +1159,7 @@
    "home": "Newbridge 2nd XV",
    "away": "Portlaoise 2nd XV",
    "venue": "Rosetown",
-   "referee": "Fergus Balfe (Pending)",
+   "referee": "Fergus Balfe",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
