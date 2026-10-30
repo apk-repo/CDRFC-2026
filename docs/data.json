@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T23:14:06Z",
+ "updated": "2026-10-30T14:01:54Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1235,7 +1235,7 @@
    "home": "Clondalkin 2nd XV",
    "away": "Newbridge 2nd XV",
    "venue": "Baldonnel Farm",
-   "referee": "Richard Kielthy (Pending)",
+   "referee": "Eoin Horkan",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -1254,7 +1254,7 @@
    "home": "Longford 2nd XV",
    "away": "Portlaoise 2nd XV",
    "venue": "Precision Health Park",
-   "referee": "Eoin Horkan (Pending)",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
