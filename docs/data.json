@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T13:35:20Z",
+ "updated": "2026-10-31T17:40:01Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -257,6 +257,21 @@
    "standings": [
     {
      "pos": 1,
+     "team": "Cill Dara 2nd XV",
+     "pld": 5,
+     "w": 3,
+     "d": 0,
+     "l": 2,
+     "pf": 140,
+     "pa": 97,
+     "diff": 43,
+     "bp": 1,
+     "bp4": null,
+     "bpl": 1,
+     "pts": 13
+    },
+    {
+     "pos": 2,
      "team": "Longford 2nd XV",
      "pld": 4,
      "w": 3,
@@ -271,7 +286,7 @@
      "pts": 13
     },
     {
-     "pos": 2,
+     "pos": 3,
      "team": "Clondalkin 2nd XV",
      "pld": 4,
      "w": 3,
@@ -286,7 +301,7 @@
      "pts": 12
     },
     {
-     "pos": 3,
+     "pos": 4,
      "team": "Portlaoise 2nd XV",
      "pld": 4,
      "w": 3,
@@ -301,7 +316,7 @@
      "pts": 12
     },
     {
-     "pos": 4,
+     "pos": 5,
      "team": "Newbridge 2nd XV",
      "pld": 4,
      "w": 2,
@@ -314,21 +329,6 @@
      "bp4": null,
      "bpl": 0,
      "pts": 10
-    },
-    {
-     "pos": 5,
-     "team": "Cill Dara 2nd XV",
-     "pld": 4,
-     "w": 2,
-     "d": 0,
-     "l": 2,
-     "pf": 104,
-     "pa": 82,
-     "diff": 22,
-     "bp": 1,
-     "bp4": null,
-     "bpl": 1,
-     "pts": 9
     },
     {
      "pos": 6,
@@ -348,13 +348,13 @@
     {
      "pos": 7,
      "team": "North Kildare 2nd XV",
-     "pld": 4,
+     "pld": 5,
      "w": 1,
      "d": 0,
-     "l": 3,
-     "pf": 45,
-     "pa": 79,
-     "diff": -34,
+     "l": 4,
+     "pf": 60,
+     "pa": 115,
+     "diff": -55,
      "bp": 1,
      "bp4": null,
      "bpl": 1,
@@ -1084,13 +1084,13 @@
    "away": "North Kildare 2nd XV",
    "venue": "Silken Thomas Park",
    "referee": "Thomas Lyons",
-   "homeScore": null,
-   "awayScore": null,
-   "homeTries": null,
-   "awayTries": null,
+   "homeScore": 36,
+   "awayScore": 15,
+   "homeTries": 6,
+   "awayTries": 2,
    "round": null,
    "note": null,
-   "status": "scheduled",
+   "status": "played",
    "concededBy": null
   },
   {
