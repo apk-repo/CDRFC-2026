@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T22:25:50Z",
+ "updated": "2026-11-01T14:13:48Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1140,7 +1140,7 @@
    "home": "Roscrea 2nd XV",
    "away": "Longford 2nd XV",
    "venue": "Streamstown",
-   "referee": null,
+   "referee": "Gordon Cummins",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
