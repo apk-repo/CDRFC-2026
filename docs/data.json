@@ -4,7 +4,7 @@
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
   "clubId": 3461,
-  "tagline": "Silken Thomas Park \u00b7 Kildare",
+  "tagline": "Silken Thomas Park · Kildare",
   "homeVenue": "Silken Thomas Park",
   "fixturesUrl": "https://leinsterrugby.sportlomo.com/fixtures/?club_id=3461"
  },
@@ -14,75 +14,114 @@
  "venues": {
   "Silken Thomas Park": {
    "club": "Cill Dara RFC",
-   "eircode": "",
-   "town": "Kildare, Co. Kildare",
+   "address": "Silken Thomas Park, Dunmurray, Kildare Town, Co. Kildare",
+   "eircode": "R51 R924",
+   "town": "Kildare Town, Co. Kildare",
    "lat": 53.158,
    "lon": -6.913,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "pitchero.com/clubs/cilldararfc"
   },
   "Rosetown": {
    "club": "Newbridge RFC",
+   "address": "Rosetown, Athgarvan, Newbridge, Co. Kildare",
    "eircode": "",
-   "town": "Newbridge, Co. Kildare",
+   "town": "Athgarvan, Co. Kildare",
+   "note": "The ground is at Athgarvan, not in Newbridge town.",
    "lat": 53.181,
    "lon": -6.8,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "clubforce.com / Wikipedia"
   },
   "The Maws Kilcock": {
    "club": "North Kildare RFC",
+   "address": "The Maws, Kilcock, Co. Kildare",
    "eircode": "",
    "town": "Kilcock, Co. Kildare",
+   "note": "On the Maynooth side of Kilcock.",
    "lat": 53.401,
    "lon": -6.67,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "northkildarerugby.com"
   },
   "Baldonnel Farm": {
    "club": "Clondalkin RFC",
-   "eircode": "",
-   "town": "Clondalkin, Co. Dublin",
+   "address": "Baldonnel, Clondalkin, Dublin 22",
+   "eircode": "D22 Y9H9",
+   "town": "Clondalkin, Dublin 22",
    "lat": 53.321,
    "lon": -6.395,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "Wikipedia infobox"
   },
   "Togher": {
    "club": "Portlaoise RFC",
+   "address": "Rugby Grounds, Togher, Portlaoise, Co. Laois",
    "eircode": "",
    "town": "Portlaoise, Co. Laois",
+   "note": "Just off the N77, near the M7 interchange.",
    "lat": 53.033,
    "lon": -7.3,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "portlaoiserugby.com / clubforce.com"
   },
   "Streamstown": {
    "club": "Roscrea RFC",
+   "address": "Streamstown, Roscrea, Co. Tipperary",
    "eircode": "",
    "town": "Roscrea, Co. Tipperary",
    "lat": 52.957,
    "lon": -7.8,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "mytown.ie / roscrearugby.ie"
   },
   "Precision Health Park": {
    "club": "Longford RFC",
+   "address": "The Demesne, Longford, Co. Longford",
    "eircode": "",
    "town": "Longford, Co. Longford",
+   "note": "Also known as CPL Park at the Demesne.",
    "lat": 53.727,
    "lon": -7.795,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "longfordrugby.com / irishrugby.ie"
   },
   "FBD Park": {
    "club": "New Ross RFC",
-   "eircode": "",
+   "address": "FBD Park, Southknock, New Ross, Co. Wexford",
+   "eircode": "Y34 TY02",
    "town": "New Ross, Co. Wexford",
    "lat": 52.396,
    "lon": -6.945,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "nrrfc.ie"
   },
   "Lea Rd": {
    "club": "Portarlington RFC",
-   "eircode": "",
+   "address": "Lea Road, Portarlington, Co. Laois",
+   "eircode": "R32 PR20",
    "town": "Portarlington, Co. Laois",
    "lat": 53.163,
    "lon": -7.189,
-   "coordsApprox": true
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "portarlingtonrugby.com"
+  },
+  "Clane RFC": {
+   "club": "Clane RFC",
+   "address": "Ballinagappa Road, Clane, Co. Kildare",
+   "eircode": "W91 HX68",
+   "town": "Clane, Co. Kildare",
+   "verified": "2026-11-05",
+   "source": "clanerfc.com"
   }
  },
  "teams": [

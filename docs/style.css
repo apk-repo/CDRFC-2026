@@ -566,3 +566,37 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   .co-row{grid-template-columns:minmax(0,1fr) 78px 78px}
   .co-score{font-size:13px}
 }
+
+/* ---- venue detail under the matchday directions button ---- */
+/* sits inside .hero, which is always dark in both themes */
+.venue-detail {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.14);
+}
+.vd-addr {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--on-dark);
+}
+.vd-eir {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  /* the chip is gold in both themes, so its text is pinned, not themed */
+  background: var(--gold);
+  color: #141210;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.vd-note,
+.vd-warn {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--on-dark-muted);
+}
+.vd-warn { font-style: italic; }

@@ -1,179 +1,218 @@
 {
-  "club": {
-    "name": "Cill Dara RFC",
-    "short": "Cill Dara",
-    "clubId": 3461,
-    "tagline": "Silken Thomas Park \u00b7 Kildare",
-    "homeVenue": "Silken Thomas Park",
-    "fixturesUrl": "https://leinsterrugby.sportlomo.com/fixtures/?club_id=3461"
+ "club": {
+  "name": "Cill Dara RFC",
+  "short": "Cill Dara",
+  "clubId": 3461,
+  "tagline": "Silken Thomas Park · Kildare",
+  "homeVenue": "Silken Thomas Park",
+  "fixturesUrl": "https://leinsterrugby.sportlomo.com/fixtures/?club_id=3461"
+ },
+ "links": {
+  "fines": "https://apk-repo.github.io/fines"
+ },
+ "teams": [
+  {
+   "id": "1st",
+   "label": "Cill Dara 1st XV",
+   "sourceSuffix": "1"
   },
-  "links": {
-    "fines": "https://apk-repo.github.io/fines"
+  {
+   "id": "2nd",
+   "label": "Cill Dara 2nd XV",
+   "sourceSuffix": "2"
+  }
+ ],
+ "competitions": [
+  {
+   "id": "lge2a",
+   "name": "Leinster League Division 2A",
+   "short": "League 2A",
+   "team": "1st",
+   "type": "league",
+   "url": "https://leinsterrugby.sportlomo.com/league/217301/",
+   "tryBonus": true,
+   "zones": {
+    "autoUp": 1,
+    "playoffUp": 1,
+    "playoffDown": 1,
+    "autoDown": 1
+   },
+   "match": [
+    "leinster league - division 2a"
+   ]
   },
-  "teams": [
-    {
-      "id": "1st",
-      "label": "Cill Dara 1st XV",
-      "sourceSuffix": "1"
-    },
-    {
-      "id": "2nd",
-      "label": "Cill Dara 2nd XV",
-      "sourceSuffix": "2"
-    }
-  ],
-  "competitions": [
-    {
-      "id": "lge2a",
-      "name": "Leinster League Division 2A",
-      "short": "League 2A",
-      "team": "1st",
-      "type": "league",
-      "url": "https://leinsterrugby.sportlomo.com/league/217301/",
-      "tryBonus": true,
-      "zones": {
-        "autoUp": 1,
-        "playoffUp": 1,
-        "playoffDown": 1,
-        "autoDown": 1
-      },
-      "match": [
-        "leinster league - division 2a"
-      ]
-    },
-    {
-      "id": "j22a",
-      "name": "Seconds League J2 Division 2A",
-      "short": "Seconds J2 2A",
-      "team": "2nd",
-      "type": "league",
-      "url": "https://leinsterrugby.sportlomo.com/league/217302/",
-      "tryBonus": false,
-      "zones": {},
-      "note": "No promotion or relegation. The 2nd XV's grade follows the 1st XV.",
-      "match": [
-        "seconds league (j2) - division 2a"
-      ]
-    },
-    {
-      "id": "lalor",
-      "name": "Lalor Cup",
-      "short": "Lalor Cup",
-      "team": "1st",
-      "type": "cup",
-      "status": "live",
-      "tryBonus": true,
-      "urls": [
-        "https://leinsterrugby.sportlomo.com/league-diagram/219467/",
-        "https://leinsterrugby.sportlomo.com/league/220099/"
-      ],
-      "match": [
-        "lalor"
-      ]
-    },
-    {
-      "id": "towns",
-      "name": "Provincial Towns Cup",
-      "short": "Towns Cup",
-      "team": "1st",
-      "type": "cup",
-      "status": "not-drawn",
-      "tryBonus": true,
-      "urls": [],
-      "match": [
-        "towns cup",
-        "provincial towns"
-      ]
-    }
-  ],
-  "venues": {
-    "Silken Thomas Park": {
-      "club": "Cill Dara RFC",
-      "eircode": "",
-      "town": "Kildare, Co. Kildare",
-      "lat": 53.158,
-      "lon": -6.913,
-      "coordsApprox": true
-    },
-    "Rosetown": {
-      "club": "Newbridge RFC",
-      "eircode": "",
-      "town": "Newbridge, Co. Kildare",
-      "lat": 53.181,
-      "lon": -6.8,
-      "coordsApprox": true
-    },
-    "The Maws Kilcock": {
-      "club": "North Kildare RFC",
-      "eircode": "",
-      "town": "Kilcock, Co. Kildare",
-      "lat": 53.401,
-      "lon": -6.67,
-      "coordsApprox": true
-    },
-    "Baldonnel Farm": {
-      "club": "Clondalkin RFC",
-      "eircode": "",
-      "town": "Clondalkin, Co. Dublin",
-      "lat": 53.321,
-      "lon": -6.395,
-      "coordsApprox": true
-    },
-    "Togher": {
-      "club": "Portlaoise RFC",
-      "eircode": "",
-      "town": "Portlaoise, Co. Laois",
-      "lat": 53.033,
-      "lon": -7.3,
-      "coordsApprox": true
-    },
-    "Streamstown": {
-      "club": "Roscrea RFC",
-      "eircode": "",
-      "town": "Roscrea, Co. Tipperary",
-      "lat": 52.957,
-      "lon": -7.8,
-      "coordsApprox": true
-    },
-    "Precision Health Park": {
-      "club": "Longford RFC",
-      "eircode": "",
-      "town": "Longford, Co. Longford",
-      "lat": 53.727,
-      "lon": -7.795,
-      "coordsApprox": true
-    },
-    "FBD Park": {
-      "club": "New Ross RFC",
-      "eircode": "",
-      "town": "New Ross, Co. Wexford",
-      "lat": 52.396,
-      "lon": -6.945,
-      "coordsApprox": true
-    },
-    "Lea Rd": {
-      "club": "Portarlington RFC",
-      "eircode": "",
-      "town": "Portarlington, Co. Laois",
-      "lat": 53.163,
-      "lon": -7.189,
-      "coordsApprox": true
-    }
+  {
+   "id": "j22a",
+   "name": "Seconds League J2 Division 2A",
+   "short": "Seconds J2 2A",
+   "team": "2nd",
+   "type": "league",
+   "url": "https://leinsterrugby.sportlomo.com/league/217302/",
+   "tryBonus": false,
+   "zones": {},
+   "note": "No promotion or relegation. The 2nd XV's grade follows the 1st XV.",
+   "match": [
+    "seconds league (j2) - division 2a"
+   ]
   },
-  "history": [
+  {
+   "id": "lalor",
+   "name": "Lalor Cup",
+   "short": "Lalor Cup",
+   "team": "1st",
+   "type": "cup",
+   "status": "live",
+   "tryBonus": true,
+   "urls": [
+    "https://leinsterrugby.sportlomo.com/league-diagram/219467/",
+    "https://leinsterrugby.sportlomo.com/league/220099/"
+   ],
+   "match": [
+    "lalor"
+   ]
+  },
+  {
+   "id": "towns",
+   "name": "Provincial Towns Cup",
+   "short": "Towns Cup",
+   "team": "1st",
+   "type": "cup",
+   "status": "not-drawn",
+   "tryBonus": true,
+   "urls": [],
+   "match": [
+    "towns cup",
+    "provincial towns"
+   ]
+  }
+ ],
+ "venues": {
+  "Silken Thomas Park": {
+   "club": "Cill Dara RFC",
+   "address": "Silken Thomas Park, Dunmurray, Kildare Town, Co. Kildare",
+   "eircode": "R51 R924",
+   "town": "Kildare Town, Co. Kildare",
+   "lat": 53.158,
+   "lon": -6.913,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "pitchero.com/clubs/cilldararfc"
+  },
+  "Rosetown": {
+   "club": "Newbridge RFC",
+   "address": "Rosetown, Athgarvan, Newbridge, Co. Kildare",
+   "eircode": "",
+   "town": "Athgarvan, Co. Kildare",
+   "note": "The ground is at Athgarvan, not in Newbridge town.",
+   "lat": 53.181,
+   "lon": -6.8,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "clubforce.com / Wikipedia"
+  },
+  "The Maws Kilcock": {
+   "club": "North Kildare RFC",
+   "address": "The Maws, Kilcock, Co. Kildare",
+   "eircode": "",
+   "town": "Kilcock, Co. Kildare",
+   "note": "On the Maynooth side of Kilcock.",
+   "lat": 53.401,
+   "lon": -6.67,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "northkildarerugby.com"
+  },
+  "Baldonnel Farm": {
+   "club": "Clondalkin RFC",
+   "address": "Baldonnel, Clondalkin, Dublin 22",
+   "eircode": "D22 Y9H9",
+   "town": "Clondalkin, Dublin 22",
+   "lat": 53.321,
+   "lon": -6.395,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "Wikipedia infobox"
+  },
+  "Togher": {
+   "club": "Portlaoise RFC",
+   "address": "Rugby Grounds, Togher, Portlaoise, Co. Laois",
+   "eircode": "",
+   "town": "Portlaoise, Co. Laois",
+   "note": "Just off the N77, near the M7 interchange.",
+   "lat": 53.033,
+   "lon": -7.3,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "portlaoiserugby.com / clubforce.com"
+  },
+  "Streamstown": {
+   "club": "Roscrea RFC",
+   "address": "Streamstown, Roscrea, Co. Tipperary",
+   "eircode": "",
+   "town": "Roscrea, Co. Tipperary",
+   "lat": 52.957,
+   "lon": -7.8,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "mytown.ie / roscrearugby.ie"
+  },
+  "Precision Health Park": {
+   "club": "Longford RFC",
+   "address": "The Demesne, Longford, Co. Longford",
+   "eircode": "",
+   "town": "Longford, Co. Longford",
+   "note": "Also known as CPL Park at the Demesne.",
+   "lat": 53.727,
+   "lon": -7.795,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "longfordrugby.com / irishrugby.ie"
+  },
+  "FBD Park": {
+   "club": "New Ross RFC",
+   "address": "FBD Park, Southknock, New Ross, Co. Wexford",
+   "eircode": "Y34 TY02",
+   "town": "New Ross, Co. Wexford",
+   "lat": 52.396,
+   "lon": -6.945,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "nrrfc.ie"
+  },
+  "Lea Rd": {
+   "club": "Portarlington RFC",
+   "address": "Lea Road, Portarlington, Co. Laois",
+   "eircode": "R32 PR20",
+   "town": "Portarlington, Co. Laois",
+   "lat": 53.163,
+   "lon": -7.189,
+   "coordsApprox": true,
+   "verified": "2026-11-05",
+   "source": "portarlingtonrugby.com"
+  },
+  "Clane RFC": {
+   "club": "Clane RFC",
+   "address": "Ballinagappa Road, Clane, Co. Kildare",
+   "eircode": "W91 HX68",
+   "town": "Clane, Co. Kildare",
+   "verified": "2026-11-05",
+   "source": "clanerfc.com"
+  }
+ },
+ "history": [
+  {
+   "label": "2025/26",
+   "competitions": [
     {
-      "label": "2025/26",
-      "competitions": [
-        {
-          "id": "lge2a",
-          "name": "Leinster League Division 2A",
-          "short": "League 2A",
-          "team": "1st",
-          "type": "league",
-          "tryBonus": true,
-          "url": "https://leinsterrugby.sportlomo.com/league/206695/"
-        }
-      ]
+     "id": "lge2a",
+     "name": "Leinster League Division 2A",
+     "short": "League 2A",
+     "team": "1st",
+     "type": "league",
+     "tryBonus": true,
+     "url": "https://leinsterrugby.sportlomo.com/league/206695/"
     }
-  ]
+   ]
+  }
+ ]
 }

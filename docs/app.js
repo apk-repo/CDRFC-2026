@@ -46,16 +46,40 @@
   }
   function fmtDay(d) { return DAYS[d.getDay()] + " " + d.getDate() + " " + MONS[d.getMonth()]; }
   function fmtLongDay(d) { return DAYS_FULL[d.getDay()] + " " + d.getDate() + " " + MONS[d.getMonth()]; }
-  /* Eircode routes to the exact gate; the name alone is a guess */
+  /* An Eircode lands on the gate. Failing that, use the verified street
+     address rather than the ground name, which maps often cannot place. */
   function venueInfo(name) { return (D.venues && D.venues[name]) || {}; }
-  function mapsUrl(name) {
+  function mapsQuery(name) {
     var v = venueInfo(name);
-    var q = v.eircode ? v.eircode : (name + (v.town ? ", " + v.town : ", Ireland"));
-    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+    if (v.eircode) return v.eircode;
+    if (v.address) return v.address;
+    return name + (v.town ? ", " + v.town : ", Ireland");
+  }
+  function mapsUrl(name) {
+    return "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(mapsQuery(name));
   }
   function venueLine(name) {
     var v = venueInfo(name);
     return name + (v.eircode ? " \u00b7 " + v.eircode : "");
+  }
+  /* The address under the button, so it can be eyeballed before anyone drives. */
+  function venueDetail(name) {
+    var v = venueInfo(name);
+    if (!v.address && !v.note) return null;
+    var box = el("div", "venue-detail");
+    if (v.address) {
+      var a = el("div", "vd-addr", v.address);
+      if (v.eircode) a.appendChild(el("span", "vd-eir", v.eircode));
+      box.appendChild(a);
+    }
+    if (v.note) box.appendChild(el("div", "vd-note", v.note));
+    if (!v.eircode) {
+      box.appendChild(el("div", "vd-warn",
+        "No Eircode published for this ground \u2014 the pin is the address, so " +
+        "give yourself a minute at the far end."));
+    }
+    return box;
   }
 
   function ordinal(n) {
@@ -634,6 +658,10 @@
       dir.target = "_blank"; dir.rel = "noopener";
       acts.appendChild(dir);
       hero.appendChild(acts);
+      if (oneVenue) {
+        var vd = venueDetail(first.venue);
+        if (vd) hero.appendChild(vd);
+      }
       root.appendChild(hero);
 
       var lead = day.items.filter(function (x) { return x.team === "1st"; })[0] || first;
