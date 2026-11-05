@@ -1305,23 +1305,46 @@
     };
   }
 
-  /* ----------------------------------------------------------- Everest */
-  /* Base Camp is the end of preseason. The summit is the title: every league
-     point available across the season, climbed. Real Everest altitudes. */
-  var EV = {
-    base: 5364,
-    summit: 8849,
-    camps: [
-      { alt: 5364, tag: "BC", name: "Base Camp",  note: "Preseason done, the league starts here" },
-      { alt: 5943, tag: "C1", name: "Camp I",     note: "Through the Khumbu Icefall" },
-      { alt: 6400, tag: "C2", name: "Camp II",    note: "Into the Western Cwm" },
-      { alt: 7162, tag: "C3", name: "Camp III",   note: "On the Lhotse Face" },
-      { alt: 7920, tag: "C4", name: "Camp IV",    note: "South Col, the death zone" },
-      { alt: 8849, tag: "", name: "The Summit",  note: "League title" }
-    ]
-  };
+  /* ----------------------------------------------------------- the climb */
+  /* The foot of the mountain is the end of preseason. The summit is the title:
+     every league point available across the season, climbed.
 
-  function everestState(c) {
+     The 1st XV climb Everest. The 2nd XV climb Olympus Mons on Mars, which at
+     21.9 km above the surrounding plains is the tallest mountain on any planet
+     in the solar system — about two and a half Everests. Real altitudes in
+     both cases; only the drawing is exaggerated, because a shield volcano
+     with a five per cent slope is a very boring silhouette. */
+  var MOUNTAINS = {
+    everest: {
+      key: "ev", name: "Everest", label: "THE EVEREST JOURNEY",
+      base: 5364, summit: 8849,
+      camps: [
+        { alt: 5364, tag: "BC", name: "Base Camp", note: "Preseason done, the league starts here" },
+        { alt: 5943, tag: "C1", name: "Camp I",    note: "Through the Khumbu Icefall" },
+        { alt: 6400, tag: "C2", name: "Camp II",   note: "Into the Western Cwm" },
+        { alt: 7162, tag: "C3", name: "Camp III",  note: "On the Lhotse Face" },
+        { alt: 7920, tag: "C4", name: "Camp IV",   note: "South Col, the death zone" },
+        { alt: 8849, tag: "",   name: "The Summit", note: "League title" }
+      ]
+    },
+    olympus: {
+      key: "om", name: "Olympus Mons", label: "THE OLYMPUS MONS CLIMB", mars: true,
+      base: 0, summit: 21900,
+      camps: [
+        { alt: 0,     tag: "LZ",  name: "Landing Zone",  note: "Preseason done, the league starts here" },
+        { alt: 8000,  tag: "ESC", name: "The Escarpment", note: "Eight kilometres of cliff, straight up" },
+        { alt: 13000, tag: "F1",  name: "Lower Flank",   note: "Shallow slopes, a very long way across" },
+        { alt: 17500, tag: "F2",  name: "Upper Flank",   note: "Above most of the Martian atmosphere" },
+        { alt: 20500, tag: "RIM", name: "Caldera Rim",   note: "The crater floor drops 3 km below" },
+        { alt: 21900, tag: "",    name: "The Summit",    note: "League title" }
+      ]
+    }
+  };
+  function mountainFor(c) {
+    return c && c.team === "2nd" ? MOUNTAINS.olympus : MOUNTAINS.everest;
+  }
+
+  function everestState(c, EV) {
     var me = null;
     (c.standings || []).forEach(function (r) { if (isCD(r.team)) me = r; });
     if (!me) return null;
@@ -1366,10 +1389,11 @@
   }
 
   function everestCard(c) {
-    var st = everestState(c);
+    var EV = mountainFor(c);
+    var st = everestState(c, EV);
     if (!st) return null;
 
-    var wrap = el("div", "card everest");
+    var wrap = el("div", "card everest" + (EV.mars ? " mars" : ""));
     var stage = el("div", "ev-head");
     var left = el("div", "ev-stage");
     left.appendChild(el("div", "ev-stage-name", st.at.name));
@@ -1385,53 +1409,108 @@
     var W = 340, H = 250;
     var svg = svgEl("svg", {
       viewBox: "0 0 " + W + " " + H, class: "ev-svg", role: "img",
-      "aria-label": "Season progress up Everest: " + Math.round(st.alt) +
+      "aria-label": "Season progress up " + EV.name + ": " + Math.round(st.alt) +
                     " metres, " + st.at.name + ", " + st.pts + " of " + st.available + " league points"
     });
 
+    var SKY = EV.mars ? ["#2B1A14", "#7E4A2E", "#D9A26B"] : ["#0E1726", "#2A2435", "#6E4733"];
+    var ROCKC = EV.mars ? ["#9A5632", "#3A1C12"] : ["#4A4740", "#17150F"];
+    var skyId = "sky-" + EV.key, rockId = "rock-" + EV.key;
+
     var defs = svgEl("defs");
-    var sky = svgEl("linearGradient", { id: "evSky", x1: "0", y1: "0", x2: "0", y2: "1" });
-    sky.appendChild(svgEl("stop", { offset: "0", "stop-color": "#0E1726" }));
-    sky.appendChild(svgEl("stop", { offset: "0.55", "stop-color": "#2A2435" }));
-    sky.appendChild(svgEl("stop", { offset: "1", "stop-color": "#6E4733" }));
+    var sky = svgEl("linearGradient", { id: skyId, x1: "0", y1: "0", x2: "0", y2: "1" });
+    sky.appendChild(svgEl("stop", { offset: "0", "stop-color": SKY[0] }));
+    sky.appendChild(svgEl("stop", { offset: "0.55", "stop-color": SKY[1] }));
+    sky.appendChild(svgEl("stop", { offset: "1", "stop-color": SKY[2] }));
     defs.appendChild(sky);
-    var rock = svgEl("linearGradient", { id: "evRock", x1: "0", y1: "0", x2: "0", y2: "1" });
-    rock.appendChild(svgEl("stop", { offset: "0", "stop-color": "#4A4740" }));
-    rock.appendChild(svgEl("stop", { offset: "1", "stop-color": "#17150F" }));
+    var rock = svgEl("linearGradient", { id: rockId, x1: "0", y1: "0", x2: "0", y2: "1" });
+    rock.appendChild(svgEl("stop", { offset: "0", "stop-color": ROCKC[0] }));
+    rock.appendChild(svgEl("stop", { offset: "1", "stop-color": ROCKC[1] }));
     defs.appendChild(rock);
     svg.appendChild(defs);
 
-    svg.appendChild(svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#evSky)" }));
-    [[52, 44, 0.9], [96, 28, 0.6], [150, 52, 0.5], [214, 24, 0.8], [268, 48, 0.6], [304, 32, 0.9],
-     [24, 70, 0.5], [128, 16, 0.7], [292, 70, 0.45]].forEach(function (p) {
-      svg.appendChild(svgEl("circle", { cx: p[0], cy: p[1], r: 1.1, fill: "#F4F1EA",
-                                        opacity: p[2], class: "ev-star" }));
-    });
+    svg.appendChild(svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#" + skyId + ")" }));
 
-    svg.appendChild(svgEl("path", {
-      d: "M-4 196 L40 148 L74 174 L112 132 L148 168 L188 120 L228 166 L268 128 L308 170 L344 146 L344 254 L-4 254 Z",
-      fill: "#211C18", opacity: ".9"
-    }));
-    svg.appendChild(svgEl("path", {
-      d: "M-8 254 L198 28 L258 104 L298 78 L348 254 Z", fill: "url(#evRock)"
-    }));
-    svg.appendChild(svgEl("path", {
-      d: "M198 28 L229 62 L216 58 L205 70 L193 56 L180 68 L168 58 Z", fill: "#EDE8DE", opacity: ".93"
-    }));
-    svg.appendChild(svgEl("path", {
-      d: "M198 28 L229 62 L223 64 L198 36 L176 62 L168 58 Z", fill: "#FFFFFF", opacity: ".35"
-    }));
+    var ROUTE;
+    if (EV.mars) {
+      /* Phobos and Deimos, rather than a sky full of stars */
+      svg.appendChild(svgEl("circle", { cx: 268, cy: 42, r: 6.5, fill: "#C9B5A4",
+                                        opacity: ".85", class: "ev-moon" }));
+      svg.appendChild(svgEl("circle", { cx: 264, cy: 39, r: 1.5, fill: "#8A7768", opacity: ".5" }));
+      svg.appendChild(svgEl("circle", { cx: 303, cy: 72, r: 2.4, fill: "#C9B5A4",
+                                        opacity: ".6", class: "ev-moon" }));
 
-    var ROUTE = "M58 204 C 84 180 96 166 118 142 " +
-                "C 136 122 148 106 162 86 C 174 68 182 50 198 28";
+      /* the lobed aureole ringing the volcano, flattened by distance */
+      svg.appendChild(svgEl("path", {
+        d: "M-4 214 L46 204 L104 210 L168 202 L232 209 L292 201 L344 208 L344 254 L-4 254 Z",
+        fill: "#3A2017", opacity: ".8"
+      }));
+      /* The shield itself. Olympus Mons is 600 km across and 22 km high, so
+         the real profile is almost flat; this is steepened to stay legible,
+         but the shape is right: concave flanks running out to a broad
+         summit plateau rather than a peak. */
+      svg.appendChild(svgEl("path", {
+        d: "M-14 254 L-14 207 C 20 201 48 187 78 165 C 106 143 124 120 138 100 " +
+           "L141 96 L231 96 L234 100 C 250 120 268 143 296 165 C 326 187 356 201 " +
+           "390 207 L390 254 Z",
+        fill: "url(#" + rockId + ")"
+      }));
+      /* the basal escarpment: a cliff up to 8 km high ringing the whole thing */
+      svg.appendChild(svgEl("path", {
+        d: "M-14 207 C 20 201 48 187 78 165 L85 173 C 55 196 22 209 -14 215 Z",
+        fill: "#2A120B", opacity: ".45"
+      }));
+      svg.appendChild(svgEl("path", {
+        d: "M296 166 C 326 187 356 201 390 207 L390 213 C 356 207 324 193 292 172 Z",
+        fill: "#2A120B", opacity: ".22"
+      }));
+      /* The caldera: 60 by 80 km across, up to 3.2 km deep. Lit far wall,
+         shadowed near wall, so it reads as a depression and not a hole. */
+      svg.appendChild(svgEl("ellipse", { cx: 187, cy: 97, rx: 34, ry: 7.5,
+                                         fill: "#3B1D11", opacity: ".92" }));
+      svg.appendChild(svgEl("path", {
+        d: "M153 97 A 34 7.5 0 0 0 221 97 A 34 6 0 0 1 153 97 Z",
+        fill: "#20100A", opacity: ".8"
+      }));
+      svg.appendChild(svgEl("path", {
+        d: "M153 97 A 34 7.5 0 0 1 221 97", fill: "none", stroke: "#E8B888",
+        "stroke-width": "1", opacity: ".4"
+      }));
+      ROUTE = "M34 207 C 64 192 86 173 106 150 " +
+              "C 122 131 132 114 141 96";
+    } else {
+      [[52, 44, 0.9], [96, 28, 0.6], [150, 52, 0.5], [214, 24, 0.8], [268, 48, 0.6], [304, 32, 0.9],
+       [24, 70, 0.5], [128, 16, 0.7], [292, 70, 0.45]].forEach(function (p) {
+        svg.appendChild(svgEl("circle", { cx: p[0], cy: p[1], r: 1.1, fill: "#F4F1EA",
+                                          opacity: p[2], class: "ev-star" }));
+      });
+      svg.appendChild(svgEl("path", {
+        d: "M-4 196 L40 148 L74 174 L112 132 L148 168 L188 120 L228 166 L268 128 L308 170 L344 146 L344 254 L-4 254 Z",
+        fill: "#211C18", opacity: ".9"
+      }));
+      svg.appendChild(svgEl("path", {
+        d: "M-8 254 L198 28 L258 104 L298 78 L348 254 Z", fill: "url(#" + rockId + ")"
+      }));
+      svg.appendChild(svgEl("path", {
+        d: "M198 28 L229 62 L216 58 L205 70 L193 56 L180 68 L168 58 Z", fill: "#EDE8DE", opacity: ".93"
+      }));
+      svg.appendChild(svgEl("path", {
+        d: "M198 28 L229 62 L223 64 L198 36 L176 62 L168 58 Z", fill: "#FFFFFF", opacity: ".35"
+      }));
+      ROUTE = "M58 204 C 84 180 96 166 118 142 " +
+              "C 136 122 148 106 162 86 C 174 68 182 50 198 28";
+    }
     svg.appendChild(svgEl("path", { d: ROUTE, class: "ev-route-bg" }));
     var route = svgEl("path", { d: ROUTE, class: "ev-route" });
     svg.appendChild(route);
 
     /* summit flag */
+    var SX = EV.mars ? 141 : 198, SY = EV.mars ? 96 : 28;
     var flag = svgEl("g", { class: "ev-flag" });
-    flag.appendChild(svgEl("line", { x1: 198, y1: 28, x2: 198, y2: 8, class: "ev-pole" }));
-    flag.appendChild(svgEl("path", { d: "M198 9 L217 14 L198 20 Z", class: "ev-flagcloth" }));
+    flag.appendChild(svgEl("line", { x1: SX, y1: SY, x2: SX, y2: SY - 20, class: "ev-pole" }));
+    flag.appendChild(svgEl("path", { d: "M" + SX + " " + (SY - 19) + " L" + (SX + 19) + " " +
+                                        (SY - 14) + " L" + SX + " " + (SY - 8) + " Z",
+                                     class: "ev-flagcloth" }));
     svg.appendChild(flag);
 
     /* camps, placed along the route at their share of the climb */
@@ -1476,12 +1555,22 @@
     climber.appendChild(burst);
     svg.appendChild(climber);
 
-    var snow = svgEl("g", { class: "ev-snow" });
+    /* snow on Everest; wind-blown dust on Mars */
+    var snow = svgEl("g", { class: EV.mars ? "ev-dustfield" : "ev-snow" });
     for (var i = 0; i < 18; i++) {
-      var fl = svgEl("circle", { cx: (i * 37 % W), cy: -4, r: 0.7 + (i % 3) * 0.45, class: "ev-flake" });
-      fl.style.animationDuration = (7 + (i % 5) * 2.4) + "s";
-      fl.style.animationDelay = (-(i * 1.37) % 9) + "s";
-      fl.style.setProperty("--sway", ((i % 4) * 7 - 10) + "px");
+      var fl;
+      if (EV.mars) {
+        fl = svgEl("circle", { cx: -8, cy: 60 + (i * 53 % 170), r: 0.6 + (i % 3) * 0.4,
+                               class: "ev-dust" });
+        fl.style.animationDuration = (9 + (i % 5) * 3.2) + "s";
+        fl.style.animationDelay = (-(i * 1.11) % 11) + "s";
+        fl.style.setProperty("--rise", (-(i % 4) * 9 - 4) + "px");
+      } else {
+        fl = svgEl("circle", { cx: (i * 37 % W), cy: -4, r: 0.7 + (i % 3) * 0.45, class: "ev-flake" });
+        fl.style.animationDuration = (7 + (i % 5) * 2.4) + "s";
+        fl.style.animationDelay = (-(i * 1.37) % 9) + "s";
+        fl.style.setProperty("--sway", ((i % 4) * 7 - 10) + "px");
+      }
       snow.appendChild(fl);
     }
     svg.appendChild(snow);
@@ -1667,7 +1756,7 @@
     }
     var ev = everestCard(c);
     if (ev) {
-      root.appendChild(el("div", "label", "THE EVEREST JOURNEY"));
+      root.appendChild(el("div", "label", mountainFor(c).label));
       root.appendChild(ev);
     }
     if (c.note) notes.appendChild(el("p", "note-strong", c.note));

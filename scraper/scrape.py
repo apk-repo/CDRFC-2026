@@ -635,6 +635,11 @@ def main():
             if m:
                 claimed.add(m.group(2))
 
+    # competitions the club is entered in that we deliberately do not show
+    ignored = {}
+    for ig in cfg.get("ignoreCompetitions", []):
+        ignored[str(ig.get("id"))] = ig.get("why") or "Not tracked."
+
     # attach each discovered page to the competition whose keyword its name matches
     extra = {}
     for url, name in discovered.items():
@@ -659,6 +664,12 @@ def main():
                           "why": "Sportlomo publishes each cup round as its own competition page. "
                                  "This one was picked up automatically; add it to sources.json "
                                  "under that competition's urls to make it permanent."})
+        elif cid in ignored:
+            # deliberately not tracked; say so once, quietly, and move on
+            notes.append({"kind": "info", "comp": None, "pair": name,
+                          "kept": "Not tracked: " + url,
+                          "hidden": None,
+                          "why": ignored[cid]})
         else:
             notes.append({"kind": "attention", "comp": None, "pair": name,
                           "kept": "Unrecognised competition: " + url,

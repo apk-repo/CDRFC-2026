@@ -214,5 +214,17 @@
     }
    ]
   }
+ ],
+ "ignoreCompetitions": [
+  {
+   "id": "216899",
+   "name": "Mens Friendlies",
+   "why": "Friendlies are not tracked; results do not count towards anything shown here."
+  },
+  {
+   "id": "217475",
+   "name": "North Midlands Hosie Cup J1",
+   "why": "Not tracked by request."
+  }
  ]
 }

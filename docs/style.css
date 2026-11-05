@@ -600,3 +600,39 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   color: var(--on-dark-muted);
 }
 .vd-warn { font-style: italic; }
+
+/* ---- Olympus Mons: the 2nd XV climb -------------------------------------
+   Gold reads badly against a butterscotch Martian sky, so the route, the
+   climber and the camps switch to a pale instrument blue. */
+.everest.mars .ev-alt-n{color:#CFEDFF}
+.everest.mars .ev-route{stroke:#BFE9FF}
+.everest.mars .ev-route-bg{stroke:rgba(42,18,11,.3)}
+.everest.mars .ev-pole{stroke:rgba(255,245,235,.8)}
+.everest.mars .ev-flagcloth{transform-origin:141px 88px}
+.everest.mars .ev-camp-ring{fill:#2A120B;stroke:rgba(255,238,222,.5)}
+.everest.mars .ev-camp.reached .ev-camp-ring{stroke:#BFE9FF;fill:#BFE9FF}
+.everest.mars .ev-camp-t{fill:#E8C9AC}
+.everest.mars .ev-camp.reached .ev-camp-t{fill:#F4FBFF}
+.everest.mars .ev-halo{fill:#BFE9FF;opacity:.24}
+.everest.mars .ev-dot{fill:#EAF8FF;stroke:#2A120B}
+.everest.mars .ev-bar-fill{background:linear-gradient(90deg,#B2332A,#BFE9FF)}
+.everest.mars .ev-next{color:#CFEDFF}
+.everest.mars .ev-ghost-dot{fill:#F2CFA8}
+
+/* Phobos and Deimos drift; the dust blows across rather than falling */
+.ev-moon{animation:ev-moon-drift 26s linear infinite}
+@keyframes ev-moon-drift{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(-10px,3px)}
+}
+.ev-dust{fill:#F2CFA8;opacity:.45;animation:ev-drift linear infinite}
+@keyframes ev-drift{
+  0%{transform:translate(0,0);opacity:0}
+  14%{opacity:.5}
+  86%{opacity:.35}
+  100%{transform:translate(360px,var(--rise,-8px));opacity:0}
+}
+@media (prefers-reduced-motion: reduce){
+  .ev-dust,.ev-moon{animation:none}
+  .ev-dust{opacity:.3}
+}
