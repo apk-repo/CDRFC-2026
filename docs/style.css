@@ -540,3 +540,29 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   :root:not([data-theme="light"]) .themebtn .moon{display:block}
   :root:not([data-theme="light"]) .themebtn .sun{display:none}
 }
+
+/* ---------------- opposition analysis ---------------- */
+.dos-read{margin-top:13px;border-top:1px solid var(--sep);padding-top:11px}
+.dos-read p{margin:0 0 7px 0;font-size:13px;line-height:1.55;color:var(--text)}
+.dos-read p:last-child{margin-bottom:0}
+
+.dos-common{margin-top:13px;border-top:1px solid var(--sep);padding-top:11px}
+.co-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 92px;gap:6px;align-items:center;
+  padding:5px 0}
+.co-head{padding-bottom:3px}
+.co-head .co-cell{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--faint);
+  text-transform:uppercase;display:block}
+.co-opp{font-size:13px;color:var(--text);line-height:1.3;min-width:0}
+.co-cell{display:flex;align-items:center;gap:6px}
+.co-res{width:17px;height:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
+.cr-w{background:var(--green)}
+.cr-l{background:var(--accent)}
+.cr-d{background:var(--faint)}
+.co-score{font-family:'Oswald',sans-serif;font-size:14px;font-weight:500;color:var(--text);
+  font-variant-numeric:tabular-nums}
+.co-note{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
+@media(max-width:400px){
+  .co-row{grid-template-columns:minmax(0,1fr) 78px 78px}
+  .co-score{font-size:13px}
+}

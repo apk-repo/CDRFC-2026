@@ -341,7 +341,137 @@
     met.sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 
     return { team: them, row: row, home: home, away: away, tf: tf, ta: ta,
-             met: met.slice(0, 4), n: c.standings.length, compId: c.id };
+             met: met.slice(0, 4), n: c.standings.length, compId: c.id,
+             played: theirs, fixture: f };
+  }
+
+
+  /* ---------------------------------------------- opposition analysis */
+  /* Everything here is derived from results already in the feed. Nothing is
+     asserted that the numbers do not support, and each sentence drops out
+     when there are too few games to mean anything. */
+
+  function rankBy(standings, key, desc) {
+    var sorted = standings.slice().sort(function (a, b) {
+      return desc ? (b[key] - a[key]) : (a[key] - b[key]);
+    });
+    return function (team) {
+      for (var i = 0; i < sorted.length; i++) if (sorted[i].team === team) return i + 1;
+      return null;
+    };
+  }
+
+  function splitRecord(games, them) {
+    var out = { h: { p: 0, w: 0, f: 0, a: 0 }, a: { p: 0, w: 0, f: 0, a: 0 } };
+    games.forEach(function (g) {
+      var atHome = g.home === them;
+      var b = atHome ? out.h : out.a;
+      var sf = atHome ? g.homeScore : g.awayScore;
+      var sa = atHome ? g.awayScore : g.homeScore;
+      b.p++; b.f += sf; b.a += sa;
+      if (sf > sa) b.w++;
+    });
+    return out;
+  }
+
+  /* how both sides fared against the clubs they have each played */
+  function commonOpponents(k) {
+    var c = comp(k.compId);
+    var ourTeam = teamLabelFor(c.team);
+    function resultsFor(team) {
+      var map = {};
+      D.fixtures.filter(function (f) {
+        return f.comp === k.compId && f.status === "played" && f.homeScore != null &&
+               (f.home === team || f.away === team);
+      }).forEach(function (f) {
+        var atHome = f.home === team;
+        var opp = atHome ? f.away : f.home;
+        map[opp] = {
+          f: atHome ? f.homeScore : f.awayScore,
+          a: atHome ? f.awayScore : f.homeScore,
+          home: atHome, date: f.date
+        };
+      });
+      return map;
+    }
+    var mine = resultsFor(ourTeam), theirs = resultsFor(k.team);
+    var rows = [];
+    Object.keys(theirs).forEach(function (opp) {
+      if (opp === ourTeam || !mine[opp]) return;
+      rows.push({ opp: opp, them: theirs[opp], us: mine[opp] });
+    });
+    rows.sort(function (a, b) { return (b.them.date || "").localeCompare(a.them.date || ""); });
+    return rows;
+  }
+
+  function oppAnalysis(k) {
+    var c = comp(k.compId);
+    var r = k.row;
+    if (!r || !r.pld) return null;
+    var lines = [];
+    var sc = k.played.filter(function (g) { return g.homeScore != null; });
+
+    /* standing and recent form */
+    var form = formOf(k.compId, k.team).slice(-3).map(function (x) { return x.r; });
+    var wins = form.filter(function (x) { return x === "W"; }).length;
+    var place = ordinal(r.pos) + " on " + r.pts + (r.pts === 1 ? " point" : " points");
+    if (form.length >= 3 && wins >= 2) {
+      lines.push(place + ", and in decent nick: " + wins + " wins in their last " + form.length + ".");
+    } else if (form.length >= 3 && wins === 0) {
+      lines.push(place + ", and out of form: beaten in each of their last " + form.length + ".");
+    } else {
+      lines.push(place + ", with " + r.w + (r.w === 1 ? " win" : " wins") + " from " + r.pld + ".");
+    }
+
+    /* where they sit for scoring and for conceding */
+    if (r.pld >= 3 && c.standings.length > 3) {
+      var attack = rankBy(c.standings, "pf", true)(k.team);
+      var leak = rankBy(c.standings, "pa", true)(k.team);
+      var att = attack === 1 ? "They have scored more than anyone"
+              : attack <= 3 ? "They have scored the " + ordinal(attack) + " most points"
+              : "They sit " + ordinal(attack) + " for points scored";
+      var def = leak === 1 ? "concede more than anyone"
+              : leak <= 3 ? "are the " + ordinal(leak) + " most generous at the back"
+              : "sit " + ordinal(leak) + " for points conceded";
+      var joiner = (attack <= 3 && leak <= 3) ? ", but they also " : ", and they ";
+      lines.push(att + " (" + r.pf + ")" + joiner + def + " (" + r.pa + ").");
+    }
+
+    /* home and away, which matters most when it is their patch */
+    var sp = splitRecord(sc, k.team);
+    var atTheirs = k.fixture && !isCD(k.fixture.home);
+    if (sp.h.p >= 2 && sp.a.p >= 2) {
+      var hAvgF = Math.round(sp.h.f / sp.h.p), hAvgA = Math.round(sp.h.a / sp.h.p);
+      var aAvgF = Math.round(sp.a.f / sp.a.p), aAvgA = Math.round(sp.a.a / sp.a.p);
+      var homeBetter = (hAvgF - hAvgA) - (aAvgF - aAvgA);
+      if (homeBetter >= 10) {
+        lines.push((atTheirs ? "They are a different side at home" : "They travel badly") +
+          ": " + sp.h.w + " of " + sp.h.p + " won there, averaging " + hAvgF + "–" + hAvgA +
+          ", against " + sp.a.w + " of " + sp.a.p + " away at " + aAvgF + "–" + aAvgA + ".");
+      } else if (homeBetter <= -10) {
+        lines.push("Oddly, they are better on the road: " + sp.a.w + " of " + sp.a.p +
+          " away at " + aAvgF + "–" + aAvgA + ", against " + sp.h.w + " of " + sp.h.p +
+          " at home at " + hAvgF + "–" + hAvgA + ".");
+      }
+    }
+
+    /* how they score: tries grounded against everything off the tee */
+    if (r.pld >= 3 && k.tf) {
+      var fromTries = k.tf * 5;
+      var kicked = Math.max(0, r.pf - fromTries);
+      var tpg = k.tf / r.pld;
+      var tpgTxt = Math.abs(tpg - Math.round(tpg)) < 0.05
+        ? String(Math.round(tpg)) : tpg.toFixed(1);
+      lines.push(tpgTxt + " tries a game, with " + kicked + " of their " + r.pf +
+        " points coming off the tee.");
+    }
+
+    /* how often their games are live late */
+    var tight = sc.filter(function (g) { return Math.abs(g.homeScore - g.awayScore) <= 7; }).length;
+    if (sc.length >= 4 && tight >= 2) {
+      lines.push(tight + " of their " + sc.length + " have finished inside a converted try.");
+    }
+    return lines;
   }
 
   function dossierCard(f) {
@@ -372,6 +502,46 @@
     stat("tries for", String(k.tf));
     stat("tries against", String(k.ta));
     card.appendChild(grid);
+
+    var read = oppAnalysis(k);
+    if (read && read.length) {
+      var an = el("div", "dos-read");
+      read.forEach(function (t) { an.appendChild(el("p", null, t)); });
+      card.appendChild(an);
+    }
+
+    var common = commonOpponents(k);
+    if (common.length) {
+      var co = el("div", "dos-common");
+      co.appendChild(el("div", "dos-h2h-l", "COMMON OPPONENTS"));
+      var head = el("div", "co-row co-head");
+      head.appendChild(el("span", "co-opp", ""));
+      head.appendChild(el("span", "co-cell", clubOnly(k.team)));
+      head.appendChild(el("span", "co-cell", "Us"));
+      co.appendChild(head);
+      var swingSum = 0;
+      common.forEach(function (x) {
+        swingSum += (x.us.f - x.us.a) - (x.them.f - x.them.a);
+        var row = el("div", "co-row");
+        row.appendChild(nameNode(clubOnly(x.opp), "co-opp"));
+        [["them", x.them], ["us", x.us]].forEach(function (pair) {
+          var v = pair[1];
+          var cell = el("span", "co-cell");
+          var res = v.f > v.a ? "w" : (v.f < v.a ? "l" : "d");
+          cell.appendChild(el("span", "co-res cr-" + res, res.toUpperCase()));
+          cell.appendChild(el("span", "co-score", v.f + "–" + v.a));
+          row.appendChild(cell);
+        });
+        co.appendChild(row);
+      });
+      var avg = Math.round(swingSum / common.length);
+      co.appendChild(el("div", "co-note",
+        common.length + " club" + (common.length === 1 ? "" : "s") + " both sides have played. " +
+        (avg > 0 ? "Across them we are " + avg + " points a game better off."
+         : avg < 0 ? "Across them they are " + Math.abs(avg) + " points a game better off."
+         : "Across them there is nothing between the two sides.")));
+      card.appendChild(co);
+    }
 
     if (k.met.length) {
       var h2h = el("div", "dos-h2h");
