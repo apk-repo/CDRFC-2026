@@ -1,10 +1,10 @@
 {
- "updated": "2026-11-05T15:23:32Z",
+ "updated": "2026-11-06T00:07:37Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
   "clubId": 3461,
-  "tagline": "Silken Thomas Park · Kildare",
+  "tagline": "Silken Thomas Park \u00b7 Kildare",
   "homeVenue": "Silken Thomas Park",
   "fixturesUrl": "https://leinsterrugby.sportlomo.com/fixtures/?club_id=3461"
  },
@@ -1331,7 +1331,7 @@
    "home": "Roscrea 2nd XV",
    "away": "Cill Dara 2nd XV",
    "venue": "Streamstown",
-   "referee": null,
+   "referee": "Philip O'Brien (Pending)",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -2636,26 +2636,26 @@
  ],
  "issues": [
   {
-   "kind": "attention",
+   "kind": "info",
    "comp": null,
    "pair": "Mens Friendlies",
-   "kept": "Unrecognised competition: https://leinsterrugby.sportlomo.com/league/216899/",
+   "kept": "Not tracked: https://leinsterrugby.sportlomo.com/league/216899/",
    "hidden": null,
-   "why": "The club is entered in a competition the app does not track. Add it to sources.json if it should appear."
+   "why": "Friendlies are not tracked; results do not count towards anything shown here."
   },
   {
-   "kind": "attention",
+   "kind": "info",
    "comp": null,
    "pair": "North Midlands Hosie Cup J1",
-   "kept": "Unrecognised competition: https://leinsterrugby.sportlomo.com/league/217475/",
+   "kept": "Not tracked: https://leinsterrugby.sportlomo.com/league/217475/",
    "hidden": null,
-   "why": "The club is entered in a competition the app does not track. Add it to sources.json if it should appear."
+   "why": "Not tracked by request."
   }
  ],
  "counts": {
   "rowsIn": 115,
   "kept": 115,
   "merged": 0,
-  "attention": 2
+  "attention": 0
  }
 }
