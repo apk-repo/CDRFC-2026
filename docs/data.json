@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-07T17:59:45Z",
+ "updated": "2026-11-07T22:40:30Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1331,7 +1331,7 @@
    "home": "Roscrea 2nd XV",
    "away": "Cill Dara 2nd XV",
    "venue": "Streamstown",
-   "referee": null,
+   "referee": "Paul BK",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
