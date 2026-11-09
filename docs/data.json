@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T22:48:35Z",
+ "updated": "2026-11-09T17:24:10Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1521,7 +1521,7 @@
    "home": "Newbridge 1st XV",
    "away": "North Kildare 1st XV",
    "venue": "Rosetown",
-   "referee": "Keith Spendlove (Pending)",
+   "referee": "Keith Spendlove",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
@@ -1540,7 +1540,7 @@
    "home": "New Ross 1st XV",
    "away": "Roscrea 1st XV",
    "venue": "FBD Park",
-   "referee": "Roberto Abbondati (Pending)",
+   "referee": "Roberto Abbondati",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
