@@ -640,3 +640,12 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 /* the strip is a rolling window; this marks that earlier games sit behind it */
 .fdot.fd-more{background:transparent;color:var(--faint);font-weight:700;
   width:11px;letter-spacing:0;cursor:help}
+
+/* the full season's results, spanning the row beneath the figures */
+.tform{grid-column:1/-1;padding:7px 0 0 30px;min-width:0}
+.tform .form{flex-wrap:wrap;gap:3px;row-gap:4px}
+.thead .tform{display:none}
+@media(max-width:380px){
+  .tform{padding-left:26px}
+  .tform .fdot{width:14px;height:14px;font-size:9px}
+}

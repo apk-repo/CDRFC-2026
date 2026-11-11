@@ -1103,11 +1103,11 @@
     var wrap = el("div", "form");
     var list = formOf(compId, team);
     if (!list.length) { wrap.appendChild(el("span", "fdot fd-none", "–")); return wrap; }
-    max = max || 5;
+    max = max == null ? 5 : max;          /* 0 means the whole season */
     /* The strip is a rolling window, but the P/W/L columns beside it count the
        whole season. Without a marker a side that lost early and won since
        reads as six games and five greens, which looks like a bug. */
-    if (list.length > max) {
+    if (max && list.length > max) {
       var hid = list.slice(0, list.length - max);
       var tally = { W: 0, D: 0, L: 0, C: 0 };
       hid.forEach(function (x) { if (tally[x.r] != null) tally[x.r]++; });
@@ -1121,7 +1121,7 @@
                    " not shown" + (bits.length ? " (" + bits.join(", ") + ")" : "");
       wrap.appendChild(more);
     }
-    list.slice(-max).forEach(function (x) {
+    (max ? list.slice(-max) : list).forEach(function (x) {
       var d = el("span", "fdot fd-" + x.r.toLowerCase(), x.r);
       var f = x.f;
       var them = f.home === team ? f.away : f.home;
@@ -1736,7 +1736,6 @@
       var sub = el("div", "tsub");
       sub.appendChild(el("span", null,
         r.pld ? (r.pf + "–" + r.pa + " · " + (r.diff > 0 ? "+" : "") + r.diff) : "no games played"));
-      sub.appendChild(formStrip(c.id, r.team, 5));
       name.appendChild(sub);
       row.appendChild(name);
       [r.pld, r.w, r.d, r.l].forEach(function (v, i) {
@@ -1745,6 +1744,11 @@
       row.appendChild(el("div", "tc tc7" + (tb ? "" : " na"), tb ? String(tryBonusOf(r)) : "–"));
       row.appendChild(el("div", "tc tc8", String(r.bpl == null ? 0 : r.bpl)));
       row.appendChild(el("div", "tc tc9 pts", String(r.pts)));
+      /* the season's results run the full width underneath, so they are not
+         squeezed into the name column and nothing falls off the end */
+      var fs = el("div", "tform");
+      fs.appendChild(formStrip(c.id, r.team, 0));
+      row.appendChild(fs);
       tbl.appendChild(row);
     });
     root.appendChild(tbl);
