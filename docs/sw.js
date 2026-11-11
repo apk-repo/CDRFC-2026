@@ -2,7 +2,7 @@
    Shell files: cache first, refreshed in the background.
    data.json:   network first, falling back to the last copy, so a pitch with no
                 signal still shows the fixtures you had this morning. */
-var VERSION = "v5";
+var VERSION = "v6";
 var SHELL = "shell-" + VERSION;
 var DATA = "data-" + VERSION;
 var FILES = [

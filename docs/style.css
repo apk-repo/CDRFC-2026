@@ -636,3 +636,7 @@ main{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   .ev-dust,.ev-moon{animation:none}
   .ev-dust{opacity:.3}
 }
+
+/* the strip is a rolling window; this marks that earlier games sit behind it */
+.fdot.fd-more{background:transparent;color:var(--faint);font-weight:700;
+  width:11px;letter-spacing:0;cursor:help}

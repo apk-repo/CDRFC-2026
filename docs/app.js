@@ -819,7 +819,7 @@
     card.appendChild(mini);
 
     var fr = el("div", "sc-form");
-    fr.appendChild(el("span", "sc-form-l", "FORM"));
+    fr.appendChild(el("span", "sc-form-l", "LAST 5"));
     fr.appendChild(formStrip(c.id, me.team, 5));
     card.appendChild(fr);
 
@@ -1103,7 +1103,25 @@
     var wrap = el("div", "form");
     var list = formOf(compId, team);
     if (!list.length) { wrap.appendChild(el("span", "fdot fd-none", "–")); return wrap; }
-    list.slice(-(max || 5)).forEach(function (x) {
+    max = max || 5;
+    /* The strip is a rolling window, but the P/W/L columns beside it count the
+       whole season. Without a marker a side that lost early and won since
+       reads as six games and five greens, which looks like a bug. */
+    if (list.length > max) {
+      var hid = list.slice(0, list.length - max);
+      var tally = { W: 0, D: 0, L: 0, C: 0 };
+      hid.forEach(function (x) { if (tally[x.r] != null) tally[x.r]++; });
+      var bits = [];
+      if (tally.W) bits.push(tally.W + "W");
+      if (tally.D) bits.push(tally.D + "D");
+      if (tally.L) bits.push(tally.L + "L");
+      if (tally.C) bits.push(tally.C + " conceded");
+      var more = el("span", "fdot fd-more", "…");
+      more.title = hid.length + " earlier game" + (hid.length === 1 ? "" : "s") +
+                   " not shown" + (bits.length ? " (" + bits.join(", ") + ")" : "");
+      wrap.appendChild(more);
+    }
+    list.slice(-max).forEach(function (x) {
       var d = el("span", "fdot fd-" + x.r.toLowerCase(), x.r);
       var f = x.f;
       var them = f.home === team ? f.away : f.home;
