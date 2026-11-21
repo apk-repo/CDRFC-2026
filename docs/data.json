@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T16:03:35Z",
+ "updated": "2026-11-21T00:45:34Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1445,7 +1445,7 @@
    "home": "Newbridge 2nd XV",
    "away": "North Kildare 2nd XV",
    "venue": "Rosetown",
-   "referee": "Daniel Molloy",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
