@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T19:10:39Z",
+ "updated": "2026-11-24T18:49:37Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1591,7 +1591,7 @@
   {
    "id": "lge2a-2026-11-28-28",
    "date": "2026-11-28",
-   "time": "18:00",
+   "time": "18:30",
    "comp": "lge2a",
    "team": "1st",
    "home": "New Ross 1st XV",
@@ -1616,7 +1616,7 @@
    "home": "Portlaoise 2nd XV",
    "away": "North Kildare 2nd XV",
    "venue": "Togher",
-   "referee": "Patrick Marshall (Pending)",
+   "referee": "Patrick Marshall",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
