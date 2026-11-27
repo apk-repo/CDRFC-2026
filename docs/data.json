@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T02:08:01Z",
+ "updated": "2026-11-27T17:24:30Z",
  "club": {
   "name": "Cill Dara RFC",
   "short": "Cill Dara",
@@ -1656,14 +1656,14 @@
    "home": "Newbridge 2nd XV",
    "away": "Roscrea 2nd XV",
    "venue": "Rosetown",
-   "referee": "Gerard Cregan",
+   "referee": null,
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
    "awayTries": null,
    "round": null,
-   "note": null,
-   "status": "scheduled",
+   "note": "Game Off",
+   "status": "called-off",
    "concededBy": null
   },
   {
@@ -1675,7 +1675,7 @@
    "home": "Clondalkin 1st XV",
    "away": "Longford 1st XV",
    "venue": "Baldonnel Farm",
-   "referee": "Justin Buhl (Pending)",
+   "referee": "Justin Buhl",
    "homeScore": null,
    "awayScore": null,
    "homeTries": null,
